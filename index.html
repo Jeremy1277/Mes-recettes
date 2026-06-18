@@ -372,25 +372,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 }
 
 
-/* Ajustements lisibilité V5 : fond clair + menus x2, sans modifier les cartes recettes */
-#menu-wrap,
-.menu-section-title{font-size:22px!important;color:#555!important;}
-.menu-opt-title{font-size:30px!important;color:#222!important;}
-.menu-opt-desc{font-size:24px!important;color:#666!important;}
-.menu-opt-emoji{font-size:42px!important;}
-.menu-course-title{font-size:32px!important;color:#222!important;}
-.menu-course-emoji{font-size:46px!important;}
-.menu-all-link{font-size:24px!important;color:#6c6256!important;}
-@media(max-width:640px){
-  .menu-logo{font-size:clamp(38px,9vw,60px)!important;}
-  .menu-opt{padding:20px 24px!important;}
-  .menu-opt-title{font-size:30px!important;}
-  .menu-opt-desc{font-size:24px!important;}
-  .menu-opt-emoji{font-size:42px!important;}
-  .menu-course-btn{padding:22px 18px!important;}
-  .menu-course-title{font-size:32px!important;}
-  .menu-course-emoji{font-size:46px!important;}
-}
+/* mobile menu sizing handled in @media block below */
 
 
 /* Correctif navigation accueil */
@@ -420,13 +402,135 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 #global-back-btn:active{transform:translateX(-50%) scale(.97)}
 @media(max-width:640px){
   #global-back-btn{font-size:17px;padding:13px 22px;bottom:max(12px,env(safe-area-inset-bottom))}
-  #menu-wrap,}
+}
 @media print{#global-back-btn{display:none!important}}
 
 
 /* ── SVG Icon System ── */
 .menu-svg-ico{width:clamp(22px,4vw,30px);height:clamp(22px,4vw,30px);color:#c9955a;display:block;flex-shrink:0;margin:0;}
 .menu-opt-emoji{display:none!important}
+
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE-FIRST — optimisé smartphone (≤ 640px)
+   ═══════════════════════════════════════════════════════ */
+@media(max-width:640px){
+
+  /* ── Layout global ── */
+  #menu-wrap{
+    padding: max(1rem, env(safe-area-inset-top)) 1rem 0.5rem;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+  #wrap{
+    padding: 1rem;
+    padding-bottom: max(5rem, calc(env(safe-area-inset-bottom) + 4rem));
+  }
+  #app-wrap{
+    padding-bottom: max(5rem, calc(env(safe-area-inset-bottom) + 4rem));
+  }
+
+  /* ── Splash ── */
+  .sp-title{font-size:clamp(36px,11vw,52px)}
+  .sp-sub{font-size:14px}
+  .sp-hint{font-size:12px;margin-top:2rem}
+
+  /* ── Menu header ── */
+  .menu-logo{font-size:clamp(26px,7vw,36px)}
+  .menu-tagline{font-size:13px}
+  .menu-divider{margin:0.5rem auto}
+
+  /* ── Menu options (step 1 & 2) ── */
+  .menu-options{gap:8px}
+  .menu-opt{
+    padding:11px 14px;
+    border-radius:10px;
+    gap:12px;
+    min-height:52px;
+  }
+  .menu-svg-ico{width:22px;height:22px}
+  .menu-opt-title{font-size:15px}
+  .menu-section-title{font-size:11px;margin-bottom:10px}
+
+  /* ── Filter row ── */
+  .filter-menu-row{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+  .filter-menu-btn{padding:10px 12px;border-radius:10px;gap:8px}
+  .filter-menu-ico{font-size:20px}
+  .filter-menu-title{font-size:12px}
+  .filter-menu-sub{font-size:10px}
+
+  /* ── Cards recette ── */
+  .grid{grid-template-columns:1fr;gap:10px}
+  .card{padding:12px;border-radius:10px}
+  .card-name{font-size:15px;font-weight:700}
+  .card-sub{font-size:12px}
+  .card-time{font-size:11px}
+  .card-src{font-size:11px}
+  .add-btn{font-size:12px;padding:7px 12px;margin-top:8px}
+  .count{font-size:12px;margin-bottom:8px}
+
+  /* ── Fiche détail ── */
+  .dgrid{grid-template-columns:1fr}
+  .dtitle{font-size:18px;line-height:1.3}
+  .dsub{font-size:13px}
+  .dhead{padding:14px}
+  .stitle{font-size:13px}
+  .irow{gap:8px;padding:6px 0}
+  .iqty{min-width:65px;font-size:12px}
+  .iname{font-size:13px}
+  .stxt{font-size:13px;line-height:1.65}
+  .snum{min-width:20px;height:20px;font-size:10px}
+
+  /* ── Ajusteur portions ── */
+  .abtn{width:30px;height:30px;font-size:16px}
+  .albl{font-size:13px;min-width:50px}
+
+  /* ── Liste de courses ── */
+  .sl-recipe-row{flex-wrap:wrap;gap:8px}
+  .sl-adj{order:2}
+  .rm-btn{order:3}
+  .drive-btns{gap:5px;flex-wrap:wrap}
+  .drive-btn{font-size:11px;padding:6px 10px}
+  .sl-actions{flex-direction:column;gap:8px}
+  .sl-action-btn{width:100%}
+
+  /* ── Popups filtres & résultats ── */
+  #popup-overlay{padding:0.4rem}
+  .popup-box{border-radius:16px;padding:1.1rem;max-height:92dvh;overflow-y:auto}
+  .filter-popup-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .filter-choice{padding:10px 6px;min-height:80px}
+  .filter-choice-ico{font-size:24px;margin-bottom:6px}
+  .filter-choice-name{font-size:11px}
+  .filter-choice-count{font-size:10px}
+
+  /* ── Import modal ── */
+  .import-box{border-radius:14px;padding:1rem;max-height:90dvh;overflow-y:auto}
+  .import-actions{flex-direction:column}
+  .import-btn{width:100%}
+
+  /* ── Bouton retour global ── */
+  #global-back-btn{
+    font-size:14px;
+    padding:11px 24px;
+    bottom:max(14px, env(safe-area-inset-bottom));
+  }
+
+  /* ── Tabs ── */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;flex-shrink:0;font-size:12px;padding:6px 12px}
+
+  /* ── Back btn ── */
+  .back-btn{font-size:12px;padding:6px 12px}
+}
+
+/* Très petits écrans (375px iPhone SE) */
+@media(max-width:390px){
+  .menu-opt{padding:10px 12px;min-height:48px}
+  .menu-opt-title{font-size:14px}
+  .dtitle{font-size:16px}
+  .filter-popup-grid{grid-template-columns:repeat(3,1fr)}
+  .filter-choice-ico{font-size:22px}
+}
 
 </style>
 </head>
