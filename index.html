@@ -5673,21 +5673,20 @@ function startFromSplash(){
   });
 })();
 
-function openManger(){
-  document.getElementById("menu-wrap").style.display="none";
-    document.getElementById("app-wrap").style.display="none";
-    document.body.style.backgroundColor="#f5f4ef";
-  var cov=document.getElementById();
-  cov.style.display="flex";
-  cov.classList.add("show");
-}
+
+
+
+
+
+
 
 function openManger(){
-    document.getElementById("menu-wrap").style.display="flex";
+  var ids=["app-wrap","menu-wrap"];
+  ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
+  var mw=document.getElementById("menu-wrap");
+  if(mw)mw.style.display="flex";
   document.body.style.backgroundColor="#f5f4ef";
 }
-
-
 
 // ─── MENU PAGE ────────────────────────────────────────────────────────────────
 function selectMood(m){
@@ -6222,7 +6221,7 @@ var APP_STACK=[];
 function setGlobalBackVisible(){
   var b=document.getElementById("global-back-btn");
   if(!b)return;
-  var hide=(APP_SCREEN==="splash"||APP_SCREEN===);
+  var hide=(APP_SCREEN==="splash");
   b.style.display=hide?"none":"block";
 }
 function rememberScreen(next){
@@ -6235,11 +6234,6 @@ function rememberScreen(next){
 function showOnlyScreen(screen){
   var ids=["menu-wrap","app-wrap"];
   ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
-  if(screen===){
-    var cov=document.getElementById();
-    cov.style.display="flex";cov.classList.add("show");
-    document.body.style.backgroundColor="#f5f4ef";
-  }
   if(screen==="menu-manger"){document.getElementById("menu-wrap").style.display="flex";document.body.style.backgroundColor="#f5f4ef";}
   if(screen==="app"){document.getElementById("app-wrap").style.display="block";document.body.style.backgroundColor="#f5f4f0";render();}
   APP_SCREEN=screen;
@@ -6259,16 +6253,14 @@ function appGoBack(){
   var _start=startFromSplash;
   startFromSplash=function(){
     _start();
-    setTimeout(function(){APP_SCREEN=;APP_STACK=[];setGlobalBackVisible();},360);
+    setTimeout(function(){APP_SCREEN="menu-manger";APP_STACK=[];setGlobalBackVisible();},360);
   };
   var _openManger=openManger;
   openManger=function(){rememberScreen("menu-manger");_openManger();};
-  var _openBoire=openBoire;
-  openBoire=function(){};
   var _goToApp=goToApp;
   goToApp=function(){rememberScreen("app");_goToApp();};
   var _backToCover=backToCover;
-  backToCover=function(){APP_SCREEN=;APP_STACK=[];_openManger();setGlobalBackVisible();};
+  backToCover=function(){APP_SCREEN="splash";APP_STACK=[];_openManger();setGlobalBackVisible();};
   setGlobalBackVisible();
 })();
 
