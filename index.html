@@ -6363,10 +6363,15 @@ function appGoBack(){
   openManger=function(){rememberScreen("menu-manger");_openManger();};
   var _goToApp=goToApp;
   goToApp=function(){rememberScreen("app");_goToApp();};
-  var _backToCover=backToCover;
-  backToCover=function(){APP_SCREEN="splash";APP_STACK=[];_openManger();setGlobalBackVisible();};
   setGlobalBackVisible();
 })();
+
+function backToCover(){
+  APP_SCREEN="splash";
+  APP_STACK=[];
+  openManger();
+  setGlobalBackVisible();
+}
 
 </script>
 </body>
