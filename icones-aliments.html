@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classeur d'icônes — Aliments</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4ef;
+    --card: #ffffff;
+    --border: #e4e0d8;
+    --accent: #c9955a;
+    --accent-light: #fef8f2;
+    --text: #1a1a1a;
+    --sub: #888;
+    --stroke: #c9955a;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); padding: 2rem 1.5rem 4rem; }
+
+  header { text-align: center; margin-bottom: 2.5rem; }
+  .page-title { font-family: 'Caveat', cursive; font-size: clamp(32px, 7vw, 52px); font-weight: 700; color: var(--accent); }
+  .page-sub { font-family: 'Playfair Display', Georgia, serif; font-size: 14px; color: var(--sub); margin-top: 6px; letter-spacing: .5px; }
+  .divider { width: 40px; height: 2px; background: var(--accent); margin: 14px auto 0; border-radius: 2px; }
+
+  /* Style spec */
+  .spec-box { max-width: 600px; margin: 0 auto 2.5rem; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.2rem 1.4rem; }
+  .spec-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 10px; }
+  .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+  .spec-row { font-size: 12px; color: #555; }
+  .spec-row strong { color: var(--text); font-weight: 700; }
+
+  /* Sections */
+  .section { margin-bottom: 2.5rem; }
+  .section-label { font-family: 'Playfair Display', Georgia, serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--sub); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Grid */
+  .icons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .icon-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px 10px 14px; text-align: center; cursor: pointer; transition: all .18s; user-select: none; }
+  .icon-card:hover { border-color: var(--accent); background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(141,95,46,.12); }
+  .icon-card:active { transform: scale(.96); }
+  .icon-card svg { display: block; margin: 0 auto 10px; }
+  .icon-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .icon-code { font-size: 10px; color: var(--sub); margin-top: 4px; font-family: monospace; background: #f5f4ef; padding: 2px 6px; border-radius: 4px; display: inline-block; }
+
+  /* Copy feedback */
+  .icon-card.copied { border-color: #2e7d32; background: #f1f8e9; }
+  .icon-card.copied .icon-name { color: #2e7d32; }
+
+  /* Tooltip */
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: #fff; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 999px; opacity: 0; transition: all .25s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="page-title">Classeur d'icônes</div>
+  <div class="page-sub">Aliments · Style monoline · viewBox 0 0 24 24</div>
+  <div class="divider"></div>
+</header>
+
+<div class="spec-box">
+  <div class="spec-title">Spécifications</div>
+  <div class="spec-grid">
+    <div class="spec-row"><strong>viewBox</strong> 0 0 24 24</div>
+    <div class="spec-row"><strong>stroke-width</strong> 1.5</div>
+    <div class="spec-row"><strong>fill</strong> none</div>
+    <div class="spec-row"><strong>stroke</strong> currentColor</div>
+    <div class="spec-row"><strong>stroke-linecap</strong> round</div>
+    <div class="spec-row"><strong>stroke-linejoin</strong> round</div>
+    <div class="spec-row"><strong>Taille affichage</strong> 28×28 px</div>
+    <div class="spec-row"><strong>Clic</strong> copie le SVG</div>
+  </div>
+</div>
+
+<!-- ── VIANDES ── -->
+<div class="section">
+  <div class="section-label">Viandes & poisson</div>
+  <div class="icons-grid">
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Corps -->
+        <ellipse cx="11" cy="14" rx="7" ry="5"/>
+        <!-- Tête -->
+        <circle cx="18.5" cy="12" r="2.5"/>
+        <!-- Groin -->
+        <ellipse cx="20.5" cy="12.5" rx="1.2" ry="1" fill="none"/>
+        <circle cx="20.2" cy="12.2" r=".3" fill="#c9955a"/>
+        <circle cx="20.8" cy="12.2" r=".3" fill="#c9955a"/>
+        <!-- Oreille -->
+        <path d="M17.5 9.5 Q18 7.5 19.5 8 L18.5 10"/>
+        <!-- Pattes -->
+        <line x1="7" y1="19" x2="7" y2="22"/>
+        <line x1="10" y1="19" x2="10" y2="22"/>
+        <line x1="13" y1="19" x2="13" y2="22"/>
+        <!-- Queue tire-bouchon -->
+        <path d="M4 14 Q2 13 3 11.5 Q4 10 3.5 9"/>
+      </svg>
+      <div class="icon-name">Porc</div>
+      <div class="icon-code">porc</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Tête -->
+        <path d="M7 10 Q7 6 12 6 Q17 6 17 10 L17 16 Q17 19 12 19 Q7 19 7 16Z"/>
+        <!-- Cornes -->
+        <path d="M8 8 Q6 5 4 6 Q5 8 7 9"/>
+        <path d="M16 8 Q18 5 20 6 Q19 8 17 9"/>
+        <!-- Museau -->
+        <ellipse cx="12" cy="16.5" rx="3.5" ry="2"/>
+        <circle cx="11" cy="16.5" r=".5" fill="#c9955a"/>
+        <circle cx="13" cy="16.5" r=".5" fill="#c9955a"/>
+        <!-- Yeux -->
+        <circle cx="10" cy="11" r=".7" fill="#c9955a"/>
+        <circle cx="14" cy="11" r=".7" fill="#c9955a"/>
+        <!-- Oreilles -->
+        <path d="M7 11 Q5 10 5 12 Q6 13 7 12"/>
+        <path d="M17 11 Q19 10 19 12 Q18 13 17 12"/>
+      </svg>
+      <div class="icon-name">Bœuf</div>
+      <div class="icon-code">bœuf</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Agneau -->
+        <ellipse cx="12" cy="13" rx="5.5" ry="4"/>
+        <circle cx="12" cy="9" r="2.5"/>
+        <path d="M6.5 13 Q4.5 14 5 17 L7 17"/>
+        <path d="M17.5 13 Q19.5 14 19 17 L17 17"/>
+        <path d="M10 8 Q9 5 7 5 Q8 7 9.5 8"/>
+        <path d="M14 8 Q15 5 17 5 Q16 7 14.5 8"/>
+      </svg>
+      <div class="icon-name">Agneau</div>
+      <div class="icon-code">agneau</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Corps de profil, plus élancé que le bœuf -->
+        <ellipse cx="11" cy="14" rx="7" ry="4.5"/>
+        <!-- Tête -->
+        <circle cx="17.5" cy="12" r="3"/>
+        <!-- Petites cornes naissantes -->
+        <path d="M16 9.5 Q15.5 7.5 14.5 7.5"/>
+        <path d="M18.5 9.5 Q19 7.5 20 7.5"/>
+        <!-- Museau -->
+        <ellipse cx="19.8" cy="13" rx="1.3" ry="1"/>
+        <circle cx="19.5" cy="12.8" r=".3" fill="#c9955a"/>
+        <circle cx="20.1" cy="12.8" r=".3" fill="#c9955a"/>
+        <!-- Oreille tombante -->
+        <path d="M15.5 10 Q14 9 14 11 Q15 11.5 15.8 11"/>
+        <!-- Pattes -->
+        <line x1="7" y1="18.5" x2="7" y2="22"/>
+        <line x1="10" y1="18.5" x2="10" y2="22"/>
+        <line x1="13" y1="18.5" x2="13" y2="22"/>
+        <!-- Queue -->
+        <path d="M4 13 Q3 12 4 11"/>
+      </svg>
+      <div class="icon-name">Veau</div>
+      <div class="icon-code">veau</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Poulet -->
+        <path d="M8 17 Q7 21 9 21 L15 21 Q17 21 16 17"/>
+        <ellipse cx="12" cy="14" rx="4.5" ry="3.5"/>
+        <circle cx="12" cy="9.5" r="2.5"/>
+        <path d="M10.5 8 Q10 6 8 5.5 Q9.5 7 10.5 8"/>
+        <path d="M14.5 8 Q16 6 15 4 Q14.5 6 13.5 8"/>
+        <path d="M7.5 14 Q5 15 5 18"/>
+        <path d="M16.5 14 Q19 15 19 18"/>
+      </svg>
+      <div class="icon-name">Poulet</div>
+      <div class="icon-code">poulet</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Lapin -->
+        <ellipse cx="12" cy="15" rx="5" ry="4"/>
+        <circle cx="12" cy="10.5" r="2.5"/>
+        <path d="M10 8.5 Q9 4 7.5 3 Q8.5 6 10 8.5"/>
+        <path d="M14 8.5 Q15 4 16.5 3 Q15.5 6 14 8.5"/>
+        <path d="M7 15 Q5 16 5.5 19 L8 18"/>
+        <path d="M17 15 Q19 16 18.5 19 L16 18"/>
+        <circle cx="11" cy="10.5" r=".5" fill="#c9955a"/>
+        <circle cx="13" cy="10.5" r=".5" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Lapin</div>
+      <div class="icon-code">lapin</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Queue en éventail — signe distinctif de la dinde -->
+        <path d="M4 15 Q2 10 5 8"/>
+        <path d="M4.5 16 Q1.5 14 2 11"/>
+        <path d="M5 17 Q2 17 3 20"/>
+        <path d="M5.5 14 Q3 11 5 8"/>
+        <!-- Corps -->
+        <ellipse cx="12" cy="16" rx="6" ry="4.5"/>
+        <!-- Tête petite sur long cou -->
+        <path d="M16 11.5 Q17 8 17.5 7"/>
+        <circle cx="17.5" cy="6" r="2"/>
+        <!-- Bec -->
+        <path d="M19 6 L21 5.5 L19 5"/>
+        <!-- Caroncule rouge (pendeloque) -->
+        <path d="M19 7 Q20 8.5 19.5 9"/>
+        <!-- Œil -->
+        <circle cx="17.5" cy="5.5" r=".4" fill="#c9955a"/>
+        <!-- Pattes -->
+        <line x1="9" y1="20.5" x2="8" y2="23"/>
+        <line x1="8" y1="23" x2="10" y2="23"/>
+        <line x1="12" y1="20.5" x2="11" y2="23"/>
+        <line x1="11" y1="23" x2="13" y2="23"/>
+      </svg>
+      <div class="icon-name">Dinde</div>
+      <div class="icon-code">dinde</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Poisson -->
+        <path d="M4 12 Q7 7 13 7 Q18 7 20 12 Q18 17 13 17 Q7 17 4 12Z"/>
+        <path d="M20 12 L23 9"/>
+        <path d="M20 12 L23 15"/>
+        <line x1="23" y1="9" x2="23" y2="15"/>
+        <circle cx="8" cy="11" r=".8" fill="#c9955a"/>
+        <line x1="11" y1="9" x2="11" y2="15"/>
+        <line x1="14" y1="8" x2="14" y2="16"/>
+      </svg>
+      <div class="icon-name">Poisson</div>
+      <div class="icon-code">poisson</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── LÉGUMES ── -->
+<div class="section">
+  <div class="section-label">Légumes</div>
+  <div class="icons-grid">
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Pomme de terre -->
+        <ellipse cx="12" cy="13" rx="7" ry="5.5" transform="rotate(-15 12 13)"/>
+        <circle cx="9" cy="10" r=".7" fill="#c9955a"/>
+        <circle cx="14" cy="11" r=".7" fill="#c9955a"/>
+        <circle cx="11" cy="15" r=".7" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Pomme de terre</div>
+      <div class="icon-code">pomme de terre</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Haricot vert -->
+        <path d="M5 18 Q6 10 12 8 Q18 6 19 10 Q20 15 14 17 Q8 19 5 18Z"/>
+        <path d="M8 17 Q9 14 12 13"/>
+        <path d="M12 13 Q15 12 16 10"/>
+        <path d="M5 18 Q4 20 3 21"/>
+        <path d="M19 10 Q20 8 21 7"/>
+      </svg>
+      <div class="icon-name">Haricot vert</div>
+      <div class="icon-code">haricot vert</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Haricot rouge -->
+        <path d="M7 16 Q5 12 7 9 Q9 6 12 7 Q16 8 17 12 Q18 16 15 18 Q12 20 9 19 Q7 18 7 16Z"/>
+        <path d="M9 8 Q8 5 10 4"/>
+        <path d="M12 7 Q12 5 14 4"/>
+      </svg>
+      <div class="icon-name">Haricot rouge</div>
+      <div class="icon-code">haricot rouge</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Petit pois -->
+        <path d="M4 12 Q4 7 9 7 Q12 7 14 9 Q16 7 19 7 Q22 7 22 12 Q22 17 18 17 Q15 17 12 15 Q9 17 6 17 Q4 17 4 12Z"/>
+        <circle cx="8" cy="12" r="1.5"/>
+        <circle cx="12" cy="12" r="1.5"/>
+        <circle cx="16" cy="12" r="1.5"/>
+      </svg>
+      <div class="icon-name">Petit pois</div>
+      <div class="icon-code">petit-pois</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Tomate -->
+        <circle cx="12" cy="14" r="7"/>
+        <path d="M12 7 Q12 4 10 3"/>
+        <path d="M12 7 Q14 4 16 5"/>
+        <path d="M12 7 Q13 5 12 3"/>
+        <line x1="7" y1="12" x2="17" y2="12"/>
+        <line x1="8" y1="16" x2="16" y2="16"/>
+      </svg>
+      <div class="icon-name">Tomate</div>
+      <div class="icon-code">tomate</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Courgette -->
+        <rect x="4" y="10" width="16" height="8" rx="4"/>
+        <path d="M18 10 Q19 7 20 6"/>
+        <path d="M19 8 Q21 8 22 7"/>
+        <line x1="8" y1="10" x2="8" y2="18"/>
+        <line x1="12" y1="10" x2="12" y2="18"/>
+        <line x1="16" y1="10" x2="16" y2="18"/>
+      </svg>
+      <div class="icon-name">Courgette</div>
+      <div class="icon-code">courgette</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Concombre -->
+        <rect x="5" y="9" width="14" height="9" rx="4.5"/>
+        <path d="M16 9 Q17 6 19 5"/>
+        <path d="M17.5 7 Q19.5 7 20.5 6"/>
+        <line x1="9" y1="9" x2="9" y2="18"/>
+        <line x1="12" y1="9" x2="12" y2="18"/>
+        <line x1="15" y1="9" x2="15" y2="18"/>
+        <circle cx="8" cy="13.5" r=".6" fill="#c9955a"/>
+        <circle cx="11" cy="13.5" r=".6" fill="#c9955a"/>
+        <circle cx="14" cy="13.5" r=".6" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Concombre</div>
+      <div class="icon-code">concombre</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Poireau -->
+        <path d="M10 20 L10 11 Q10 7 12 6 Q14 5 14 8 L14 20"/>
+        <path d="M10 20 Q12 21 14 20"/>
+        <path d="M10 14 Q7 14 5 12 Q7 9 10 11"/>
+        <path d="M14 13 Q17 13 19 11 Q17 8 14 10"/>
+        <path d="M12 6 Q12 4 11 3"/>
+        <path d="M12 6 Q13 4 14 3"/>
+      </svg>
+      <div class="icon-name">Poireau</div>
+      <div class="icon-code">poireau</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Asperge -->
+        <line x1="12" y1="21" x2="12" y2="8"/>
+        <path d="M12 8 Q10 6 10 4 Q12 3 14 4 Q14 6 12 8Z"/>
+        <path d="M12 10 Q10 9 9 10"/>
+        <path d="M12 13 Q10 12 9 13"/>
+        <path d="M12 10 Q14 9 15 10"/>
+        <path d="M12 13 Q14 12 15 13"/>
+        <path d="M12 16 Q10 15 9 16"/>
+        <path d="M12 16 Q14 15 15 16"/>
+      </svg>
+      <div class="icon-name">Asperge</div>
+      <div class="icon-code">asperge</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Aubergine -->
+        <path d="M7 15 Q6 11 8 8 Q10 5 13 6 Q17 7 17 12 Q17 17 13 19 Q9 20 7 17 Z"/>
+        <path d="M13 6 Q14 3 16 3"/>
+        <path d="M14 5 Q15 3 17 4"/>
+      </svg>
+      <div class="icon-name">Aubergine</div>
+      <div class="icon-code">aubergine</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Poivron -->
+        <path d="M8 18 Q6 16 6 13 Q6 8 9 7 Q12 6 15 7 Q18 8 18 13 Q18 16 16 18 Q14 20 12 20 Q10 20 8 18Z"/>
+        <path d="M10 7 Q10 4 12 3 Q14 4 14 7"/>
+        <path d="M12 3 Q13 2 15 2"/>
+      </svg>
+      <div class="icon-name">Poivron</div>
+      <div class="icon-code">poivron</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Carotte -->
+        <path d="M13 19 Q8 19 7 14 Q6 9 10 7 Q14 5 16 8 Q18 11 16 16 Q15 19 13 19Z"/>
+        <path d="M13 7 Q13 4 12 3"/>
+        <path d="M14 6 Q16 4 17 3"/>
+        <path d="M11 7 Q10 5 9 3"/>
+        <line x1="8" y1="12" x2="12" y2="11"/>
+        <line x1="8" y1="15" x2="12" y2="15"/>
+      </svg>
+      <div class="icon-name">Carotte</div>
+      <div class="icon-code">carotte</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Patate douce -->
+        <path d="M6 15 Q5 11 7 9 Q9 7 12 7.5 Q16 8 17 11 Q18 15 16 17 Q14 19 11 19 Q7 19 6 15Z"/>
+        <path d="M11 7.5 Q12 5 14 4"/>
+        <path d="M12 6 Q14 5 15 3"/>
+        <circle cx="10" cy="13" r=".7" fill="#c9955a"/>
+        <circle cx="13.5" cy="14" r=".7" fill="#c9955a"/>
+        <circle cx="12" cy="11" r=".7" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Patate douce</div>
+      <div class="icon-code">patate douce</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Champignon -->
+        <path d="M5 13 Q5 7 12 7 Q19 7 19 13Z"/>
+        <line x1="9" y1="13" x2="9" y2="18"/>
+        <line x1="15" y1="13" x2="15" y2="18"/>
+        <line x1="9" y1="18" x2="15" y2="18"/>
+        <circle cx="9" cy="10" r=".8" fill="#c9955a"/>
+        <circle cx="13" cy="9" r=".8" fill="#c9955a"/>
+        <circle cx="16" cy="11" r=".8" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Champignon</div>
+      <div class="icon-code">champignon</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Oignon -->
+        <path d="M8 18 Q6 16 6 13 Q6 9 9 8 Q12 7 15 8 Q18 9 18 13 Q18 16 16 18Z"/>
+        <line x1="8" y1="18" x2="16" y2="18"/>
+        <path d="M10 8 Q10 5 12 4"/>
+        <path d="M12 4 Q14 5 14 8"/>
+        <line x1="9" y1="12" x2="15" y2="12"/>
+        <line x1="8" y1="15" x2="16" y2="15"/>
+      </svg>
+      <div class="icon-name">Oignon</div>
+      <div class="icon-code">oignon</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Épinard -->
+        <path d="M12 20 Q12 14 10 11 Q8 8 5 8 Q5 12 8 14 Q10 16 12 20Z"/>
+        <path d="M12 20 Q12 14 14 11 Q16 8 19 8 Q19 12 16 14 Q14 16 12 20Z"/>
+        <path d="M10 11 Q11 9 12 8 Q13 9 14 11"/>
+        <line x1="12" y1="8" x2="12" y2="5"/>
+        <path d="M12 5 Q11 3 10 3"/>
+        <path d="M12 5 Q13 3 14 3"/>
+      </svg>
+      <div class="icon-name">Épinard</div>
+      <div class="icon-code">épinard</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FÉCULENTS & CÉRÉALES ── -->
+<div class="section">
+  <div class="section-label">Féculents & céréales</div>
+  <div class="icons-grid">
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Riz -->
+        <ellipse cx="12" cy="16" rx="7" ry="3"/>
+        <path d="M5 16 Q5 13 12 13 Q19 13 19 16"/>
+        <ellipse cx="8" cy="10" rx="1.5" ry="2.5" transform="rotate(-20 8 10)"/>
+        <ellipse cx="12" cy="9" rx="1.5" ry="2.5"/>
+        <ellipse cx="16" cy="10" rx="1.5" ry="2.5" transform="rotate(20 16 10)"/>
+      </svg>
+      <div class="icon-name">Riz</div>
+      <div class="icon-code">riz</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Pâtes / spaghetti -->
+        <path d="M5 8 Q5 4 7 4 Q9 4 9 8 L9 18 Q9 20 7 20 Q5 20 5 18Z"/>
+        <path d="M10.5 7 Q10.5 3 12.5 3 Q14.5 3 14.5 7 L14.5 17 Q14.5 21 12.5 21 Q10.5 21 10.5 17Z"/>
+        <path d="M16 8 Q16 4 18 4 Q20 4 20 8 L20 18 Q20 20 18 20 Q16 20 16 18Z"/>
+      </svg>
+      <div class="icon-name">Pâtes</div>
+      <div class="icon-code">pâtes</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Pain -->
+        <path d="M5 14 Q4 10 6 8 Q8 6 12 6 Q16 6 18 8 Q20 10 19 14 L19 18 Q19 19 18 19 L6 19 Q5 19 5 18Z"/>
+        <line x1="5" y1="15" x2="19" y2="15"/>
+        <path d="M9 19 L9 15"/>
+        <path d="M13" y1="19" x2="13" y2="15"/>
+      </svg>
+      <div class="icon-name">Pain</div>
+      <div class="icon-code">pain</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Lentilles -->
+        <ellipse cx="9" cy="13" rx="3" ry="2"/>
+        <ellipse cx="15" cy="13" rx="3" ry="2"/>
+        <ellipse cx="12" cy="9" rx="3" ry="2"/>
+        <ellipse cx="9" cy="17" rx="3" ry="2"/>
+        <ellipse cx="15" cy="17" rx="3" ry="2"/>
+      </svg>
+      <div class="icon-name">Lentilles</div>
+      <div class="icon-code">lentilles</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PRODUITS LAITIERS & ŒUFS ── -->
+<div class="section">
+  <div class="section-label">Laitages & œufs</div>
+  <div class="icons-grid">
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Fromage -->
+        <path d="M3 15 L7 8 L21 8 L21 19 L3 19Z"/>
+        <circle cx="10" cy="14" r="1.2"/>
+        <circle cx="15" cy="12" r=".9"/>
+        <circle cx="13" cy="17" r="1.1"/>
+      </svg>
+      <div class="icon-name">Fromage</div>
+      <div class="icon-code">fromage</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Œuf -->
+        <path d="M12 4 Q17 7 17 13 Q17 18 12 19 Q7 18 7 13 Q7 7 12 4Z"/>
+        <circle cx="12" cy="14" r="2.5"/>
+        <line x1="12" y1="11.5" x2="12" y2="14"/>
+      </svg>
+      <div class="icon-name">Œuf</div>
+      <div class="icon-code">œuf</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Crème / yaourt -->
+        <path d="M7 8 L6 20 L18 20 L17 8Z"/>
+        <ellipse cx="12" cy="8" rx="5" ry="2"/>
+        <path d="M9 12 Q12 14 15 12"/>
+      </svg>
+      <div class="icon-name">Crème</div>
+      <div class="icon-code">crème</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Beurre -->
+        <rect x="4" y="10" width="16" height="9" rx="2"/>
+        <path d="M4 13 L20 13"/>
+        <path d="M8 10 L8 7 Q8 5 12 5 Q16 5 16 7 L16 10"/>
+        <line x1="12" y1="5" x2="12" y2="3"/>
+      </svg>
+      <div class="icon-name">Beurre</div>
+      <div class="icon-code">beurre</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FRUITS & AROMATES ── -->
+<div class="section">
+  <div class="section-label">Fruits & aromates</div>
+  <div class="icons-grid">
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Citron -->
+        <ellipse cx="12" cy="13" rx="7" ry="5.5" transform="rotate(-10 12 13)"/>
+        <path d="M5.5 10 Q3 9 2 10"/>
+        <path d="M18.5 16 Q21 17 22 16"/>
+        <line x1="9" y1="11" x2="15" y2="15"/>
+        <line x1="9" y1="14" x2="15" y2="12"/>
+      </svg>
+      <div class="icon-name">Citron</div>
+      <div class="icon-code">citron</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Ail -->
+        <path d="M12 19 Q8 19 7 16 Q6 13 8 11 Q10 9 12 9 Q14 9 16 11 Q18 13 17 16 Q16 19 12 19Z"/>
+        <path d="M10 9 Q10 6 12 5"/>
+        <path d="M14 9 Q14 6 12 5"/>
+        <line x1="12" y1="5" x2="12" y2="3"/>
+        <line x1="9" y1="14" x2="15" y2="14"/>
+      </svg>
+      <div class="icon-name">Ail</div>
+      <div class="icon-code">ail</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Gingembre -->
+        <path d="M5 17 Q4 14 6 11 Q8 9 10 10"/>
+        <path d="M10 10 Q11 8 13 9 Q15 10 14 13"/>
+        <path d="M14 13 Q16 12 17 14 Q18 17 16 19 Q14 20 12 19 Q9 18 8 16"/>
+        <path d="M8 16 Q7 17 5 17"/>
+      </svg>
+      <div class="icon-name">Gingembre</div>
+      <div class="icon-code">gingembre</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Herbes / persil -->
+        <line x1="12" y1="21" x2="12" y2="12"/>
+        <path d="M12 16 Q9 15 8 12 Q10 10 12 12"/>
+        <path d="M12 13 Q15 12 16 9 Q14 8 12 10"/>
+        <path d="M12 19 Q9 18 8 16"/>
+        <path d="M11 12 Q11 9 12 7 Q13 9 13 12"/>
+        <path d="M12 7 Q12 5 11 4"/>
+        <path d="M12 7 Q13 5 14 5"/>
+      </svg>
+      <div class="icon-name">Herbes</div>
+      <div class="icon-code">herbes</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Avocat -->
+        <path d="M12 3 Q17 6 17 13 Q17 19 12 20 Q7 19 7 13 Q7 6 12 3Z"/>
+        <circle cx="12" cy="14" r="3"/>
+      </svg>
+      <div class="icon-name">Avocat</div>
+      <div class="icon-code">avocat</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Mangue -->
+        <path d="M12 4 Q17 6 18 12 Q19 17 15 20 Q12 21 9 20 Q5 18 6 12 Q7 6 12 4Z"/>
+        <path d="M12 4 Q13 2 15 2"/>
+        <path d="M9 10 Q12 9 15 11 Q14 15 12 16 Q10 15 9 12Z"/>
+      </svg>
+      <div class="icon-name">Mangue</div>
+      <div class="icon-code">mangue</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PROTÉINES & AUTRES ── -->
+<div class="section">
+  <div class="section-label">Protéines & autres</div>
+  <div class="icons-grid">
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Crevette -->
+        <path d="M8 18 Q6 16 7 13 Q8 10 11 9 Q14 8 16 10 Q18 12 17 15"/>
+        <path d="M17 15 Q18 17 17 19 Q15 20 14 18"/>
+        <path d="M14 18 Q13 19 11 19 Q9 19 8 18"/>
+        <path d="M11 9 Q10 7 11 5"/>
+        <path d="M12 9 Q13 7 12 5"/>
+        <line x1="9" y1="15" x2="7" y2="17"/>
+        <line x1="10" y1="16" x2="8" y2="19"/>
+      </svg>
+      <div class="icon-name">Crevette</div>
+      <div class="icon-code">crevette</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Saucisse -->
+        <rect x="5" y="9" width="14" height="7" rx="3.5"/>
+        <line x1="5" y1="12.5" x2="19" y2="12.5"/>
+        <circle cx="8.5" cy="12.5" r=".7" fill="#c9955a"/>
+        <circle cx="12" cy="11" r=".7" fill="#c9955a"/>
+        <circle cx="15.5" cy="12.5" r=".7" fill="#c9955a"/>
+        <circle cx="12" cy="14" r=".7" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Saucisse</div>
+      <div class="icon-code">saucisse</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Tofu -->
+        <rect x="5" y="7" width="14" height="11" rx="2"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <line x1="12" y1="7" x2="12" y2="18"/>
+        <circle cx="8.5" cy="9.5" r=".7" fill="#c9955a"/>
+        <circle cx="15.5" cy="9.5" r=".7" fill="#c9955a"/>
+        <circle cx="8.5" cy="15" r=".7" fill="#c9955a"/>
+        <circle cx="15.5" cy="15" r=".7" fill="#c9955a"/>
+      </svg>
+      <div class="icon-name">Tofu</div>
+      <div class="icon-code">tofu</div>
+    </div>
+
+    <div class="icon-card" onclick="copyIcon(this)">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9955a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Noix -->
+        <path d="M8 17 Q6 15 6 12 Q6 8 9 7 Q12 6 14 8"/>
+        <path d="M14 8 Q17 9 17 12 Q17 16 14 18 Q11 19 8 17"/>
+        <path d="M11 8 Q11 6 12 5"/>
+        <path d="M13 7.5 Q15 5 17 5"/>
+        <line x1="7" y1="13" x2="17" y2="13"/>
+        <line x1="9" y1="16" x2="15" y2="10"/>
+      </svg>
+      <div class="icon-name">Noix</div>
+      <div class="icon-code">noix</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">SVG copié !</div>
+
+<script>
+function copyIcon(card) {
+  const svg = card.querySelector('svg');
+  // Rebuild clean SVG for app use
+  const inner = svg.innerHTML;
+  const clean = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">\n${inner}\n</svg>`;
+  
+  navigator.clipboard.writeText(clean).then(() => {
+    card.classList.add('copied');
+    setTimeout(() => card.classList.remove('copied'), 1200);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = clean;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    card.classList.add('copied');
+    setTimeout(() => card.classList.remove('copied'), 1200);
+  });
+}
+</script>
+</body>
+</html>
