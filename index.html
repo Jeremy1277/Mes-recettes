@@ -96,8 +96,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .menu-all-link:hover{color:#d4a96a}
 
 /* ── POPUP ──────────────────────────────── */
-#popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;overflow-y:auto;padding:1.5rem}
+#popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;overflow-y:auto;padding:1.5rem}
 #popup-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+#popup-box{animation:slideUp .22s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .popup-box{background:#fff;color:#1a1a1a;border-radius:18px;padding:1.5rem;width:100%;max-width:640px;margin:auto;position:relative}
 .popup-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:#f0f0f0;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:#666}
 .popup-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
@@ -121,8 +123,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 
 .filter-menu-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px}
-.filter-menu-btn{background:#fff;border:1.5px solid #ddd;border-radius:14px;padding:13px 14px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:all .18s;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.filter-menu-btn{background:#fff;border:1.5px solid #ddd;border-radius:14px;padding:13px 14px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:all .18s;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.04);position:relative}
 .filter-menu-btn:hover{border-color:#1a1a1a;transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.filter-menu-btn.active{border-color:#8d5f2e;background:#fdf6ee}
+.filter-menu-badge{position:absolute;top:-7px;right:-7px;background:#8d5f2e;color:#fff;border-radius:20px;font-size:11px;font-weight:800;padding:2px 7px;min-width:20px;text-align:center;line-height:1.6}
 .filter-menu-ico{font-size:24px;line-height:1}
 .filter-menu-title{display:block;font-size:14px;font-weight:800;color:#1a1a1a}
 .filter-menu-sub{display:block;font-size:11px;color:#999;margin-top:2px}
@@ -5362,12 +5366,10 @@ var RX=[
 ];
 
 var FILTER_GROUPS=[
-  {id:"type",label:"Types de plats",emoji:"🍽",desc:"chaud, salade ou entrée",items:[
-    {l:"Plat chaud",v:"plat chaud",icon:"🔥"},{l:"Salade",v:"salade",icon:"🥗"},{l:"Entrée",v:"entrée",icon:"🍽"}
-  ]},
-  {id:"viandes",label:"Viandes",emoji:"🍖",desc:"porc, bœuf, poulet…",items:[
+  {id:"viandes",label:"Viandes & poisson",emoji:"🍖",desc:"porc, bœuf, poulet…",items:[
     {l:"Porc",v:"porc",icon:"🐷"},{l:"Bœuf",v:"bœuf",icon:"🥩"},{l:"Agneau",v:"agneau",icon:"🐑"},{l:"Veau",v:"veau",icon:"🐄"},
-    {l:"Poulet",v:"poulet",icon:"🐔"},{l:"Lapin",v:"lapin",icon:"🐰"},{l:"Dinde",v:"dinde",icon:"🦃"},{l:"Poisson",v:"poisson",icon:"🐟"}
+    {l:"Poulet",v:"poulet",icon:"🐔"},{l:"Lapin",v:"lapin",icon:"🐰"},{l:"Dinde",v:"dinde",icon:"🦃"},{l:"Poisson",v:"poisson",icon:"🐟"},
+    {l:"Végétarien",v:"végétarien",icon:"🌱"}
   ]},
   {id:"legumes",label:"Légumes",emoji:"🥕",desc:"accompagnement principal",items:[
     {l:"Pomme de terre",v:"pomme de terre",icon:"🥔",keys:["pomme de terre","pommes de terre"]},
@@ -5899,10 +5901,11 @@ function renderList(){
   var fd=mkEl("div","filter-menu-row");
   FILTER_GROUPS.forEach(function(g){
     var selectedCount=g.items.filter(function(it){return hasF(it.v);}).length;
-    var b=mkEl("button","filter-menu-btn",null);
+    var b=mkEl("button","filter-menu-btn"+(selectedCount?" active":""),null);
+    if(selectedCount){var badge=mkEl("span","filter-menu-badge",""+selectedCount);b.appendChild(badge);}
     b.appendChild(mkEl("span","filter-menu-ico",g.emoji));
     var txt=mkEl("span",null,null,{display:"block"});
-    txt.appendChild(mkEl("span","filter-menu-title",g.label+(selectedCount?" ("+selectedCount+")":"")));
+    txt.appendChild(mkEl("span","filter-menu-title",g.label));
     txt.appendChild(mkEl("span","filter-menu-sub",g.desc));
     b.appendChild(txt);
     b.onclick=function(){openFilterPopup(g.id);};
