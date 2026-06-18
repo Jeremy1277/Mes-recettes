@@ -6350,7 +6350,7 @@ function appGoBack(){
     if(VIEW==="detail"){VIEW="list";selId=null;render();return;}
     if(VIEW==="cart"){VIEW="list";render();return;}
   }
-  var previous=APP_STACK.pop()||;
+  var previous=APP_STACK.pop()||"splash";
   showOnlyScreen(previous);
 }
 (function(){
