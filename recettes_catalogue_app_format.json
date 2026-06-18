@@ -2,15 +2,17 @@
   {
     "name": "Aiguillettes de poulet teriyaki",
     "sub": "Riz, légumes wok, sauce soja & gomasio",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 25,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "rapide"
     ],
-    "allergens": [],
+    "allergens": [
+      "sésame"
+    ],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -81,16 +83,16 @@
   {
     "name": "Aubergine gratinée au jambon",
     "sub": "Sauce tomate, mozzarella, fromage râpé",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 30,
     "cat": "porc",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -147,16 +149,16 @@
   {
     "name": "Blanquette de poulet et bouillon",
     "sub": "Riz pilaf, crème, poireau & carotte",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 40,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -228,16 +230,16 @@
   {
     "name": "Blanquette de poulet",
     "sub": "Riz pilaf, crème légère, citron & persil",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 40,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -309,17 +311,15 @@
   {
     "name": "Blanquette de saumon",
     "sub": "Riz pilaf, avoine cuisine, poireau & carotte",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 40,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "long"
     ],
-    "allergens": [
-      "dairy"
-    ],
+    "allergens": [],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -390,17 +390,17 @@
   {
     "name": "Bœuf et potatoes au thym façon bistrot",
     "sub": "Pavé de bœuf, potatoes maison, sauce moutarde crémeuse",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 35,
     "cat": "bœuf",
     "mood": [
-      "tout",
+      "rapide",
       "potes"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -462,15 +462,18 @@
   {
     "name": "Bowl bœuf et légumes sautés au sésame",
     "sub": "Émincé de bœuf, riz, poivron, sauce asiatique sucrée",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 20,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "rapide",
+      "sport"
     ],
-    "allergens": [],
+    "allergens": [
+      "sésame"
+    ],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -536,19 +539,19 @@
   {
     "name": "Burger à l'orientale au Zaatar",
     "sub": "Steak haché bœuf, frites four, mayo-persil, pickles oignon",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 30,
     "cat": "bœuf",
     "mood": [
-      "tout",
+      "flemme",
       "potes"
     ],
     "allergens": [
       "gluten"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "pomme de terre",
@@ -608,20 +611,20 @@
   {
     "name": "Burger de bœuf chutney d'oignons et gouda",
     "sub": "Burger maison, frites au four, chutney piquant",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 35,
     "cat": "bœuf",
     "mood": [
-      "tout",
+      "flemme",
       "potes"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "pomme de terre"
@@ -668,16 +671,16 @@
   {
     "name": "Carré de porc et sauce moutarde crémeuse",
     "sub": "Tranches de carré de porc, riz, champignons, sauce crème",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "porc",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -749,20 +752,19 @@
   {
     "name": "Chaussons mozza et jambon façon panzerotti",
     "sub": "Pâte à tarte, jambon, sauce tomate maison, mozzarella",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 15,
     "cat": "porc",
     "mood": [
-      "tout",
-      "rapide"
+      "flemme"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "tomate"
@@ -811,18 +813,16 @@
   {
     "name": "Cheesy Fries cheddar et poulet BBQ grillé",
     "sub": "Poulet BBQ, frites cheddar fondant, coleslaw maison",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 35,
     "cat": "poulet",
     "mood": [
-      "tout",
+      "long",
       "potes"
     ],
-    "allergens": [
-      "dairy"
-    ],
+    "allergens": [],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -873,18 +873,17 @@
   {
     "name": "Conchiglie à la forestière",
     "sub": "Pâtes en coquilles, champignons, crème & parmesan",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 20,
     "cat": "végétarien",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -935,16 +934,16 @@
   {
     "name": "Crevettes en persillade et poivrons dorés",
     "sub": "Riz, poivrons sautés, crevettes au beurre persillé",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 25,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -1005,16 +1004,16 @@
   {
     "name": "Cuisse de poulet et purée de patate douce",
     "sub": "Poulet rôti, purée crémeuse, poireau & sauce",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 40,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -1071,16 +1070,16 @@
   {
     "name": "Dinde épicée poireau et cacahuètes",
     "sub": "Escalope de dinde panée, riz, sauce soja & mayo cacahuètes",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 25,
     "cat": "dinde",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "gluten"
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -1142,17 +1141,16 @@
   {
     "name": "Filet de lieu et grenailles rôties au thym",
     "sub": "Lieu noir pané, grenailles au four, sauce poireau-moutarde",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -1213,17 +1211,17 @@
   {
     "name": "Gratin de chou-fleur aux lardons et gouda",
     "sub": "Gratin béchamel, chou-fleur, lardons & gouda fondu",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "porc",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -1280,17 +1278,16 @@
   {
     "name": "Hachis au bœuf et purée de lentille corail",
     "sub": "Hachis parmentier revisité, purée lentilles & carottes",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "long",
+      "sport"
     ],
-    "allergens": [
-      "gluten"
-    ],
+    "allergens": [],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -1347,19 +1344,18 @@
   {
     "name": "Jacket Potato garni de porc haché et champignons",
     "sub": "Pommes de terre farcies, sauce crémeuse aux champignons",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 40,
     "cat": "porc",
     "mood": [
-      "tout",
       "flemme"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "champignon",
@@ -1414,17 +1410,16 @@
   {
     "name": "Lasagne végétarienne - champignons, carottes et origan",
     "sub": "Béchamel maison, sauce tomate, fromage râpé",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 30,
     "cat": "végétarien",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -1482,16 +1477,17 @@
   {
     "name": "Lieu doré, chutney de mangue et riz",
     "sub": "Lieu poêlé, chutney maison gingembre-mangue, concombre",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 15,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide",
+      "sport"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -1552,16 +1548,17 @@
   {
     "name": "Lieu doré et Chutney de mangue maison",
     "sub": "Lieu poêlé, chutney maison gingembre-mangue, concombre",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 15,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide",
+      "sport"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -1622,16 +1619,18 @@
   {
     "name": "Lieu poêlé et lentilles au curry-coco",
     "sub": "Lieu pané amandes, lentilles vertes, lait de coco, épinards",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 25,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide",
+      "sport"
     ],
     "allergens": [
-      "nuts"
+      "lactose",
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -1693,19 +1692,18 @@
   {
     "name": "Linguine chorizo et crème à l'Espagnole",
     "sub": "Linguine, chorizo croustillant, épinards, sauce crème & noix",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 20,
     "cat": "porc",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy",
-      "nuts"
+      "lactose",
+      "noix",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -1766,16 +1764,17 @@
   {
     "name": "Mafé revisité au poulet, cacahuètes et gingembre",
     "sub": "Poulet, sauce cacahuètes épicée, riz, épices africaines",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 35,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "gluten"
+      "lactose",
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -1837,15 +1836,17 @@
   {
     "name": "Mijoté vivifiant de dinde au curry",
     "sub": "Dinde mijotée, patate douce, lait de coco, oignon nouveau",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "dinde",
     "mood": [
-      "tout"
+      "long"
     ],
-    "allergens": [],
+    "allergens": [
+      "lactose"
+    ],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -1911,15 +1912,17 @@
   {
     "name": "Nouilles au bœuf haché façon Dan Dan",
     "sub": "Nouilles de blé, bœuf haché, pak choï, sauce cacahuètes pimentée",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 20,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
+      "lactose",
+      "noix",
       "gluten"
     ],
     "kids": false,
@@ -1974,20 +1977,19 @@
   {
     "name": "One Pot Pasta saucisse et champis à la crème",
     "sub": "Conchiglie, chair à saucisse, champignons, crème & persil",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 20,
     "cat": "porc",
     "mood": [
-      "tout",
-      "rapide"
+      "flemme"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "champignon"
@@ -2041,16 +2043,16 @@
   {
     "name": "Parmentier effrayant de bœuf et potimarron",
     "sub": "Hachis parmentier bœuf, purée potimarron-pomme de terre, gouda",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 30,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -2102,18 +2104,18 @@
   {
     "name": "Pavé de bœuf sauce Bercy",
     "sub": "Pavé mariné, linguine, sauce Bercy vin blanc & persil",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 20,
     "cat": "bœuf",
     "mood": [
-      "tout",
+      "rapide",
       "potes"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -2174,18 +2176,18 @@
   {
     "name": "Penne aux crevettes et pesto rosso",
     "sub": "Penne, crevettes dorées, pesto rosso, poivrons grillés",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 15,
     "cat": "poisson",
     "mood": [
-      "tout",
-      "rapide"
+      "rapide",
+      "sport"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -2237,18 +2239,17 @@
   {
     "name": "Penne et crème de tomates séchées",
     "sub": "Penne, sauce crémeuse tomates séchées, roquette & parmesan",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 10,
     "cook": 15,
     "cat": "végétarien",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -2315,20 +2316,19 @@
   {
     "name": "Pizza naan Diavola au chorizo et ricotta",
     "sub": "Pizza naan express, chorizo, ricotta, courgette & sauge",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 10,
     "cat": "porc",
     "mood": [
-      "tout",
-      "rapide"
+      "flemme"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "courgette",
@@ -2383,16 +2383,16 @@
   {
     "name": "Poireaux mimosa et porc sauce crémeuse aux herbes",
     "sub": "Carré de porc, riz, poireaux, sauce fromage frais & œuf mimosa",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 30,
     "cat": "porc",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -2453,17 +2453,16 @@
   {
     "name": "Poké bowl poulet, sauce mayo et kiwi",
     "sub": "Poulet doré, riz, kiwi, concombre, carotte, mayo soja",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 20,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "rapide",
+      "sport"
     ],
-    "allergens": [
-      "gluten"
-    ],
+    "allergens": [],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -2524,16 +2523,16 @@
   {
     "name": "Polpette des Pouilles - boulettes de bœuf",
     "sub": "Boulettes bœuf en sauce tomate, purée pommes de terre, salade",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 20,
     "cook": 25,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -2596,16 +2595,18 @@
   {
     "name": "Porc haché et navet glacé à la japonaise",
     "sub": "Chair à saucisse, navet & carotte glacés, riz, sauce soja & sésame",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 25,
     "cat": "porc",
     "mood": [
-      "tout"
+      "rapide"
     ],
-    "allergens": [],
-    "kids": false,
+    "allergens": [
+      "sésame"
+    ],
+    "kids": true,
     "course": "plat",
     "legumes": [
       "carotte",
@@ -2665,17 +2666,16 @@
   {
     "name": "Porc sauce champignons, endives braisées et noix",
     "sub": "Carré de porc, pommes de terre, endives caramélisées, sauce champignons & noix",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 35,
     "cat": "porc",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy",
-      "nuts"
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -2733,17 +2733,17 @@
   {
     "name": "Poulet à la sauce forestière",
     "sub": "Dés de poulet, riz, champignons, crème & gomasio",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 10,
     "cook": 20,
     "cat": "poulet",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose",
+      "sésame"
     ],
     "kids": false,
     "course": "plat",
@@ -2800,16 +2800,16 @@
   {
     "name": "Poulet et sauce blanche à l'aneth",
     "sub": "Filet de poulet, purée lentilles-carotte, sauce yaourt aneth",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 30,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -2870,18 +2870,16 @@
   {
     "name": "Poulet grillé sauce aux noix et figues",
     "sub": "Cuisses de poulet, grenailles, sauce confiture de figues & noix",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 35,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "gluten",
-      "dairy",
-      "nuts"
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -2932,17 +2930,16 @@
   {
     "name": "Poulet pané au romarin",
     "sub": "Escalope de poulet panée panko-romarin, pommes de terre, brocoli",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -2999,16 +2996,16 @@
   {
     "name": "Poulet sauce crème et fagots de haricots",
     "sub": "Blanc de poulet, grenailles, fagots haricots verts & poitrine fumée",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 30,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -3057,19 +3054,18 @@
   {
     "name": "Rigatoni au bacon et crème de bleu",
     "sub": "Rigatoni, poitrine fumée, fromage bleu, crème & noix",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 15,
     "cat": "porc",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy",
-      "nuts"
+      "lactose",
+      "noix",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -3118,16 +3114,16 @@
   {
     "name": "Risotto al funghi et pollo",
     "sub": "Risotto crémeux, champignons, poulet doré & fromage frais aux herbes",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "poulet",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -3183,16 +3179,16 @@
   {
     "name": "Risotto al pesto et chèvre frais",
     "sub": "Risotto pesto genovese, chèvre émietté, graines de courge",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 10,
     "cook": 25,
     "cat": "végétarien",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -3243,16 +3239,16 @@
   {
     "name": "Risotto al ragù de bœuf et sofrito",
     "sub": "Risotto bœuf haché, sofrito légumes, sauce tomate & fromage",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -3316,18 +3312,16 @@
   {
     "name": "Salade couscous perlé, feta et avocat",
     "sub": "Couscous perlé tiède, avocat, feta, tomates séchées, graines de courge",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 15,
     "cat": "végétarien",
     "mood": [
-      "tout",
-      "rapide"
+      "rapide",
+      "sport"
     ],
-    "allergens": [
-      "dairy"
-    ],
+    "allergens": [],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -3389,15 +3383,18 @@
   {
     "name": "Saumon crousti-sésame au miel et gingembre",
     "sub": "Saumon laqué sésame-miel, riz, courgette sautée",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 20,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide",
+      "sport"
     ],
-    "allergens": [],
+    "allergens": [
+      "sésame"
+    ],
     "kids": false,
     "course": "plat",
     "legumes": [
@@ -3457,13 +3454,13 @@
   {
     "name": "Saumon en croûte et butternut",
     "sub": "Saumon pané aïoli-panko-herbes, butternut & carotte rôtis",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
       "gluten"
@@ -3518,16 +3515,17 @@
   {
     "name": "Saumon poireau et Aneth",
     "sub": "Saumon, pommes de terre rôties, fondue de poireaux crémeuse & aneth",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose",
+      "noix"
     ],
     "kids": false,
     "course": "plat",
@@ -3589,16 +3587,16 @@
   {
     "name": "Saumon snacké sauce à l'aneth",
     "sub": "Saumon poêlé, grenailles paprika, sauce crème aneth & poireau",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "poisson",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "dairy"
+      "lactose"
     ],
     "kids": false,
     "course": "plat",
@@ -3654,17 +3652,16 @@
   {
     "name": "Schnitzel de porc et salade de pommes de terre",
     "sub": "Escalope de porc panée, salade pommes de terre mayo-épinards",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 25,
     "cat": "porc",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -3732,18 +3729,17 @@
   {
     "name": "Spaghetti aux lardons et courgette",
     "sub": "Spaghetti, lardons fumés, courgette, fromage frais aux herbes",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 10,
     "cook": 15,
     "cat": "porc",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -3794,18 +3790,17 @@
   {
     "name": "Spaghetti crémeux aux lardons & poireau",
     "sub": "Spaghetti, lardons, champignons, poireau & pesto champignons",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 10,
     "cook": 15,
     "cat": "porc",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -3857,18 +3852,18 @@
   {
     "name": "Spaghetti et crevettes à la méditerranéenne",
     "sub": "Spaghetti, crevettes, courgette, citron & parmesan",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 10,
     "cook": 15,
     "cat": "poisson",
     "mood": [
-      "tout",
-      "rapide"
+      "rapide",
+      "sport"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -3919,17 +3914,17 @@
   {
     "name": "Spaghetti et ragù bianco de bœuf",
     "sub": "Spaghetti, bœuf haché, sauce blanche crème-basilic & mascarpone",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 25,
     "cat": "bœuf",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -3985,18 +3980,19 @@
   {
     "name": "Stoemp saucisse aux choux de Bruxelles",
     "sub": "Stoemp belge, saucisses de Toulouse, lardons, choux de Bruxelles",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 30,
     "cat": "porc",
     "mood": [
-      "tout"
+      "long"
     ],
     "allergens": [
-      "dairy"
+      "lactose",
+      "noix"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "choux de Bruxelles",
@@ -4046,18 +4042,18 @@
   {
     "name": "Tagliata de bœuf à l'Italienne et Rigatoni",
     "sub": "Pavé de bœuf tranché, rigatoni, champignons & sauce crème thym",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 25,
     "cat": "bœuf",
     "mood": [
-      "tout",
+      "rapide",
       "potes"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -4113,21 +4109,20 @@
   {
     "name": "Taquitos porc haché, avocat et gouda",
     "sub": "Taquitos au four, farce saucisse-épices mexicaines, gouda, dip avocat",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 10,
     "cat": "porc",
     "mood": [
-      "tout",
-      "rapide",
+      "flemme",
       "potes"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
-    "kids": false,
+    "kids": true,
     "course": "plat",
     "legumes": [
       "tomate",
@@ -4193,17 +4188,18 @@
   {
     "name": "Tarte fine poireau lardons et emmental",
     "sub": "Pâte fine, fondue poireau-lardons, crème & emmental fondu, salade concombre",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 4,
     "prep": 15,
     "cook": 20,
     "cat": "porc",
     "mood": [
-      "tout"
+      "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "noix",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
@@ -4276,18 +4272,17 @@
   {
     "name": "Tarte fine tomates cerises et mozzarella",
     "sub": "Pâte croustillante, sauce tomate maison, mozzarella, salade basilic",
-    "src": "hellofresh",
+    "src": "HelloFresh",
     "base": 3,
     "prep": 15,
     "cook": 15,
     "cat": "végétarien",
     "mood": [
-      "tout",
       "rapide"
     ],
     "allergens": [
-      "gluten",
-      "dairy"
+      "lactose",
+      "gluten"
     ],
     "kids": false,
     "course": "plat",
