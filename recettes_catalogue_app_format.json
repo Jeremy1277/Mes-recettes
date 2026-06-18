@@ -1,0 +1,4359 @@
+[
+  {
+    "name": "Aiguillettes de poulet teriyaki",
+    "sub": "Riz, légumes wok, sauce soja & gomasio",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 25,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "courgette",
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Courgette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gousse d'ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce soja",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Huile de sésame",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gomasio",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Cuire le riz : porter une casserole d'eau salée à ébullition, cuire 12-14 min, égoutter et réserver.",
+      "Couper l'oignon et la courgette en fines demi-lunes. Éplucher et râper la carotte.",
+      "Faire chauffer un filet d'huile dans le wok. Faire revenir carotte, courgette et oignon 4-6 min à couvert en remuant régulièrement.",
+      "Préparer la sauce : ciseler la ciboulette et l'ail séparément. Râper le gingembre. Dans un bol, mélanger ail, gingembre, sauce soja, huile de sésame, 1 cs de sucre et 30 ml d'eau. Couper le poulet en 3 aiguillettes.",
+      "Faire chauffer un filet d'huile dans une poêle à feu moyen-vif. Cuire le poulet 2-4 min. Ajouter la sauce et laisser réduire 1-2 min à feu vif jusqu'à ce qu'elle soit légèrement nappante.",
+      "Servir le riz dans les assiettes, disposer les légumes et le poulet par-dessus avec la sauce. Saupoudrer de ciboulette et de gomasio."
+    ]
+  },
+  {
+    "name": "Aubergine gratinée au jambon",
+    "sub": "Sauce tomate, mozzarella, fromage râpé",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 30,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "aubergine",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Aubergine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Jambon blanc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mozzarella",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Passata de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices italiennes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 220°C (chaleur tournante). Couper les aubergines en lamelles de 5 mm dans la longueur.",
+      "Placer les lamelles sur plaque sulfurisée, badigeonner chaque lamelle d'un mince filet d'huile d'olive. Poivrer et enfourner 10-15 min en position haute jusqu'à ce qu'elles commencent à dorer et s'attendrir.",
+      "Faire la sauce : faire revenir ail, échalote et épices italiennes 1-2 min dans l'huile d'olive. Déglacer avec ½ cs de vinaigre balsamique et 1 cc de cassonade. Ajouter la passata et cuire 4-6 min jusqu'à consistance épaisse. Réserver.",
+      "Couper la mozzarella en tranches. Déchirer le jambon en lanières. Huiler un plat à four. Disposer une couche d'aubergines, ajouter la moitié de la sauce tomate, du jambon et du fromage râpé. Répéter l'opération. Terminer par la mozzarella par-dessus.",
+      "Enfourner 12-15 min en position haute jusqu'à ce que les aubergines soient cuites et le fromage gratiné.",
+      "Faire une vinaigrette huile d'olive + vinaigre balsamique. Assaisonner la salade. Servir le gratin avec la salade à côté."
+    ]
+  },
+  {
+    "name": "Blanquette de poulet et bouillon",
+    "sub": "Riz pilaf, crème, poireau & carotte",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 40,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Feuille de laurier",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préparer le bouillon. Ciseler l'ail. Éplucher la carotte et couper le poireau en fines demi-lunes (plus elles sont petites, plus elles cuiront vite).",
+      "Faire chauffer l'huile dans une marmite à feu moyen-vif. Faire revenir l'ail, la carotte et le poireau 3-4 min. Verser le bouillon, baisser le feu, couvrir et laisser mijoter 10 min.",
+      "Ciseler finement l'échalote. Effeuiller et ciseler le persil. Couper le poulet en dés de 2 cm.",
+      "Le riz pilaf : faire fondre le beurre et faire revenir l'échalote 2-3 min. Ajouter le riz, mélanger. Cuire à feu doux 10-12 min en ajoutant 180 ml d'eau par personne jusqu'à absorption totale. Retirer le laurier.",
+      "Répartir le poulet sur les légumes dans la marmite. Saler et poivrer. Couvrir et cuire 5-7 min à feu doux. Ôter le couvercle, ajouter la crème, la moitié du persil et le jus de ¼ citron par personne. Secouer pour incorporer la crème. Augmenter le feu, laisser réduire légèrement.",
+      "Servir le riz pilaf dans les assiettes. Placer la blanquette par-dessus. Garnir de persil et quartiers de citron. Ajuster l'assaisonnement."
+    ]
+  },
+  {
+    "name": "Blanquette de poulet",
+    "sub": "Riz pilaf, crème légère, citron & persil",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 40,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Feuille de laurier",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préparer le bouillon. Ciseler l'ail. Éplucher la carotte et couper le poireau en fines demi-lunes (plus elles sont petites, plus elles cuiront vite).",
+      "Faire chauffer l'huile dans une sauteuse à feu moyen-vif. Faire revenir l'ail, la carotte et le poireau 3-4 min. Ajouter le bouillon, baisser le feu, couvrir et laisser mijoter 10 min.",
+      "Ciseler finement l'échalote. Effeuiller et ciseler le persil. Couper le poulet en dés de 2 cm.",
+      "Le riz pilaf : faire fondre le beurre et faire revenir l'échalote 2-3 min. Ajouter le riz, mélanger. Cuire à feu doux 10-12 min en ajoutant 180 ml d'eau par personne jusqu'à absorption totale.",
+      "Répartir le poulet sur les légumes dans la sauteuse. Saler et poivrer. Cuire 5-7 min à feu doux. Ajouter la crème, la moitié du persil et le jus de ¼ citron par personne. Réduire légèrement.",
+      "Servir le riz dans les assiettes, placer la blanquette par-dessus. Garnir du reste de persil et des quartiers de citron. Ajuster l'assaisonnement."
+    ]
+  },
+  {
+    "name": "Blanquette de saumon",
+    "sub": "Riz pilaf, avoine cuisine, poireau & carotte",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 40,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Saumon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Feuille de laurier",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Avoine cuisine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préparer le bouillon. Ciseler l'ail. Couper le poireau en deux dans l'épaisseur, puis en fines demi-lunes. Éplucher et couper la carotte en demi-lunes de 5 mm.",
+      "Faire chauffer un filet d'huile dans une sauteuse à feu moyen-vif. Faire revenir l'ail, la carotte et le poireau 3-4 min. Ajouter le bouillon, baisser le feu, couvrir et laisser mijoter 10-12 min jusqu'à ce que la carotte soit tendre.",
+      "Ciseler finement l'échalote. Couper le citron en quartiers. Retirer la peau du saumon avec un couteau pointu, puis couper en morceaux de taille égale. Effeuiller et ciseler le persil.",
+      "Le riz pilaf : faire fondre une noix de beurre par personne dans une casserole à feu moyen. Faire revenir l'échalote 2-3 min. Ajouter le riz, mélanger. Cuire à feu doux 13-15 min en ajoutant 180 ml d'eau par personne et le laurier jusqu'à absorption totale. Retirer le laurier.",
+      "Placer le saumon sur les légumes dans la sauteuse. Saler et poivrer. Couvrir et cuire 5 min à feu doux. Ôter le couvercle, ajouter l'avoine cuisine, la moitié du persil et le jus de ¼ citron par personne. Laisser réduire jusqu'à consistance nappante.",
+      "Ôter le laurier du riz, servir dans les assiettes. Garnir avec le reste du persil et les quartiers de citron. Ajuster l'assaisonnement."
+    ]
+  },
+  {
+    "name": "Bœuf et potatoes au thym façon bistrot",
+    "sub": "Pavé de bœuf, potatoes maison, sauce moutarde crémeuse",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 35,
+    "cat": "bœuf",
+    "mood": [
+      "tout",
+      "potes"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Pavé de bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème épaisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Moutarde",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Vinaigre balsamique",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 220°C (chaleur tournante). Laver ou éplucher les pommes de terre, couper en potatoes de 1 cm de large. Sur plaque sulfurisée, arroser d'huile d'olive, saupoudrer de thym séché, saler et mélanger. Enfourner 25-35 min en remuant à mi-cuisson jusqu'à ce qu'elles soient dorées et croustillantes.",
+      "Sortir les pavés du réfrigérateur. Préparer le bouillon. Couper le poireau dans la longueur, laver, puis couper l'oignon en fines demi-lunes.",
+      "Faire chauffer une noisette de beurre dans une poêle à feu moyen-vif. Faire revenir le poireau et l'oignon 1-2 min. Couvrir, baisser le feu et cuire 8-10 min jusqu'à ce qu'ils soient fondants. Saler et poivrer.",
+      "Faire chauffer un filet d'huile dans une grande poêle à feu vif. Éponger les pavés avec de l'essuie-tout, puis saler. Cuire 2-3 min de chaque côté. Réserver dans une assiette couverte d'aluminium.",
+      "La sauce : déglacer la poêle avec ½ cc de vinaigre balsamique blanc par personne pour détacher les sucs. Ajouter bouillon, crème, moutarde et grains de poivre concassés. Réduire 3-5 min à feu moyen-doux jusqu'à consistance nappante.",
+      "Couper la viande en fines tranches dans le sens inverse des fibres. Servir la fondue de légumes et les potatoes dans les assiettes. Disposer la viande à côté et napper de sauce."
+    ]
+  },
+  {
+    "name": "Bowl bœuf et légumes sautés au sésame",
+    "sub": "Émincé de bœuf, riz, poivron, sauce asiatique sucrée",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 20,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poivron",
+      "céleri"
+    ],
+    "ingr": [
+      {
+        "n": "Émincé de bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poivron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Coriandre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Céleri-branche",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce asiatique sucrée",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Huile de sésame",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Graines de sésame",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Cuire le riz : porter une casserole d'eau salée à ébullition, cuire le riz 12-14 min, égoutter et réserver.",
+      "Ciseler l'ail et l'oignon. Épépiner et couper le poivron en bâtonnets. Couper le céleri en demi-lunes de 5 mm. Effeuiller la coriandre.",
+      "Saisir la viande : faire chauffer un généreux filet d'huile de tournesol dans un wok à feu moyen-vif. Une fois bien chaud, ajouter les émincés de bœuf, faire revenir 2-3 min, saler et poivrer. Réserver dans une assiette.",
+      "Cuire les légumes : remettre le wok à feu vif, ajouter l'oignon et l'ail, faire sauter 1-2 min. Ajouter le poivron et le céleri, prolonger 8-10 min jusqu'à ce que les légumes soient légèrement fondants. Remuer régulièrement. Saler et poivrer.",
+      "Remettre le bœuf dans le wok, mélanger 1 min à feu vif. Couper le feu et déglacer avec la sauce asiatique sucrée et l'huile de sésame. Remuer.",
+      "Servir le riz dans des bols, ajouter la viande et les légumes sautés par-dessus. Saupoudrer de graines de sésame et de coriandre."
+    ]
+  },
+  {
+    "name": "Burger à l'orientale au Zaatar",
+    "sub": "Steak haché bœuf, frites four, mayo-persil, pickles oignon",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 30,
+    "cat": "bœuf",
+    "mood": [
+      "tout",
+      "potes"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "pomme de terre",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Zaatar",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pain burger",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil & menthe",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mayonnaise",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 220°C. Laver/éplucher les pommes de terre, couper en frites de 1 cm. Sur plaque sulfurisée, mélanger avec huile d'olive, sel et poivre. Enfourner 25-30 min, remuer à mi-cuisson.",
+      "Ciseler l'ail, la menthe et le persil séparément. Couper la moitié de l'oignon en très fines demi-lunes et ciseler le reste. Faire mariner les demi-lunes dans du vinaigre de vin rouge avec une pincée de sel et sucre jusqu'à ce qu'elles rosissent légèrement.",
+      "Façonner les steaks : mélanger le bœuf haché avec le zaatar, l'ail, l'oignon ciselé et la menthe. Saler et poivrer généreusement. Façonner en steaks de 1 cm d'épaisseur (un par personne).",
+      "Faire la sauce mayo-persil. Lorsqu'il reste 10 min de cuisson, ouvrir les pains et les badigeonner d'huile d'olive. Enfourner 3-5 min jusqu'à légèrement grillés.",
+      "Faire chauffer un filet d'huile dans une grande poêle à feu vif. Cuire les steaks 2-3 min de chaque côté. Étaler la sauce mayo-persil sur la base des pains, déposer le steak, les pickles d'oignon par-dessus. Refermer le burger.",
+      "À la sortie du four, mélanger les frites avec ½ cc de zaatar. Servir les burgers avec les frites et la salade assaisonnée. Arroser d'un filet d'huile d'olive."
+    ]
+  },
+  {
+    "name": "Burger de bœuf chutney d'oignons et gouda",
+    "sub": "Burger maison, frites au four, chutney piquant",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 35,
+    "cat": "bœuf",
+    "mood": [
+      "tout",
+      "potes"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gouda râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pain burger",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chutney piquant aux oignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Paprika fumé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 220°C. Laver les pommes de terre, couper en frites de 1 cm. Éponger avec l'essuie-tout. Sur plaque sulfurisée, mélanger avec huile d'olive, sel et poivre. Enfourner 25-35 min, remuer à mi-cuisson.",
+      "Couper l'oignon en demi-lunes. Émincer l'ail. Mélanger le bœuf haché avec le paprika fumé, l'ail, sel et poivre. Façonner en steaks de 2 cm d'épaisseur. Faire fondre le beurre dans une poêle à feu moyen-vif. Cuire les steaks 2-4 min de chaque côté. Répartir le gouda sur les steaks, couvrir et laisser fondre 1 min.",
+      "Lorsqu'il reste 5 min de cuisson, enfourner les pains burger en deux. Étaler la moutarde sur la base, puis le chutney d'oignons. Déposer la viande, ajouter l'oignon poêlé par-dessus. Refermer le burger.",
+      "Servir les burgers dans les assiettes, accompagner des frites."
+    ]
+  },
+  {
+    "name": "Carré de porc et sauce moutarde crémeuse",
+    "sub": "Tranches de carré de porc, riz, champignons, sauce crème",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Carré de porc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Laurier",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème épaisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Moutarde",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Vinaigre cidre",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Éplucher et couper la carotte en fines demi-lunes. Ciseler l'échalote et l'ail.",
+      "Faire chauffer un filet d'huile dans une sauteuse à feu vif. Faire revenir carotte, échalote et champignons 3-5 min. Baisser à feu moyen-vif, déglacer avec ½ cc de vinaigre de vin (ou de cidre). Ajouter le thym séché et la farine par personne. Mélanger, émietter le cube de bouillon par-dessus. Verser de l'eau à hauteur.",
+      "Ajouter le laurier, porter à ébullition et laisser cuire 20-25 min à feu moyen-vif jusqu'à ce que la carotte soit fondante et la sauce épaisse. Pendant ce temps, cuire le riz 12-14 min dans une casserole d'eau salée. Égoutter et réserver.",
+      "Lorsque les légumes sont cuits, ôter le laurier, ajouter la crème et ½ cc de moutarde. Mélanger et ajuster l'assaisonnement.",
+      "Faire chauffer un filet d'huile dans une poêle à feu moyen-vif. Faire revenir les tranches de porc 2 min de chaque côté en arrosant régulièrement. Saler et poivrer. Déglacer avec un filet d'eau, gratter les sucs avec une spatule. Réserver jusqu'au service.",
+      "Servir le riz dans des assiettes creuses. Disposer le porc et les légumes par-dessus. Napper de sauce."
+    ]
+  },
+  {
+    "name": "Chaussons mozza et jambon façon panzerotti",
+    "sub": "Pâte à tarte, jambon, sauce tomate maison, mozzarella",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 15,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Pâte à tarte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Jambon blanc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mozzarella râpée",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices italiennes",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 250°C (230°C chaleur tournante). Ciseler l'ail. Couper chaque tranche de jambon en deux.",
+      "Préparer la sauce : dans un bol, mélanger l'ail, un filet d'huile d'olive et par personne : ¼ paquet de chair de tomates, ¼ sachet d'origan séché et ½ cc de cassonade. Saler et poivrer.",
+      "Sur une plaque sulfurisée, étaler la pâte et la couper en quatre parts. Laisser un rebord de 0,5-1 cm. Disposer ½ tranche de jambon, un peu de sauce tomate et de mozzarella râpée par part. Saler et poivrer. Replier la pâte en triangle. Sceller avec une fourchette.",
+      "Badigeonner les panzerotti d'huile d'olive. Enfourner 12-15 min jusqu'à ce qu'ils soient bien dorés.",
+      "Faire une vinaigrette moutarde + huile d'olive + vinaigre balsamique dans un saladier. Saler et poivrer. Juste avant de servir, ajouter la salade et mélanger.",
+      "Servir deux panzerotti par personne dans les assiettes. Présenter la salade à côté."
+    ]
+  },
+  {
+    "name": "Cheesy Fries cheddar et poulet BBQ grillé",
+    "sub": "Poulet BBQ, frites cheddar fondant, coleslaw maison",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 35,
+    "cat": "poulet",
+    "mood": [
+      "tout",
+      "potes"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Filet de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices BBQ",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Cheddar râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mayonnaise",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte & chou (coleslaw)",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 220°C. Laver/éplucher les pommes de terre, couper en frites de 1 cm maximum. Éponger avec l'essuie-tout. Sur plaque sulfurisée, arroser d'huile d'olive, saler et poivrer. Enfourner 30-35 min jusqu'à ce qu'elles soient dorées et croustillantes. Mélanger à mi-cuisson.",
+      "Lorsqu'il reste 15 min de cuisson, assaisonner les filets de poulet des deux côtés avec les épices BBQ, sel et poivre. Masser pour bien imbiber.",
+      "Faire chauffer un filet d'huile dans une poêle à feu moyen-vif. Cuire le poulet 2-3 min de chaque côté jusqu'à ce que la chair soit opaque à cœur. Réserver hors de la poêle à couvert.",
+      "La sauce : gratter bien les sucs de cuisson du poulet de la poêle en versant un mince filet d'eau. Réserver hors du feu.",
+      "Lorsqu'il reste 3 min aux frites, parsemer de cheddar râpé et enfourner en position haute jusqu'à ce que le fromage soit fondu. Dans un saladier, mélanger la mayonnaise avec ½ cc de moutarde et le mélange chou-carotte. Saler et poivrer.",
+      "Servir le poulet grillé et le coleslaw dans les assiettes. Répartir les frites au cheddar fondu. Verser le jus de cuisson sur le poulet."
+    ]
+  },
+  {
+    "name": "Conchiglie à la forestière",
+    "sub": "Pâtes en coquilles, champignons, crème & parmesan",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 20,
+    "cat": "végétarien",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Conchiglie",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons de Paris",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Parmigiano Reggiano",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices italiennes",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Crevettes en persillade et poivrons dorés",
+    "sub": "Riz, poivrons sautés, crevettes au beurre persillé",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 25,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poivron"
+    ],
+    "ingr": [
+      {
+        "n": "Crevettes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poivron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Herbes de Provence",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Cuisse de poulet et purée de patate douce",
+    "sub": "Poulet rôti, purée crémeuse, poireau & sauce",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 40,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "patate douce"
+    ],
+    "ingr": [
+      {
+        "n": "Cuisse de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Patate douce",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauge",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Vinaigre vin blanc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Dinde épicée poireau et cacahuètes",
+    "sub": "Escalope de dinde panée, riz, sauce soja & mayo cacahuètes",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 25,
+    "cat": "dinde",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Escalope de dinde",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce soja",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce chili sucrée",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Cacahuètes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mayo",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Filet de lieu et grenailles rôties au thym",
+    "sub": "Lieu noir pané, grenailles au four, sauce poireau-moutarde",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau"
+    ],
+    "ingr": [
+      {
+        "n": "Filet de lieu noir",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Grenailles",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Avoine cuisine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Moutarde",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Farine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Beurre",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Gratin de chou-fleur aux lardons et gouda",
+    "sub": "Gratin béchamel, chou-fleur, lardons & gouda fondu",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "chou-fleur",
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Chou-fleur",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lardons fumés",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gouda râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix de muscade",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Béchamel",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Hachis au bœuf et purée de lentille corail",
+    "sub": "Hachis parmentier revisité, purée lentilles & carottes",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "champignon",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lentilles corail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concentré de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Herbes de Provence",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sucrine",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Jacket Potato garni de porc haché et champignons",
+    "sub": "Pommes de terre farcies, sauce crémeuse aux champignons",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 40,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "flemme"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "champignon",
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair à saucisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons de Paris",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Lasagne végétarienne - champignons, carottes et origan",
+    "sub": "Béchamel maison, sauce tomate, fromage râpé",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 30,
+    "cat": "végétarien",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "champignon",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons de Paris",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lasagnes fraîches",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Lieu doré, chutney de mangue et riz",
+    "sub": "Lieu poêlé, chutney maison gingembre-mangue, concombre",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 15,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "concombre"
+    ],
+    "ingr": [
+      {
+        "n": "Lieu noir",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mangue",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concombre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Curry",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Coriandre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Yaourt grec",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Lieu doré et Chutney de mangue maison",
+    "sub": "Lieu poêlé, chutney maison gingembre-mangue, concombre",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 15,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "concombre"
+    ],
+    "ingr": [
+      {
+        "n": "Lieu noir",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mangue",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concombre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Curry",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Coriandre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Yaourt grec",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Lieu poêlé et lentilles au curry-coco",
+    "sub": "Lieu pané amandes, lentilles vertes, lait de coco, épinards",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 25,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "nuts"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "épinards"
+    ],
+    "ingr": [
+      {
+        "n": "Lieu noir",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lentilles précuites",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lait de coco",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épinards",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Amandes effilées",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Curry",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Linguine chorizo et crème à l'Espagnole",
+    "sub": "Linguine, chorizo croustillant, épinards, sauce crème & noix",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 20,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy",
+      "nuts"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "épinards"
+    ],
+    "ingr": [
+      {
+        "n": "Linguine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chorizo",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épinards",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix concassées",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Paprika fumé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Mafé revisité au poulet, cacahuètes et gingembre",
+    "sub": "Poulet, sauce cacahuètes épicée, riz, épices africaines",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 35,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Beurre de cacahuètes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices africaines",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concentré de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Mijoté vivifiant de dinde au curry",
+    "sub": "Dinde mijotée, patate douce, lait de coco, oignon nouveau",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "dinde",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "patate douce"
+    ],
+    "ingr": [
+      {
+        "n": "Dinde",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Patate douce",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lait de coco",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Curry jaune",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon nouveau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce poisson",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Nouilles au bœuf haché façon Dan Dan",
+    "sub": "Nouilles de blé, bœuf haché, pak choï, sauce cacahuètes pimentée",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 20,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [],
+    "ingr": [
+      {
+        "n": "Nouilles de blé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pak choï",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Cacahuètes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Beurre de cacahuètes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Piment",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce soja",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "One Pot Pasta saucisse et champis à la crème",
+    "sub": "Conchiglie, chair à saucisse, champignons, crème & persil",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 20,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Chair à saucisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Conchiglie",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons de Paris",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Herbes de Provence",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Parmentier effrayant de bœuf et potimarron",
+    "sub": "Hachis parmentier bœuf, purée potimarron-pomme de terre, gouda",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 30,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "pomme de terre",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Potimarron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concentré de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gouda râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauge",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Graines de courge",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Pavé de bœuf sauce Bercy",
+    "sub": "Pavé mariné, linguine, sauce Bercy vin blanc & persil",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 20,
+    "cat": "bœuf",
+    "mood": [
+      "tout",
+      "potes"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Pavé de bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Linguine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Feuille de laurier",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Penne aux crevettes et pesto rosso",
+    "sub": "Penne, crevettes dorées, pesto rosso, poivrons grillés",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 15,
+    "cat": "poisson",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poivron",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Penne",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crevettes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poivrons grillés",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pesto rosso",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Penne et crème de tomates séchées",
+    "sub": "Penne, sauce crémeuse tomates séchées, roquette & parmesan",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 10,
+    "cook": 15,
+    "cat": "végétarien",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Penne",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Tomates séchées",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Paprika",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices italiennes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Roquette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Parmigiano",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Pizza naan Diavola au chorizo et ricotta",
+    "sub": "Pizza naan express, chorizo, ricotta, courgette & sauge",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 10,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "courgette",
+      "tomate"
+    ],
+    "ingr": [
+      {
+        "n": "Pain naan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chorizo",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ricotta",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gouda râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Courgette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauge",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Piment",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poireaux mimosa et porc sauce crémeuse aux herbes",
+    "sub": "Carré de porc, riz, poireaux, sauce fromage frais & œuf mimosa",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 30,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau"
+    ],
+    "ingr": [
+      {
+        "n": "Carré de porc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ciboulette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Œuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage frais aux herbes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poké bowl poulet, sauce mayo et kiwi",
+    "sub": "Poulet doré, riz, kiwi, concombre, carotte, mayo soja",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 20,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "concombre"
+    ],
+    "ingr": [
+      {
+        "n": "Filet de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Kiwi",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concombre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mayonnaise",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce soja",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignons frits",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Polpette des Pouilles - boulettes de bœuf",
+    "sub": "Boulettes bœuf en sauce tomate, purée pommes de terre, salade",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 20,
+    "cook": 25,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "pomme de terre",
+      "tomate",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Beurre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lait",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Porc haché et navet glacé à la japonaise",
+    "sub": "Chair à saucisse, navet & carotte glacés, riz, sauce soja & sésame",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 25,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "navet"
+    ],
+    "ingr": [
+      {
+        "n": "Chair à saucisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Navet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon nouveau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce soja",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Huile de sésame",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Porc sauce champignons, endives braisées et noix",
+    "sub": "Carré de porc, pommes de terre, endives caramélisées, sauce champignons & noix",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 35,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy",
+      "nuts"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "champignon",
+      "pomme de terre",
+      "endive"
+    ],
+    "ingr": [
+      {
+        "n": "Carré de porc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Endives",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix concassées",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Moutarde",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poulet à la sauce forestière",
+    "sub": "Dés de poulet, riz, champignons, crème & gomasio",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 10,
+    "cook": 20,
+    "cat": "poulet",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Dés de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz long grain",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons de Paris",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gomasio",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poulet et sauce blanche à l'aneth",
+    "sub": "Filet de poulet, purée lentilles-carotte, sauce yaourt aneth",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Filet de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lentilles corail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Aneth",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ciboulette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Yaourt grec",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Paprika fumé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poulet grillé sauce aux noix et figues",
+    "sub": "Cuisses de poulet, grenailles, sauce confiture de figues & noix",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 35,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy",
+      "nuts"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte"
+    ],
+    "ingr": [
+      {
+        "n": "Cuisse de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Grenailles",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix concassées",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Confiture de figues",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poulet pané au romarin",
+    "sub": "Escalope de poulet panée panko-romarin, pommes de terre, brocoli",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "pomme de terre",
+      "brocoli"
+    ],
+    "ingr": [
+      {
+        "n": "Filet de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Brocoli",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Romarin",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chapelure panko",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mayonnaise",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Farine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Œuf",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Poulet sauce crème et fagots de haricots",
+    "sub": "Blanc de poulet, grenailles, fagots haricots verts & poitrine fumée",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [],
+    "ingr": [
+      {
+        "n": "Blanc de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Grenailles",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Haricots verts",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poitrine fumée",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème épaisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Rigatoni au bacon et crème de bleu",
+    "sub": "Rigatoni, poitrine fumée, fromage bleu, crème & noix",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 15,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy",
+      "nuts"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [],
+    "ingr": [
+      {
+        "n": "Rigatoni",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poitrine fumée",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage bleu",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ciboulette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix concassées",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Risotto al funghi et pollo",
+    "sub": "Risotto crémeux, champignons, poulet doré & fromage frais aux herbes",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poulet",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Riz risotto",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Blanc de poulet",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices italiennes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage frais aux herbes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Risotto al pesto et chèvre frais",
+    "sub": "Risotto pesto genovese, chèvre émietté, graines de courge",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 10,
+    "cook": 25,
+    "cat": "végétarien",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Riz risotto",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pesto vert alla genovese",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage chèvre frais",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Graines de courge",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Risotto al ragù de bœuf et sofrito",
+    "sub": "Risotto bœuf haché, sofrito légumes, sauce tomate & fromage",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "tomate",
+      "céleri",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz risotto",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Céleri",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices italiennes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Salade couscous perlé, feta et avocat",
+    "sub": "Couscous perlé tiède, avocat, feta, tomates séchées, graines de courge",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 15,
+    "cat": "végétarien",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "tomate",
+      "avocat",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Couscous perlé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Avocat",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Feta AOP",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Tomates semi-séchées",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Graines de courge",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Coriandre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Miel",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Saumon crousti-sésame au miel et gingembre",
+    "sub": "Saumon laqué sésame-miel, riz, courgette sautée",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 20,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "courgette"
+    ],
+    "ingr": [
+      {
+        "n": "Saumon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Riz",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Courgette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gingembre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Sauce asiatique sucrée",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Graines de sésame",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Miel",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Saumon en croûte et butternut",
+    "sub": "Saumon pané aïoli-panko-herbes, butternut & carotte rôtis",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "carotte",
+      "butternut"
+    ],
+    "ingr": [
+      {
+        "n": "Saumon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Butternut",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Carotte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Herbes de Provence",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chapelure panko",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Aïoli",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Saumon poireau et Aneth",
+    "sub": "Saumon, pommes de terre rôties, fondue de poireaux crémeuse & aneth",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Saumon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Aneth",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ciboulette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix de muscade",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Beurre",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Saumon snacké sauce à l'aneth",
+    "sub": "Saumon poêlé, grenailles paprika, sauce crème aneth & poireau",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "poisson",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau"
+    ],
+    "ingr": [
+      {
+        "n": "Saumon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Grenailles",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Paprika",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Aneth",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Vinaigre balsamique",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Schnitzel de porc et salade de pommes de terre",
+    "sub": "Escalope de porc panée, salade pommes de terre mayo-épinards",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 25,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "pomme de terre",
+      "épinards",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Carré de porc",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chapelure panko",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épinards",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mayonnaise",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Farine",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Œuf",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Spaghetti aux lardons et courgette",
+    "sub": "Spaghetti, lardons fumés, courgette, fromage frais aux herbes",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 10,
+    "cook": 15,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "courgette"
+    ],
+    "ingr": [
+      {
+        "n": "Spaghetti",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lardons fumés",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Courgette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé à l'italienne",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage frais aux herbes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Spaghetti crémeux aux lardons & poireau",
+    "sub": "Spaghetti, lardons, champignons, poireau & pesto champignons",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 10,
+    "cook": 15,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Spaghetti",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lardons fumés",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pesto de champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Spaghetti et crevettes à la méditerranéenne",
+    "sub": "Spaghetti, crevettes, courgette, citron & parmesan",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 10,
+    "cook": 15,
+    "cat": "poisson",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "courgette"
+    ],
+    "ingr": [
+      {
+        "n": "Spaghetti",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crevettes",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Courgette",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Citron",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Persil",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Parmigiano Reggiano",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Spaghetti et ragù bianco de bœuf",
+    "sub": "Spaghetti, bœuf haché, sauce blanche crème-basilic & mascarpone",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 25,
+    "cat": "bœuf",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau"
+    ],
+    "ingr": [
+      {
+        "n": "Spaghetti",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Viande hachée bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mascarpone",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème de basilic",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Stoemp saucisse aux choux de Bruxelles",
+    "sub": "Stoemp belge, saucisses de Toulouse, lardons, choux de Bruxelles",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 30,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "choux de Bruxelles",
+      "pomme de terre"
+    ],
+    "ingr": [
+      {
+        "n": "Saucisses de Toulouse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lardons fumés",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Pommes de terre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Choux de Bruxelles",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème épaisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix de muscade",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Tagliata de bœuf à l'Italienne et Rigatoni",
+    "sub": "Pavé de bœuf tranché, rigatoni, champignons & sauce crème thym",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 25,
+    "cat": "bœuf",
+    "mood": [
+      "tout",
+      "potes"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "champignon"
+    ],
+    "ingr": [
+      {
+        "n": "Pavé de bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Rigatoni",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Champignons",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème liquide",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Thym séché",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Bouillon bœuf",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Vinaigre balsamique",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "⚠️ À compléter — renvoyer les images pour extraction"
+    ]
+  },
+  {
+    "name": "Taquitos porc haché, avocat et gouda",
+    "sub": "Taquitos au four, farce saucisse-épices mexicaines, gouda, dip avocat",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 10,
+    "cat": "porc",
+    "mood": [
+      "tout",
+      "rapide",
+      "potes"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "tomate",
+      "avocat",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Chair à saucisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Tortillas",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Gouda râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Dip d'avocat",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Épices mexicaines",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Ail",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 200°C grill. Couper l'oignon finement, ciseler l'ail.",
+      "Faire revenir oignon + ail + chair à saucisse + épices mexicaines 3-4 min.",
+      "Ajouter la chair de tomates, cuire 2-3 min jusqu'à épaississement. Saler/poivrer.",
+      "Préparer pickles oignon (vinaigre + eau + sel) et dip avocat (épices mexicaines).",
+      "Garnir les tortillas de farce, rouler côté ouverture vers le bas, badigeonner de gouda râpé.",
+      "Enfourner 8-10 min jusqu'à dorure. Servir avec salade assaisonnée et dip."
+    ]
+  },
+  {
+    "name": "Tarte fine poireau lardons et emmental",
+    "sub": "Pâte fine, fondue poireau-lardons, crème & emmental fondu, salade concombre",
+    "src": "hellofresh",
+    "base": 4,
+    "prep": 15,
+    "cook": 20,
+    "cat": "porc",
+    "mood": [
+      "tout"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "poireau",
+      "concombre",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Pâte à tarte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Poireau",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Échalote",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Lardons fumés",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Emmental râpé",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Crème épaisse",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Noix de muscade",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Concombre",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Moutarde",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 200°C. Ciseler l'échalote, couper le poireau en rondelles fines.",
+      "Faire revenir échalote + lardons 5-6 min. Déglacer au vinaigre balsamique. Hors feu : ajouter crème + muscade.",
+      "Étaler moutarde sur la pâte. Répartir la garniture. Saupoudrer d'emmental. Enfourner 15-20 min jusqu'à dorure.",
+      "Préparer vinaigrette (moutarde + huile d'olive + vinaigre balsamique).",
+      "Couper concombre en demi-lunes. Ajouter salade + graines de tournesol à la vinaigrette.",
+      "Couper la tarte en parts, servir avec la salade à côté."
+    ]
+  },
+  {
+    "name": "Tarte fine tomates cerises et mozzarella",
+    "sub": "Pâte croustillante, sauce tomate maison, mozzarella, salade basilic",
+    "src": "hellofresh",
+    "base": 3,
+    "prep": 15,
+    "cook": 15,
+    "cat": "végétarien",
+    "mood": [
+      "tout",
+      "rapide"
+    ],
+    "allergens": [
+      "gluten",
+      "dairy"
+    ],
+    "kids": false,
+    "course": "plat",
+    "legumes": [
+      "tomate",
+      "salade"
+    ],
+    "ingr": [
+      {
+        "n": "Pâte à tarte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Tomates cerises",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Mozzarella fior di latte",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Chair de tomates",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Fromage râpé italien",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Origan",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Oignon",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Cassonade",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Basilic",
+        "q": null,
+        "u": ""
+      },
+      {
+        "n": "Salade",
+        "q": null,
+        "u": ""
+      }
+    ],
+    "steps": [
+      "Préchauffer le four à 230°C. Étaler la pâte sur plaque, piquer et précuire à blanc 10-15 min.",
+      "Faire revenir l'oignon 2-3 min. Ajouter chair de tomates + cassonade + origan + eau. Cuire 1-2 min jusqu'à légère épaississement.",
+      "Couper tomates cerises en deux, éponger la mozzarella. Étaler sauce sur pâte (bord 1 cm). Disposer tomates + mozzarella + fromage râpé + origan.",
+      "Enfourner 5-7 min en position haute jusqu'à fromage fondu et gratiné.",
+      "Vinaigrette : moutarde + huile d'olive + vinaigre balsamique. Assaisonner la salade, ciseler le basilic.",
+      "Couper la tarte en parts, parsemer de basilic, servir avec salade."
+    ]
+  }
+]
