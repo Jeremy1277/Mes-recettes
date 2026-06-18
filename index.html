@@ -167,7 +167,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 /* ── RESPONSIVE GLOBAL ─────────────────── */
 
 /* Viewport safe areas (iPhone notch / home bar) */
-#wrap, #boire-app-wrap > div {
+#wrap, {
   padding-left: max(1.25rem, env(safe-area-inset-left));
   padding-right: max(1.25rem, env(safe-area-inset-right));
   padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
@@ -182,10 +182,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* Grilles de cartes : 1 col sur très petit écran */
 @media(max-width:420px){
-  .grid,.wine-grid,.cocktail-grid{grid-template-columns:1fr}
-}
+  .grid}
 
-/* Détail recette / cocktail : 1 col sous 640px */
+/* Détail recette : 1 col sous 640px */
 @media(max-width:640px){
   .dgrid{grid-template-columns:1fr}
   .dtitle{font-size:18px}
@@ -193,10 +192,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* Cover page : empilement vertical sur petit écran */
 @media(max-width:480px){
-  .cover-choices{grid-template-columns:1fr;height:auto}
-  .cover-choice.manger{border-right:none;border-bottom:1px solid #3a3328}
-  .cover-choice-ico{font-size:44px}
-}
+      }
 
 /* Menu page : sections toujours visibles sur mobile */
 @media(max-width:640px){
@@ -262,13 +258,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
   .card-name{font-size:14px}
   .card-sub{font-size:11px}
   .badge{font-size:10px;padding:1px 7px}
-  .wine-name,.cocktail-name{font-size:14px}
-  .wine-region,.cocktail-sub{font-size:11px}
-}
+  }
 
 /* Print : pas de safe-area */
 @media print{
-  #wrap,#boire-app-wrap>div{padding:1rem!important}
+  #wrap>div{padding:1rem!important}
 }
 .stitle{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .adj{display:flex;align-items:center;gap:6px}
@@ -346,59 +340,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .imported-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f59e0b;margin-left:5px;vertical-align:middle;title:"Recette importée"}
 
 /* ── +18 ──────────────────────────────── */
-.adultage-gate{position:fixed;inset:0;background:rgba(10,8,4,.92);z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:2rem}
-.adultage-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(22px,6vw,40px);color:#d4a96a;text-align:center}
-.adultage-sub{font-size:13px;color:#7a6e5c;text-align:center;max-width:320px;line-height:1.6}
-.adultage-btns{display:flex;gap:10px;margin-top:8px}
-.adultage-yes{padding:11px 28px;border-radius:10px;border:none;background:#d4a96a;color:#1a1a1a;font-size:14px;font-weight:700;cursor:pointer}
-.adultage-no{padding:11px 28px;border-radius:10px;border:1px solid #3a3328;background:transparent;color:#7a6e5c;font-size:14px;cursor:pointer}
 /* +18 sub-tabs */
 .sub-tabs{display:flex;gap:6px;margin-bottom:16px}
 .sub-tab{font-size:13px;font-weight:600;padding:6px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;color:#666;cursor:pointer}
 .sub-tab.on{background:#7b1f2e;color:#fff;border-color:#7b1f2e}
 /* Wine */
-.wine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
-.wine-card{background:#fff;border-radius:12px;padding:14px;border-left:4px solid #7b1f2e;box-shadow:0 1px 4px rgba(0,0,0,.07);cursor:pointer}
-.wine-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.12)}
-.wine-type{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:6px}
-.wine-name{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
-.wine-region{font-size:12px;color:#888;margin-bottom:8px}
-.wine-footer{display:flex;justify-content:space-between;font-size:11px;color:#aaa;border-top:1px solid #eee;padding-top:8px;margin-top:6px}
 /* Cocktail */
-.cocktail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
-.cocktail-card{background:#fff;border-radius:12px;padding:14px;border-left:4px solid #1a5e72;box-shadow:0 1px 4px rgba(0,0,0,.07);cursor:pointer}
-.cocktail-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.12)}
-.cocktail-name{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
-.cocktail-sub{font-size:12px;color:#888;margin-bottom:8px}
-.cocktail-badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:6px;background:#e3f2f9;color:#1a5e72}
 /* +18 empty */
 .adult-empty{text-align:center;padding:3rem 0;color:#bbb;font-size:14px}
 /* Wine detail */
-.wine-detail-pairing{background:#fdf8f0;border-radius:10px;padding:12px;margin-top:12px}
-.wine-detail-pairing-title{font-size:12px;font-weight:700;color:#7b1f2e;margin-bottom:6px}
-.wine-detail-note{font-size:13px;color:#555;line-height:1.7}
 
 /* ── COVER ───────────────────────────────── */
-#cover{position:fixed;inset:0;background:#f5f4ef;z-index:998;display:none;opacity:0;transition:opacity .5s ease;color:#1a1a1a}
-#cover.show{display:flex;opacity:1}
-.cover-inner{display:flex;width:100%;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:2rem 1.5rem}
-.cover-title{font-family:'Caveat',cursive;font-size:clamp(38px,8vw,64px);font-weight:700;color:#8d5f2e;text-align:center;margin-bottom:3rem;letter-spacing:.5px}
-.cover-choices{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:640px;gap:14px;height:clamp(300px,52vh,440px);border-radius:0;overflow:visible;box-shadow:none}
-.cover-choice{border-radius:20px;box-shadow:0 12px 36px rgba(0,0,0,.12)}
-.cover-choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;cursor:pointer;transition:all .25s;position:relative;padding:2.5rem 1.5rem}
-.cover-choice.manger{background:#fff7e8;border:1px solid #ead7bc}
-.cover-choice.boire{background:#eef5ff;border:1px solid #cbdcf2}
-.cover-choice:hover{filter:brightness(1.18);transform:scale(1.01)}
-.cover-choice:active{transform:scale(.97)}
-.cover-choice-ico{font-size:clamp(70px,13vw,105px);line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.15))}
-.cover-choice-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(34px,7.6vw,52px);font-weight:600;color:#222;text-align:center;line-height:1.3}
-.cover-divider{position:absolute;top:0;bottom:0;left:50%;width:1px;background:#3a3328;pointer-events:none}
-@media(max-width:420px){.cover-choices{grid-template-columns:1fr;height:auto;gap:12px}.cover-choice{padding:2.5rem 1.5rem}}
+@media(max-width:420px){}
 .print-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;border:1.5px solid #1a1a1a;background:#fff;font-size:13px;font-weight:700;cursor:pointer;color:#1a1a1a;transition:all .18s;margin-bottom:12px;width:100%}
 .print-btn:hover{background:#1a1a1a;color:#fff}
 @media print{
-  #splash,#menu-wrap,#popup-overlay,#import-overlay,.tabs,.drive-section,.intoler-toggle,.sl-actions,.print-btn,.add-btn,.back-btn,.adultage-gate{display:none!important}
-  body,html{background:#fff!important;color:#000!important}
+  #splash,#menu-wrap,#popup-overlay,#import-overlay,.tabs,.drive-section,.intoler-toggle,.sl-actions,.print-btn,.add-btn,.back-btn,  body,html{background:#fff!important;color:#000!important}
   #app-wrap,#wrap{background:#fff!important;padding:0!important;max-width:100%!important}
   .sl-recipe-row{box-shadow:none;border:1px solid #eee;page-break-inside:avoid}
   .sl-item{page-break-inside:avoid}
@@ -413,8 +370,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* Ajustements lisibilité V5 : fond clair + menus x2, sans modifier les cartes recettes */
 #menu-wrap,
-#boire-wrap,
-#cover{background:#f5f4ef!important;color:#1a1a1a!important;}
 .menu-section-title{font-size:22px!important;color:#555!important;}
 .menu-opt-title{font-size:30px!important;color:#222!important;}
 .menu-opt-desc{font-size:24px!important;color:#666!important;}
@@ -422,9 +377,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .menu-course-title{font-size:32px!important;color:#222!important;}
 .menu-course-emoji{font-size:46px!important;}
 .menu-all-link{font-size:24px!important;color:#6c6256!important;}
-#boire-wrap .menu-options .menu-course-btn span[style*="font-size:36px"]{font-size:56px!important;}
-.cover-title{color:#8d5f2e!important;}
-.cover-choice-title{color:#222!important;}
 @media(max-width:640px){
   .menu-logo{font-size:clamp(38px,9vw,60px)!important;}
   .menu-opt{padding:20px 24px!important;}
@@ -439,8 +391,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* Correctif navigation accueil */
 #splash{touch-action:manipulation;user-select:none;-webkit-user-select:none;}
-#cover{pointer-events:auto;}
-.cover-choice{pointer-events:auto;}
 
 
 
@@ -466,20 +416,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 #global-back-btn:active{transform:translateX(-50%) scale(.97)}
 @media(max-width:640px){
   #global-back-btn{font-size:17px;padding:13px 22px;bottom:max(12px,env(safe-area-inset-bottom))}
-  #menu-wrap,#boire-wrap,#app-wrap,#boire-app-wrap{padding-bottom:86px!important}
-}
+  #menu-wrap,}
 @media print{#global-back-btn{display:none!important}}
 
 
 /* ── SVG Icon System ── */
-.cover-svg-ico{
-  width:clamp(52px,9vw,78px);height:clamp(52px,9vw,78px);
-  color:rgba(240,234,216,.9);display:block;
-  filter:drop-shadow(0 3px 12px rgba(0,0,0,.3));
-}
 .menu-svg-ico{width:clamp(22px,4vw,30px);height:clamp(22px,4vw,30px);color:#c9955a;display:block;flex-shrink:0;margin:0;}
 .menu-opt-emoji{display:none!important}
-.boire-svg-ico{width:28px;height:28px;color:#c9955a;flex-shrink:0;}
 
 </style>
 </head>
@@ -491,34 +434,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
   <div class="sp-line"></div>
   <div class="sp-sub">mes recettes préférées</div>
   <div class="sp-hint" style="margin-top:48px">Appuie n'importe où pour commencer</div>
-</div>
-
-<!-- COVER (2e page) -->
-<div id="cover">
-  <div class="cover-inner">
-    <div class="cover-title">Que fait-on ce soir ?</div>
-    <div class="cover-choices">
-      <div class="cover-choice manger" onclick="openManger()">
-        <svg class="cover-svg-ico" viewBox="0 0 44 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <line x1="13" y1="5" x2="13" y2="59"/>
-  <line x1="8"  y1="5" x2="8"  y2="18"/>
-  <line x1="18" y1="5" x2="18" y2="18"/>
-  <path d="M8 18 Q8 26 13 26 Q18 26 18 18"/>
-  <path d="M29 5 L36 5 L36 22 Q36 28 29 28"/>
-  <line x1="29" y1="28" x2="29" y2="59"/>
-</svg>
-        <span class="cover-choice-title">Qu'est-ce<br>qu'on mange ?</span>
-      </div>
-      <div class="cover-choice boire" onclick="openBoire()">
-        <svg class="cover-svg-ico" viewBox="0 0 40 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 5 L35 5 C35 5 37 22 30 30 C26 35 20 36 20 36 C20 36 14 35 10 30 C3 22 5 5 5 5 Z"/>
-  <line x1="20" y1="36" x2="20" y2="56"/>
-  <line x1="9"  y1="56" x2="31" y2="56"/>
-</svg>
-        <span class="cover-choice-title">Qu'est-ce<br>qu'on boit ?</span>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- MENU MANGER -->
@@ -534,7 +449,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
   <div class="menu-section visible" id="ms1">
     <div class="menu-section-title">— Combien de temps as-tu ? —</div>
     <div class="menu-options">
-      <button class="menu-opt" onclick="selectMood('tout')">
+      <button class="menu-opt" onclick="selectMood('long')">
         <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
   <circle cx="12" cy="12" r="9"/>
   <polyline points="12,7 12,12 15.5,14.5"/>
@@ -568,6 +483,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 </svg>
         <span class="menu-opt-emoji">🥂</span>
         <span class="menu-opt-title">On a des potes qui viennent dîner</span>
+      </button>
+      <button class="menu-opt" onclick="selectMood('sport')">
+        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="12" r="9"/>
+  <path d="M12 3 C12 3 7 7 7 12 C7 17 12 21 12 21"/>
+  <path d="M12 3 C12 3 17 7 17 12 C17 17 12 21 12 21"/>
+  <line x1="3" y1="12" x2="21" y2="12"/>
+</svg>
+        <span class="menu-opt-emoji">💪</span>
+        <span class="menu-opt-title">Sport</span>
       </button>
     </div>
   </div>
@@ -605,41 +530,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
   <div class="menu-footer">
     <button class="menu-all-link" onclick="goToApp()">Parcourir toutes les recettes →</button>
-    <button class="menu-all-link" onclick="backToCover()" style="margin-top:10px;display:block">← Retour à l'accueil</button>
+    <button class="menu-all-link" onclick="openManger()" style="margin-top:10px;display:block">← Retour à l'accueil</button>
   </div>
 </div>
 
-<!-- MENU BOIRE -->
-<div id="boire-wrap" style="display:none;min-height:100vh;background:#1c1a16;padding:2rem 1.25rem 3rem">
-  <div class="menu-header">
-    <div class="menu-logo">Qu'est-ce qu'on boit ?</div>
-    <div class="menu-tagline">Vins & cocktails</div>
-    <div class="menu-divider"></div>
-  </div>
-  <div style="max-width:540px;margin:0 auto">
-    <div class="menu-section-title" style="font-family:'Playfair Display',Georgia,serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7a6e5c;margin-bottom:14px;text-align:center">— Que cherches-tu ? —</div>
-    <div class="menu-options" style="display:grid;gap:12px">
-      <button class="menu-course-btn" style="text-align:left;display:flex;align-items:center;gap:16px;padding:18px 20px" onclick="openBoireSection('wine')">
-        <svg class="boire-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <path d="M9 3 L9 5 C9 5 6 7 6 11 L6 19 C6 20.6 7.4 22 9 22 L15 22 C16.6 22 18 20.6 18 19 L18 11 C18 7 15 5 15 5 L15 3 Z"/>
-  <line x1="9" y1="3" x2="15" y2="3"/>
-  <line x1="6" y1="14" x2="18" y2="14"/>
-</svg>
-        <span class="menu-opt-title">La cave</span>
-      </button>
-      <button class="menu-course-btn" style="text-align:left;display:flex;align-items:center;gap:16px;padding:18px 20px" onclick="openBoireSection('cocktail')">
-        <svg class="boire-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <polyline points="3,3 21,3 12,15"/>
-  <line x1="12" y1="15" x2="12" y2="21"/>
-  <line x1="8" y1="21" x2="16" y2="21"/>
-  <line x1="17" y1="3" x2="22" y2="8"/>
-</svg>
-        <span class="menu-opt-title">Le bar à cocktails</span>
-      </button>
-    </div>
-    <div style="text-align:center;margin-top:2rem">
-      <button class="menu-all-link" onclick="backToCover()">← Retour à l'accueil</button>
-    </div>
   </div>
 </div>
 
@@ -653,27 +547,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
   <div id="wrap"><div id="app"></div></div>
 </div>
 
-<!-- BOIRE APP (separate wrapper) -->
-<div id="boire-app-wrap" style="display:none;background-color:#f5f4f0;color:#1a1a1a;min-height:100vh">
-  <div style="max-width:900px;margin:0 auto;padding:1.25rem">
-    <div id="boire-app"></div>
   </div>
 </div>
-
-<!-- File inputs cachés pour import JSON indépendant -->
-<input type="file" id="wine-file-input" accept=".json" style="display:none">
-<input type="file" id="cocktail-file-input" accept=".json" style="display:none">
-
-<!-- +18 AGE GATE -->
-<div id="adult-gate" class="adultage-gate" style="display:none">
-  <div class="adultage-title">🍷 Espace +18</div>
-  <div class="adultage-sub">Cette section contient des informations sur les vins et cocktails alcoolisés. Confirmes-tu avoir 18 ans ou plus ?</div>
-  <div class="adultage-btns">
-    <button class="adultage-yes" onclick="confirmAdult()">Oui, j'ai 18 ans ou plus</button>
-    <button class="adultage-no" onclick="denyAdult()">Non</button>
-  </div>
-</div>
-
 
 <!-- BOUTON RETOUR GLOBAL -->
 <button id="global-back-btn" type="button" onclick="appGoBack()">← Retour</button>
@@ -5522,527 +5397,9 @@ var INTOLER_MODE=false;
 var selectedDrive=null;
 
 // ─── +18 ──────────────────────────────────────────────────────────────────────
-var ADULT_OK=false;
-var ADULT_VIEW="wine"; // wine | cocktail
 
-var WINES=[
-  {id:"w1",name:"Sancerre Blanc",region:"Loire",type:"blanc",grape:"Sauvignon Blanc",year:"2022",temp:"8–10°C",pairing:["poisson","végétarien"],note:"Sec, vif, notes d'agrumes et de silex. Parfait avec les fruits de mer et le chèvre frais."},
-  {id:"w2",name:"Saint-Émilion Grand Cru",region:"Bordeaux",type:"rouge",grape:"Merlot, Cab. Franc",year:"2019",temp:"16–18°C",pairing:["bœuf","agneau"],note:"Charnu, tannins soyeux, notes de fruits noirs et de truffe. Idéal avec les viandes rouges."},
-  {id:"w3",name:"Pouilly-Fuissé",region:"Bourgogne",type:"blanc",grape:"Chardonnay",year:"2021",temp:"10–12°C",pairing:["poisson","poulet"],note:"Gras et minéral, notes beurrées et florales. Accord parfait avec les poissons en sauce."},
-  {id:"w4",name:"Côtes du Rhône Rouge",region:"Rhône",type:"rouge",grape:"Grenache, Syrah",year:"2021",temp:"15–17°C",pairing:["bœuf","porc","agneau"],note:"Généreux, épicé, notes de garrigue. S'accorde bien avec les viandes grillées et les tajines."},
-  {id:"w5",name:"Rosé de Provence",region:"Provence",type:"rosé",grape:"Grenache, Cinsault",year:"2023",temp:"8–10°C",pairing:["poisson","poulet","végétarien"],note:"Frais, délicat, notes de fruits rouges. Parfait pour les salades et les plats estivaux."},
-];
 
-var importedWines=(function(){try{var s=localStorage.getItem("vins_importes");return s?JSON.parse(s):[];}catch(e){return [];}})();
-function saveWines(){try{localStorage.setItem("vins_importes",JSON.stringify(importedWines));}catch(e){}}
-function allWines(){return WINES.concat(importedWines);}
 
-var COCKTAILS=[
-  {
-    "id": "americano",
-    "name": "Americano",
-    "sub": "Apéritif · old fashioned ou highball",
-    "description": "Apéritif à base de Campari",
-    "alcoholic": true,
-    "alcool": "Campari",
-    "type": "apéritif",
-    "verre": "old fashioned ou highball",
-    "ingr": [
-      "4 cl — Campari",
-      "4 cl — Vermouth rouge",
-      "complément — Eau gazeuse",
-      "à volonté — Glaçons",
-      "1 tranche — Orange"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser le Campari et le vermouth rouge.",
-      "Compléter avec l’eau gazeuse.",
-      "Mélanger doucement.",
-      "Ajouter une tranche d’orange."
-    ],
-    "decoration": "Tranche d’orange"
-  },
-  {
-    "id": "aperol_spritz",
-    "name": "Aperol Spritz",
-    "sub": "Apéritif · verre à vin",
-    "description": "Apéritif à base de Aperol",
-    "alcoholic": true,
-    "alcool": "Aperol",
-    "type": "apéritif",
-    "verre": "verre à vin",
-    "ingr": [
-      "6 cl — Aperol",
-      "9 cl — Prosecco",
-      "3 cl — Eau gazeuse",
-      "à volonté — Glaçons",
-      "1 tranche — Orange"
-    ],
-    "steps": [
-      "Remplir un grand verre de glaçons.",
-      "Verser le Prosecco.",
-      "Ajouter l’Aperol.",
-      "Compléter avec l’eau gazeuse.",
-      "Mélanger doucement.",
-      "Ajouter une tranche d’orange."
-    ],
-    "decoration": "Tranche d’orange"
-  },
-  {
-    "id": "bloody_mary",
-    "name": "Bloody Mary",
-    "sub": "Cocktail épicé · highball",
-    "description": "Cocktail épicé à base de vodka",
-    "alcoholic": true,
-    "alcool": "vodka",
-    "type": "cocktail épicé",
-    "verre": "highball",
-    "ingr": [
-      "5 cl — Vodka",
-      "12 cl — Jus de tomate",
-      "1 cl — Jus de citron",
-      "quelques gouttes — Sauce Worcestershire",
-      "quelques gouttes — Tabasco",
-      "1 pincée — Sel de céleri",
-      "1 pincée — Poivre",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser la vodka et le jus de tomate.",
-      "Ajouter le jus de citron, la sauce Worcestershire et le Tabasco.",
-      "Assaisonner avec le sel de céleri et le poivre.",
-      "Mélanger doucement."
-    ],
-    "decoration": "Branche de céleri"
-  },
-  {
-    "id": "blue_lagoon",
-    "name": "Blue Lagoon",
-    "sub": "Cocktail fruité · highball",
-    "description": "Cocktail fruité à base de vodka",
-    "alcoholic": true,
-    "alcool": "vodka",
-    "type": "cocktail fruité",
-    "verre": "highball",
-    "ingr": [
-      "4 cl — Vodka",
-      "2 cl — Curaçao bleu",
-      "12 cl — Limonade",
-      "1 cl — Jus de citron",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser la vodka et le curaçao bleu.",
-      "Ajouter le jus de citron.",
-      "Compléter avec la limonade.",
-      "Mélanger doucement."
-    ],
-    "decoration": "Tranche de citron"
-  },
-  {
-    "id": "caipirinha",
-    "name": "Caïpirinha",
-    "sub": "Cocktail classique · old fashioned",
-    "description": "Cocktail classique à base de cachaça",
-    "alcoholic": true,
-    "alcool": "cachaça",
-    "type": "cocktail classique",
-    "verre": "old fashioned",
-    "ingr": [
-      "5 cl — Cachaça",
-      "1 — Citron vert",
-      "2 cuillères à café — Sucre de canne",
-      "à volonté — Glace pilée"
-    ],
-    "steps": [
-      "Couper le citron vert en quartiers.",
-      "Déposer les quartiers dans le verre avec le sucre.",
-      "Écraser pour libérer le jus.",
-      "Ajouter la glace pilée.",
-      "Verser la cachaça.",
-      "Mélanger."
-    ],
-    "decoration": "Quartier de citron vert"
-  },
-  {
-    "id": "cosmopolitan",
-    "name": "Cosmopolitan",
-    "sub": "Cocktail classique · verre à cocktail",
-    "description": "Cocktail classique à base de vodka",
-    "alcoholic": true,
-    "alcool": "vodka",
-    "type": "cocktail classique",
-    "verre": "verre à cocktail",
-    "ingr": [
-      "4 cl — Vodka",
-      "2 cl — Triple sec",
-      "3 cl — Jus de cranberry",
-      "1 cl — Jus de citron vert",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Verser tous les ingrédients dans un shaker avec des glaçons.",
-      "Secouer énergiquement.",
-      "Filtrer dans un verre à cocktail bien frais."
-    ],
-    "decoration": "Zeste d’orange ou citron vert"
-  },
-  {
-    "id": "cuba_libre",
-    "name": "Cuba Libre",
-    "sub": "Long drink · highball",
-    "description": "Long drink à base de rhum brun",
-    "alcoholic": true,
-    "alcool": "rhum brun",
-    "type": "long drink",
-    "verre": "highball",
-    "ingr": [
-      "5 cl — Rhum brun",
-      "12 cl — Coca-Cola",
-      "1/2 — Citron vert",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Presser le citron vert dans le verre.",
-      "Ajouter le rhum.",
-      "Compléter avec le Coca-Cola.",
-      "Mélanger doucement."
-    ],
-    "decoration": "Quartier de citron vert"
-  },
-  {
-    "id": "daiquiri",
-    "name": "Daiquiri",
-    "sub": "Cocktail classique · verre à cocktail",
-    "description": "Cocktail classique à base de rhum blanc",
-    "alcoholic": true,
-    "alcool": "rhum blanc",
-    "type": "cocktail classique",
-    "verre": "verre à cocktail",
-    "ingr": [
-      "5 cl — Rhum blanc",
-      "2 cl — Jus de citron vert",
-      "2 cl — Sirop de sucre de canne",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Verser le rhum, le jus de citron vert et le sirop de sucre dans un shaker.",
-      "Ajouter les glaçons.",
-      "Secouer énergiquement.",
-      "Filtrer dans un verre à cocktail bien frais."
-    ],
-    "decoration": "Zeste ou quartier de citron vert"
-  },
-  {
-    "id": "gin_tonic",
-    "name": "Gin Tonic",
-    "sub": "Long drink · ballon ou highball",
-    "description": "Long drink à base de gin",
-    "alcoholic": true,
-    "alcool": "gin",
-    "type": "long drink",
-    "verre": "ballon ou highball",
-    "ingr": [
-      "5 cl — Gin",
-      "12 cl — Tonic",
-      "à volonté — Glaçons",
-      "1 tranche — Citron jaune ou citron vert"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser le gin.",
-      "Compléter avec le tonic bien frais.",
-      "Mélanger délicatement pour garder les bulles.",
-      "Ajouter une tranche de citron."
-    ],
-    "decoration": "Tranche de citron"
-  },
-  {
-    "id": "mai_tai",
-    "name": "Mai Tai",
-    "sub": "Cocktail tropical · old fashioned",
-    "description": "Cocktail tropical à base de rhum",
-    "alcoholic": true,
-    "alcool": "rhum",
-    "type": "cocktail tropical",
-    "verre": "old fashioned",
-    "ingr": [
-      "3 cl — Rhum blanc",
-      "3 cl — Rhum ambré",
-      "2 cl — Triple sec",
-      "2 cl — Sirop d’orgeat",
-      "2 cl — Jus de citron vert",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Verser tous les ingrédients dans un shaker avec des glaçons.",
-      "Secouer énergiquement.",
-      "Verser dans un verre rempli de glace pilée.",
-      "Mélanger légèrement."
-    ],
-    "decoration": "Menthe fraîche et quartier de citron vert"
-  },
-  {
-    "id": "margarita",
-    "name": "Margarita",
-    "sub": "Cocktail classique · verre à margarita",
-    "description": "Cocktail classique à base de tequila",
-    "alcoholic": true,
-    "alcool": "tequila",
-    "type": "cocktail classique",
-    "verre": "verre à margarita",
-    "ingr": [
-      "5 cl — Tequila",
-      "3 cl — Triple sec",
-      "2 cl — Jus de citron vert",
-      "pour le bord du verre — Sel",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Frotter le bord du verre avec un citron vert.",
-      "Tremper le bord dans du sel.",
-      "Verser la tequila, le triple sec et le jus de citron vert dans un shaker avec des glaçons.",
-      "Secouer énergiquement.",
-      "Filtrer dans le verre."
-    ],
-    "decoration": "Bord givré au sel et quartier de citron vert"
-  },
-  {
-    "id": "martini_dry",
-    "name": "Martini Dry",
-    "sub": "Cocktail classique · verre à martini",
-    "description": "Cocktail classique à base de gin",
-    "alcoholic": true,
-    "alcool": "gin",
-    "type": "cocktail classique",
-    "verre": "verre à martini",
-    "ingr": [
-      "6 cl — Gin",
-      "1 cl — Vermouth dry",
-      "à volonté — Glaçons",
-      "1 — Olive verte"
-    ],
-    "steps": [
-      "Remplir un verre à mélange de glaçons.",
-      "Verser le gin et le vermouth dry.",
-      "Mélanger à la cuillère.",
-      "Filtrer dans un verre à martini bien frais.",
-      "Ajouter une olive."
-    ],
-    "decoration": "Olive verte"
-  },
-  {
-    "id": "mojito",
-    "name": "Mojito",
-    "sub": "Cocktail frais · highball",
-    "description": "Cocktail frais à base de rhum blanc",
-    "alcoholic": true,
-    "alcool": "rhum blanc",
-    "type": "cocktail frais",
-    "verre": "highball",
-    "ingr": [
-      "5 cl — Rhum blanc",
-      "1/2 — Citron vert",
-      "2 cuillères à café — Sucre de canne",
-      "8 feuilles — Menthe fraîche",
-      "complément — Eau gazeuse",
-      "à volonté — Glace pilée"
-    ],
-    "steps": [
-      "Couper le citron vert en quartiers.",
-      "Déposer le citron, le sucre et la menthe dans le verre.",
-      "Écraser doucement pour libérer les arômes sans broyer la menthe.",
-      "Ajouter la glace pilée.",
-      "Verser le rhum.",
-      "Compléter avec l’eau gazeuse.",
-      "Mélanger délicatement."
-    ],
-    "decoration": "Branche de menthe et quartier de citron vert"
-  },
-  {
-    "id": "moscow_mule",
-    "name": "Moscow Mule",
-    "sub": "Long drink · mug en cuivre ou highball",
-    "description": "Long drink à base de vodka",
-    "alcoholic": true,
-    "alcool": "vodka",
-    "type": "long drink",
-    "verre": "mug en cuivre ou highball",
-    "ingr": [
-      "5 cl — Vodka",
-      "12 cl — Ginger beer",
-      "2 cl — Jus de citron vert",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser la vodka.",
-      "Ajouter le jus de citron vert.",
-      "Compléter avec la ginger beer.",
-      "Mélanger légèrement."
-    ],
-    "decoration": "Quartier de citron vert"
-  },
-  {
-    "id": "negroni",
-    "name": "Negroni",
-    "sub": "Apéritif · old fashioned",
-    "description": "Apéritif à base de gin",
-    "alcoholic": true,
-    "alcool": "gin",
-    "type": "apéritif",
-    "verre": "old fashioned",
-    "ingr": [
-      "3 cl — Gin",
-      "3 cl — Campari",
-      "3 cl — Vermouth rouge",
-      "à volonté — Glaçons",
-      "1 zeste ou 1 tranche — Orange"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser le gin, le Campari et le vermouth rouge.",
-      "Mélanger doucement.",
-      "Ajouter un zeste ou une tranche d’orange."
-    ],
-    "decoration": "Zeste d’orange"
-  },
-  {
-    "id": "old_fashioned",
-    "name": "Old Fashioned",
-    "sub": "Cocktail classique · old fashioned",
-    "description": "Cocktail classique à base de whisky",
-    "alcoholic": true,
-    "alcool": "whisky",
-    "type": "cocktail classique",
-    "verre": "old fashioned",
-    "ingr": [
-      "6 cl — Whisky bourbon ou rye",
-      "1 morceau — Sucre",
-      "2 traits — Angostura bitters",
-      "quelques gouttes — Eau",
-      "à volonté — Glaçons",
-      "1 zeste — Orange"
-    ],
-    "steps": [
-      "Déposer le sucre dans le verre.",
-      "Ajouter les bitters et quelques gouttes d’eau.",
-      "Écraser le sucre.",
-      "Ajouter des glaçons.",
-      "Verser le whisky.",
-      "Mélanger doucement.",
-      "Ajouter un zeste d’orange."
-    ],
-    "decoration": "Zeste d’orange"
-  },
-  {
-    "id": "pina_colada",
-    "name": "Piña Colada",
-    "sub": "Cocktail tropical · verre tulipe ou hurricane",
-    "description": "Cocktail tropical à base de rhum blanc",
-    "alcoholic": true,
-    "alcool": "rhum blanc",
-    "type": "cocktail tropical",
-    "verre": "verre tulipe ou hurricane",
-    "ingr": [
-      "5 cl — Rhum blanc",
-      "10 cl — Jus d’ananas",
-      "4 cl — Crème de coco",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Mettre le rhum, le jus d’ananas, la crème de coco et les glaçons dans un blender.",
-      "Mixer jusqu’à obtenir une texture onctueuse.",
-      "Verser dans un verre bien frais.",
-      "Servir immédiatement."
-    ],
-    "decoration": "Tranche d’ananas"
-  },
-  {
-    "id": "sex_on_the_beach",
-    "name": "Sex on the Beach",
-    "sub": "Cocktail fruité · highball",
-    "description": "Cocktail fruité à base de vodka",
-    "alcoholic": true,
-    "alcool": "vodka",
-    "type": "cocktail fruité",
-    "verre": "highball",
-    "ingr": [
-      "4 cl — Vodka",
-      "2 cl — Liqueur de pêche",
-      "6 cl — Jus d’orange",
-      "6 cl — Jus de cranberry",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser la vodka et la liqueur de pêche.",
-      "Ajouter le jus d’orange.",
-      "Compléter avec le jus de cranberry.",
-      "Mélanger doucement."
-    ],
-    "decoration": "Tranche d’orange ou cerise"
-  },
-  {
-    "id": "tequila_sunrise",
-    "name": "Tequila Sunrise",
-    "sub": "Long drink · highball",
-    "description": "Long drink à base de tequila",
-    "alcoholic": true,
-    "alcool": "tequila",
-    "type": "long drink",
-    "verre": "highball",
-    "ingr": [
-      "5 cl — Tequila",
-      "12 cl — Jus d’orange",
-      "2 cl — Sirop de grenadine",
-      "à volonté — Glaçons"
-    ],
-    "steps": [
-      "Remplir le verre de glaçons.",
-      "Verser la tequila.",
-      "Ajouter le jus d’orange.",
-      "Verser doucement la grenadine pour créer un dégradé.",
-      "Ne pas trop mélanger afin de conserver l’effet sunrise."
-    ],
-    "decoration": "Tranche d’orange"
-  },
-  {
-    "id": "whisky_coca",
-    "name": "Whisky Coca",
-    "sub": "Long drink · highball",
-    "description": "Long drink à base de whisky",
-    "alcoholic": true,
-    "alcool": "whisky",
-    "type": "long drink",
-    "verre": "highball",
-    "ingr": [
-      "5 cl — Whisky",
-      "12 cl — Coca-Cola",
-      "à volonté — Glaçons",
-      "1 quartier — Citron vert"
-    ],
-    "steps": [
-      "Remplir un verre de glaçons.",
-      "Verser le whisky.",
-      "Compléter avec le Coca-Cola.",
-      "Mélanger doucement.",
-      "Ajouter un quartier de citron vert si souhaité."
-    ],
-    "decoration": "Quartier de citron vert"
-  }
-];
-var importedCocktails=(function(){try{var s=localStorage.getItem("cocktails_importes");return s?JSON.parse(s):[];}catch(e){return [];}})();
-function saveCocktails(){try{localStorage.setItem("cocktails_importes",JSON.stringify(importedCocktails));}catch(e){}}
-function allCocktails(){return COCKTAILS.concat(importedCocktails);}
-
-var wineFilter=null; // rouge | blanc | rosé | null
-var cocktailSearch="";
-var selectedCocktail=null;
 
 
 function plain(s){
@@ -6181,28 +5538,6 @@ function doImport(){
   try{
     var arr=JSON.parse(raw);
     if(!Array.isArray(arr))arr=[arr];
-
-    // ── Mode cocktail ──
-    if(mode==="cocktail"){
-      var count=0;
-      arr.forEach(function(c){if(!c.name)return;importedCocktails.push(c);count++;});
-      saveCocktails();
-      fb.className="import-feedback ok";
-      fb.textContent="✓ "+count+" cocktail"+(count>1?"s":"")+" importé"+(count>1?"s":"")+" !";
-      setTimeout(function(){closeImport();document.getElementById("import-overlay").dataset.mode="recipe";renderAdult();},1200);
-      return;
-    }
-
-    // ── Mode vin ──
-    if(mode==="wine"){
-      var count=0;
-      arr.forEach(function(w){if(!w.name)return;importedWines.push(w);count++;});
-      saveWines();
-      fb.className="import-feedback ok";
-      fb.textContent="✓ "+count+" vin"+(count>1?"s":"")+" importé"+(count>1?"s":"")+" !";
-      setTimeout(function(){closeImport();document.getElementById("import-overlay").dataset.mode="recipe";renderAdult();},1200);
-      return;
-    }
     var arr=JSON.parse(raw);
     if(!Array.isArray(arr))arr=[arr];
     // ── Mode recette ──
@@ -6318,13 +5653,11 @@ function startFromSplash(){
   if(splashAlreadyOpened)return;
   splashAlreadyOpened=true;
   var sp=document.getElementById("splash");
-  var cov=document.getElementById("cover");
-  if(!sp||!cov)return;
+  if(!sp)return;
   sp.classList.add("fade");
   setTimeout(function(){
     sp.style.display="none";
-    cov.style.display="flex";
-    cov.classList.add("show");
+    openManger();
   },300);
 }
 (function(){
@@ -6338,38 +5671,21 @@ function startFromSplash(){
   });
 })();
 
-function backToCover(){
+function openManger(){
   document.getElementById("menu-wrap").style.display="none";
-  document.getElementById("boire-wrap").style.display="none";
-  document.getElementById("app-wrap").style.display="none";
-  document.getElementById("boire-app-wrap").style.display="none";
-  document.body.style.backgroundColor="#f5f4ef";
-  var cov=document.getElementById("cover");
+    document.getElementById("app-wrap").style.display="none";
+    document.body.style.backgroundColor="#f5f4ef";
+  var cov=document.getElementById();
   cov.style.display="flex";
   cov.classList.add("show");
 }
 
 function openManger(){
-  document.getElementById("cover").style.display="none";
-  document.getElementById("menu-wrap").style.display="flex";
+    document.getElementById("menu-wrap").style.display="flex";
   document.body.style.backgroundColor="#f5f4ef";
 }
 
-function openBoire(){
-  document.getElementById("cover").style.display="none";
-  document.getElementById("boire-wrap").style.display="block";
-  document.body.style.backgroundColor="#f5f4ef";
-}
 
-function openBoireSection(section){
-  document.getElementById("boire-wrap").style.display="none";
-  document.getElementById("cover").style.display="none";
-  document.getElementById("boire-app-wrap").style.display="block";
-  document.body.style.backgroundColor="#f5f4f0";
-  ADULT_VIEW=section;
-  ADULT_OK=true;
-  renderAdult();
-}
 
 // ─── MENU PAGE ────────────────────────────────────────────────────────────────
 function selectMood(m){
@@ -6382,6 +5698,25 @@ function selectMood(m){
   ms1.classList.add("exit");
   setTimeout(function(){
     ms2.classList.add("visible");
+    // Restaurer préférence intolérance
+    var savedDiet=localStorage.getItem("pref_diet");
+    if(savedDiet){
+      var btns=document.querySelectorAll("#ms2 .menu-opt");
+      btns.forEach(function(b){
+        if(b.getAttribute("onclick")&&b.getAttribute("onclick").indexOf("'"+savedDiet+"'")>=0){
+          b.classList.add("selected");
+          b.style.borderColor="#8d5f2e";
+          var hint=b.querySelector(".diet-saved-hint");
+          if(!hint){
+            var h=document.createElement("span");
+            h.className="diet-saved-hint";
+            h.textContent="✓ sauvegardé";
+            h.style.cssText="font-size:10px;color:#8d5f2e;display:block;margin-top:2px";
+            b.appendChild(h);
+          }
+        }
+      });
+    }
   },60);
 }
 
@@ -6389,7 +5724,13 @@ function selectDiet(d){
   menuDiet=d;
   document.querySelectorAll("#ms2 .menu-opt").forEach(function(b){b.classList.remove("selected");});
   event.currentTarget.classList.add("selected");
-  // Plus de sélection Entrée / Plat principal : on affiche directement les résultats.
+  // Sauvegarder le choix intolérance
+  if(d==="intolerance"){
+    localStorage.setItem("pref_diet","intolerance");
+  } else if(d==="tout"){
+    localStorage.removeItem("pref_diet");
+  }
+  // Afficher directement les résultats
   setTimeout(function(){openPopup("all");},120);
 }
 
@@ -6398,7 +5739,7 @@ function filterByMenu(course){
     // course : "all" = toutes les recettes, sans demander Entrée / Plat principal
     if(course!=="all" && r.course!==course)return false;
     // mood
-    if(menuMood&&menuMood!=="tout"){
+    if(menuMood){
       if(r.mood.indexOf(menuMood)<0)return false;
     }
     // diet
@@ -6423,7 +5764,7 @@ function openPopup(course){
   var labels={entree:"Entrées",plat:"Plats principaux",all:"Recettes proposées"};
   box.appendChild(mkEl("div","popup-title",labels[course]||"Recettes"));
 
-  var moodLabel={tout:"Toutes",rapide:"En moins de 30 min",flemme:"Recettes simples",potes:"Pour recevoir"};
+  var moodLabel={long:"J'ai le temps",rapide:"En 2/2",flemme:"Flemme",potes:"On a des potes",sport:"Sport"};
   var dietLabel={tout:"Sans restriction",intolerance:"Sans gluten / laitage / noix",kids:"Adapté enfants"};
   var sub=(moodLabel[menuMood]||"Toutes")+" · "+(dietLabel[menuDiet]||"Sans restriction");
   box.appendChild(mkEl("div","popup-sub",results.length+" résultat"+(results.length>1?"s":"")+" · "+sub));
@@ -6479,9 +5820,7 @@ document.getElementById("popup-overlay").addEventListener("click",function(e){
 
 function goToApp(){
   document.getElementById("menu-wrap").style.display="none";
-  document.getElementById("boire-wrap").style.display="none";
-  document.getElementById("cover").style.display="none";
-  document.getElementById("app-wrap").style.display="block";
+      document.getElementById("app-wrap").style.display="block";
   document.body.style.backgroundColor="#f5f4f0";
   if(!selId)render();
 }
@@ -6490,7 +5829,7 @@ function goToApp(){
 function renderNav(app){
   var tabs=mkEl("div","tabs");
   var tm=mkEl("button","tab","🏠 Accueil");
-  tm.onclick=function(){backToCover();};
+  tm.onclick=function(){openManger();};
   tabs.appendChild(tm);
   var t1=mkEl("button","tab"+(VIEW==="list"||VIEW==="detail"?" on":""),"📚 Recettes");
   t1.onclick=function(){VIEW="list";selId=null;render();};
@@ -6871,229 +6210,7 @@ function render(){
   if(VIEW==="list")renderList();
   else if(VIEW==="detail")renderDetail();
   else if(VIEW==="cart")renderCart();
-  else if(VIEW==="adult")renderAdult();
 }
-
-// ─── BOIRE NAV ────────────────────────────────────────────────────────────────
-function renderCocktailDetail(app){
-  var c=selectedCocktail;
-  if(!c){selectedCocktail=null;renderAdult();return;}
-
-  // Bouton retour
-  var bb=mkEl("button","back-btn","← Retour aux cocktails");
-  bb.onclick=function(){selectedCocktail=null;renderAdult();};
-  app.appendChild(bb);
-
-  // En-tête
-  var dh=mkEl("div","dhead");dh.style.borderLeftColor="#1a5e72";
-  if(c.alcoholic!==false){
-    var cbadge=mkEl("span","cocktail-badge","🍹 Alcoolisé");cbadge.style.marginBottom="8px";dh.appendChild(cbadge);
-  } else {
-    var cbadge=mkEl("span","cocktail-badge","🥤 Sans alcool");cbadge.style.background="#e8f5e9";cbadge.style.color="#2e7d32";cbadge.style.marginBottom="8px";dh.appendChild(cbadge);
-  }
-  if(c.alcool){
-    var alcoolBadge=mkEl("span","cocktail-badge",c.alcool);
-    alcoolBadge.style.marginBottom="8px";alcoolBadge.style.background="#f0f0f0";alcoolBadge.style.color="#555";
-    dh.appendChild(alcoolBadge);
-  }
-  dh.appendChild(mkEl("div","dtitle",c.name));
-  if(c.sub||c.description)dh.appendChild(mkEl("div","dsub",c.sub||c.description||""));
-  app.appendChild(dh);
-
-  // Grille 2 colonnes
-  var dg=mkEl("div","dgrid");
-
-  // GAUCHE : ingrédients
-  var left=mkEl("div");
-  left.appendChild(mkEl("div","stitle","🧾 Ingrédients"));
-  var ul=mkEl("div");
-  (c.ingr||[]).forEach(function(i){
-    var row=mkEl("div","irow");
-    var txt=typeof i==="string"?i:(i.n||"");
-    var qty=typeof i==="object"&&i.q?(i.q+(i.u?" "+i.u:"")):"";
-    if(qty){
-      var qs=mkEl("div","iqty",qty);row.appendChild(qs);
-    } else {
-      // La quantité est dans le texte (ex: "5 cl de rhum")
-      row.style.paddingLeft="0";
-    }
-    var nm=mkEl("div","iname",txt);row.appendChild(nm);
-    ul.appendChild(row);
-  });
-  left.appendChild(ul);
-  dg.appendChild(left);
-
-  // DROITE : préparation
-  var right=mkEl("div");
-  right.appendChild(mkEl("div","stitle","👨‍🍳 Préparation"));
-  (c.steps||[]).forEach(function(s,i){
-    var row=mkEl("div","step");
-    row.appendChild(mkEl("div","snum",String(i+1)));
-    row.appendChild(mkEl("div","stxt",s));
-    right.appendChild(row);
-  });
-  dg.appendChild(right);
-  app.appendChild(dg);
-}
-
-// ─── BOIRE NAV ────────────────────────────────────────────────────────────────
-function renderBoireNav(container){
-  var tabs=mkEl("div","tabs");
-  var th=mkEl("button","tab","🏠 Accueil");
-  th.onclick=function(){backToCover();};tabs.appendChild(th);
-  var tw=mkEl("button","tab"+(ADULT_VIEW==="wine"?" on":""),"🍷 Vins");
-  tw.onclick=function(){ADULT_VIEW="wine";selectedCocktail=null;renderAdult();};tabs.appendChild(tw);
-  var tc=mkEl("button","tab"+(ADULT_VIEW==="cocktail"?" on":""),"🍹 Cocktails");
-  tc.onclick=function(){ADULT_VIEW="cocktail";selectedCocktail=null;renderAdult();};tabs.appendChild(tc);
-  container.appendChild(tabs);
-}
-
-// ─── BOIRE RENDER ─────────────────────────────────────────────────────────────
-var WINE_COLORS={rouge:{bg:"#f9e8ea",tc:"#7b1f2e",bar:"#7b1f2e"},blanc:{bg:"#fdf9e3",tc:"#6b5a00",bar:"#c9a800"},rosé:{bg:"#fce8f0",tc:"#8b3060",bar:"#c9507a"}};
-
-function renderAdult(){
-  var app=document.getElementById("boire-app");app.innerHTML="";
-  renderBoireNav(app);
-  if(ADULT_VIEW==="wine") renderWines(app);
-  else renderCocktails(app);
-}
-
-function renderWines(app){
-  // Filtres type
-  var frow=mkEl("div",null,null,{display:"flex",gap:"6px",flexWrap:"wrap",marginBottom:"12px"});
-  var allBtn=mkEl("button",null,"Tous",{padding:"4px 14px",borderRadius:"20px",border:"1.5px solid "+(wineFilter===null?"#1a1a1a":"#ddd"),background:wineFilter===null?"#1a1a1a":"#fff",color:wineFilter===null?"#fff":"#666",fontSize:"12px",fontWeight:"600",cursor:"pointer"});
-  allBtn.onclick=function(){wineFilter=null;renderAdult();};frow.appendChild(allBtn);
-  ["rouge","blanc","rosé"].forEach(function(t){
-    var cl=WINE_COLORS[t]||{bg:"#f5f5f5",tc:"#555"};
-    var b=mkEl("button",null,t.charAt(0).toUpperCase()+t.slice(1),{
-      padding:"4px 14px",borderRadius:"20px",
-      border:"1.5px solid "+(wineFilter===t?"#1a1a1a":"#ddd"),
-      background:wineFilter===t?cl.bg:"#fff",color:wineFilter===t?cl.tc:"#666",
-      fontSize:"12px",fontWeight:"600",cursor:"pointer"
-    });
-    b.onclick=function(){wineFilter=(wineFilter===t?null:t);renderAdult();};
-    frow.appendChild(b);
-  });
-  app.appendChild(frow);
-
-  var wines=allWines().filter(function(w){return !wineFilter||w.type===wineFilter;});
-  if(!wines.length){
-    var emp=mkEl("div","adult-empty","Aucun vin dans cette sélection.");
-    app.appendChild(emp);
-  } else {
-    var grid=mkEl("div","wine-grid");
-    wines.forEach(function(w){
-      var cl=WINE_COLORS[w.type]||{bg:"#f5f5f5",tc:"#555",bar:"#888"};
-      var card=mkEl("div","wine-card");card.style.borderLeftColor=cl.bar;
-      var badge=mkEl("span","wine-type",w.type.charAt(0).toUpperCase()+w.type.slice(1));
-      badge.style.background=cl.bg;badge.style.color=cl.tc;card.appendChild(badge);
-      card.appendChild(mkEl("div","wine-name",w.name));
-      card.appendChild(mkEl("div","wine-region",(w.region||"")+(w.grape?" · "+w.grape:"")));
-      if(w.year||w.temp){
-        var ft=mkEl("div","wine-footer");
-        if(w.year)ft.appendChild(mkEl("span",null,w.year));
-        if(w.temp)ft.appendChild(mkEl("span",null,"🌡 "+w.temp));
-        card.appendChild(ft);
-      }
-      if(w.note){var n=mkEl("p",null,w.note,{fontSize:"12px",color:"#777",marginTop:"8px",lineHeight:"1.5"});card.appendChild(n);}
-      if(w.pairing&&w.pairing.length){
-        var p=mkEl("div","wine-detail-pairing");
-        p.appendChild(mkEl("div","wine-detail-pairing-title","S'accorde avec"));
-        p.appendChild(mkEl("div",null,w.pairing.map(function(x){return x.charAt(0).toUpperCase()+x.slice(1);}).join(", "),{fontSize:"12px",color:"#555"}));
-        card.appendChild(p);
-      }
-      grid.appendChild(card);
-    });
-    app.appendChild(grid);
-  }
-
-  // Import JSON indépendant
-  var importRow=mkEl("div",null,null,{marginTop:"18px",display:"flex",gap:"10px",alignItems:"center",flexWrap:"wrap"});
-  var iBtn=mkEl("button","add-btn","📂 Charger un fichier JSON de vins",{margin:"0",width:"auto",padding:"8px 16px"});
-  var feedback=mkEl("span",null,"",{fontSize:"12px",color:"#2e7d32",fontWeight:"600"});
-  iBtn.onclick=function(){document.getElementById("wine-file-input").click();};
-  importRow.appendChild(iBtn);importRow.appendChild(feedback);
-  app.appendChild(importRow);
-  app.appendChild(mkEl("p",null,'Format attendu : [{"name":"…","region":"…","type":"rouge","grape":"…","year":"…","temp":"…","pairing":["bœuf"],"note":"…"}]',{fontSize:"11px",color:"#bbb",marginTop:"6px"}));
-
-  // Bind file input
-  var fi=document.getElementById("wine-file-input");
-  fi.onchange=function(e){
-    var file=e.target.files[0];if(!file)return;
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      try{
-        var arr=JSON.parse(ev.target.result);
-        if(!Array.isArray(arr))arr=[arr];
-        var count=0;
-        arr.forEach(function(w){if(w.name){importedWines.push(w);count++;}});
-        saveWines();
-        feedback.textContent="✓ "+count+" vin"+(count>1?"s":"")+" importé"+(count>1?"s":"")+" !";
-        fi.value="";
-        setTimeout(function(){renderAdult();},1000);
-      }catch(err){feedback.style.color="#c62828";feedback.textContent="JSON invalide : "+err.message;}
-    };
-    reader.readAsText(file);
-  };
-}
-
-function renderCocktails(app){
-  // Vue détail ?
-  if(selectedCocktail){renderCocktailDetail(app);return;}
-
-  var cocktails=allCocktails();
-  if(!cocktails.length){
-    var e=mkEl("div","adult-empty");
-    e.innerHTML="🍹<br><br>Aucun cocktail pour l'instant.<br><span style='font-size:12px'>Charge un fichier JSON de cocktails pour commencer.</span>";
-    app.appendChild(e);
-  } else {
-    var grid=mkEl("div","cocktail-grid");
-    cocktails.forEach(function(c){
-      var card=mkEl("div","cocktail-card");card.style.cursor="pointer";
-      if(c.alcoholic!==false){card.appendChild(mkEl("span","cocktail-badge","🍹 Alcoolisé"));}
-      else{var nb=mkEl("span","cocktail-badge","🥤 Sans alcool");nb.style.background="#e8f5e9";nb.style.color="#2e7d32";card.appendChild(nb);}
-      card.appendChild(mkEl("div","cocktail-name",c.name));
-      if(c.sub||c.description)card.appendChild(mkEl("div","cocktail-sub",c.sub||c.description));
-      if(c.ingr&&c.ingr.length){
-        var preview=(c.ingr||[]).slice(0,3).map(function(i){return typeof i==="string"?i:(i.n||"");}).join(", ")+(c.ingr.length>3?"…":"");
-        card.appendChild(mkEl("div",null,preview,{fontSize:"11px",color:"#aaa",marginTop:"4px"}));
-      }
-      (function(cocktail){card.onclick=function(){selectedCocktail=cocktail;renderAdult();};})(c);
-      grid.appendChild(card);
-    });
-    app.appendChild(grid);
-  }
-
-  // Import JSON indépendant
-  var importRow=mkEl("div",null,null,{marginTop:"18px",display:"flex",gap:"10px",alignItems:"center",flexWrap:"wrap"});
-  var iBtn=mkEl("button","add-btn","📂 Charger un fichier JSON de cocktails",{margin:"0",width:"auto",padding:"8px 16px"});
-  var feedback=mkEl("span",null,"",{fontSize:"12px",color:"#2e7d32",fontWeight:"600"});
-  iBtn.onclick=function(){document.getElementById("cocktail-file-input").click();};
-  importRow.appendChild(iBtn);importRow.appendChild(feedback);
-  app.appendChild(importRow);
-  app.appendChild(mkEl("p",null,'Format attendu : [{"name":"Mojito","sub":"Classique cubain","alcoholic":true,"ingr":["5 cl de rhum","…"],"steps":["…"]}]',{fontSize:"11px",color:"#bbb",marginTop:"6px"}));
-
-  // Bind file input
-  var fi=document.getElementById("cocktail-file-input");
-  fi.onchange=function(e){
-    var file=e.target.files[0];if(!file)return;
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      try{
-        var arr=JSON.parse(ev.target.result);
-        if(!Array.isArray(arr))arr=[arr];
-        var count=0;
-        arr.forEach(function(c){if(c.name){importedCocktails.push(c);count++;}});
-        saveCocktails();
-        feedback.textContent="✓ "+count+" cocktail"+(count>1?"s":"")+" importé"+(count>1?"s":"")+" !";
-        fi.value="";
-        setTimeout(function(){renderAdult();},1000);
-      }catch(err){feedback.style.color="#c62828";feedback.textContent="JSON invalide : "+err.message;}
-    };
-    reader.readAsText(file);
-  };
-}
-
 
 // ─── RETOUR GLOBAL BAS DE PAGE ──────────────────────────────────────────────
 // Ajoute un vrai retour d'écran en écran, sans toucher aux boutons recettes existants.
@@ -7102,7 +6219,7 @@ var APP_STACK=[];
 function setGlobalBackVisible(){
   var b=document.getElementById("global-back-btn");
   if(!b)return;
-  var hide=(APP_SCREEN==="splash"||APP_SCREEN==="cover");
+  var hide=(APP_SCREEN==="splash"||APP_SCREEN===);
   b.style.display=hide?"none":"block";
 }
 function rememberScreen(next){
@@ -7113,17 +6230,15 @@ function rememberScreen(next){
   setTimeout(setGlobalBackVisible,0);
 }
 function showOnlyScreen(screen){
-  var ids=["menu-wrap","boire-wrap","app-wrap","boire-app-wrap","cover"];
+  var ids=["menu-wrap","app-wrap"];
   ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
-  if(screen==="cover"){
-    var cov=document.getElementById("cover");
+  if(screen===){
+    var cov=document.getElementById();
     cov.style.display="flex";cov.classList.add("show");
     document.body.style.backgroundColor="#f5f4ef";
   }
   if(screen==="menu-manger"){document.getElementById("menu-wrap").style.display="flex";document.body.style.backgroundColor="#f5f4ef";}
-  if(screen==="menu-boire"){document.getElementById("boire-wrap").style.display="block";document.body.style.backgroundColor="#f5f4ef";}
   if(screen==="app"){document.getElementById("app-wrap").style.display="block";document.body.style.backgroundColor="#f5f4f0";render();}
-  if(screen==="boire-app"){document.getElementById("boire-app-wrap").style.display="block";document.body.style.backgroundColor="#f5f4f0";renderAdult();}
   APP_SCREEN=screen;
   setGlobalBackVisible();
 }
@@ -7134,28 +6249,23 @@ function appGoBack(){
     if(VIEW==="detail"){VIEW="list";selId=null;render();return;}
     if(VIEW==="cart"){VIEW="list";render();return;}
   }
-  if(APP_SCREEN==="boire-app"&&selectedCocktail){
-    selectedCocktail=null;renderAdult();return;
-  }
-  var previous=APP_STACK.pop()||"cover";
+  var previous=APP_STACK.pop()||;
   showOnlyScreen(previous);
 }
 (function(){
   var _start=startFromSplash;
   startFromSplash=function(){
     _start();
-    setTimeout(function(){APP_SCREEN="cover";APP_STACK=[];setGlobalBackVisible();},360);
+    setTimeout(function(){APP_SCREEN=;APP_STACK=[];setGlobalBackVisible();},360);
   };
   var _openManger=openManger;
   openManger=function(){rememberScreen("menu-manger");_openManger();};
   var _openBoire=openBoire;
-  openBoire=function(){rememberScreen("menu-boire");_openBoire();};
-  var _openBoireSection=openBoireSection;
-  openBoireSection=function(section){rememberScreen("boire-app");_openBoireSection(section);};
+  openBoire=function(){};
   var _goToApp=goToApp;
   goToApp=function(){rememberScreen("app");_goToApp();};
   var _backToCover=backToCover;
-  backToCover=function(){APP_SCREEN="cover";APP_STACK=[];_backToCover();setGlobalBackVisible();};
+  backToCover=function(){APP_SCREEN=;APP_STACK=[];_openManger();setGlobalBackVisible();};
   setGlobalBackVisible();
 })();
 
