@@ -5568,6 +5568,11 @@ function normalizeRecipe(r){
   detectVegetables(r).forEach(function(v){if(legs.indexOf(v)<0)legs.push(v);});
   r.legumes=legs;
   legs.forEach(function(v){if(r.tags.indexOf(v)<0)r.tags.push(v);});
+  // Garantir les champs utilisés par les filtres mood/diet (recettes importées anciennes)
+  if(!Array.isArray(r.mood))r.mood=r.mood?[r.mood]:[];
+  if(!Array.isArray(r.allergens))r.allergens=[];
+  if(typeof r.kids!=="boolean")r.kids=!!r.kids;
+  if(!r.course)r.course="plat";
   return r;
 }
 function recipeHasFilter(r,f){
@@ -5849,7 +5854,7 @@ function filterByMenu(course){
     if(course!=="all" && r.course!==course)return false;
     // mood
     if(menuMood){
-      if(r.mood.indexOf(menuMood)<0)return false;
+      if((r.mood||[]).indexOf(menuMood)<0)return false;
     }
     // diet
     if(menuDiet==="intolerance"){
