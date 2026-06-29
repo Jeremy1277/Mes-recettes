@@ -48,9 +48,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 #splash{position:fixed;inset:0;background:#faf8f3;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;cursor:pointer;transition:opacity .8s ease;min-height:100dvh;padding:2rem 1rem}
 #splash.fade{opacity:0;pointer-events:none}
 .sp-plate{position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;top:0;left:0}
-.sp-plate-outer{width:clamp(260px,70vw,340px);height:clamp(260px,70vw,340px);border-radius:50%;border:1.5px solid rgba(201,149,90,.2);animation:plateGrow 2s ease forwards}
-.sp-plate-inner{position:absolute;width:clamp(200px,54vw,265px);height:clamp(200px,54vw,265px);border-radius:50%;border:1.5px solid rgba(201,149,90,.28);animation:plateGrow 2.3s ease forwards}
-@keyframes plateGrow{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+.sp-emblem{width:clamp(300px,82vw,400px);height:auto;overflow:visible}
+.sp-ring{fill:none;stroke:url(#spGold);stroke-linecap:round}
+.sp-ring-outer{stroke-width:2;stroke-dasharray:1043;stroke-dashoffset:1043;animation:spDraw 1.7s .15s cubic-bezier(.3,.7,.3,1) forwards}
+.sp-ring-groove{stroke-width:1.1;opacity:.6;stroke-dasharray:974;stroke-dashoffset:974;animation:spDraw 1.7s .3s cubic-bezier(.3,.7,.3,1) forwards}
+.sp-ring-well{stroke-width:1.4;opacity:.8;stroke-dasharray:704;stroke-dashoffset:704;animation:spDraw 1.5s .55s cubic-bezier(.3,.7,.3,1) forwards}
+.sp-cutlery{fill:none;stroke:url(#spGold);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:0;animation:spFadeCut 1.5s .9s ease forwards}
+.sp-glow{opacity:0;animation:spFadeGlow 1.8s .1s ease forwards}
+@keyframes spDraw{to{stroke-dashoffset:0}}
+@keyframes spFadeCut{from{opacity:0}to{opacity:.72}}
+@keyframes spFadeGlow{from{opacity:0}to{opacity:1}}
 .sp-title{font-family:'Caveat',cursive;font-size:clamp(44px,12vw,90px);font-weight:700;color:#2c2c2c;line-height:1.15;text-align:center;padding:0 1rem;animation:fadeUp 1.8s ease forwards}
 .sp-line{width:0;height:2px;background:linear-gradient(90deg,#d4a96a,#c47a3a);border-radius:2px;margin:10px auto 0;animation:growLine 1.2s 1s ease forwards}
 .sp-sub{font-family:'Caveat',cursive;font-size:clamp(16px,4.5vw,26px);color:#aaa;margin-top:14px;animation:fadeIn 2.4s ease forwards}
@@ -536,6 +543,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
   .filter-choice-ico{font-size:22px}
 }
 
+/* ── ACCUEIL : RECETTE DU JOUR ── */
+#menu-wrap{justify-content:flex-start}
+.jour-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:0;padding:.4rem 0;width:100%}
+.jour-eyebrow{font-family:'Playfair Display',Georgia,serif;font-size:clamp(10px,2.5vw,13px);letter-spacing:2px;text-transform:uppercase;color:#b08a52}
+.jour-card{background:#fff;border:1px solid #e7dcc8;border-radius:20px;padding:clamp(20px,4vw,30px);width:100%;max-width:380px;box-shadow:0 10px 30px rgba(141,95,46,.10);text-align:center;position:relative;overflow:hidden}
+.jour-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e8c994,#c9955a,#9c6a32)}
+.jour-card-ico{width:74px;height:74px;margin:8px auto 14px;color:#c9955a}
+.jour-card-ico svg{width:100%;height:100%}
+.jour-card-cat{display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#b08a52;margin-bottom:8px}
+.jour-card-name{font-family:'Playfair Display',Georgia,serif;font-size:clamp(20px,5vw,26px);font-weight:600;color:#2c2c2c;line-height:1.2}
+.jour-card-sub{font-size:13px;color:#8a8170;margin-top:6px;font-style:italic}
+.jour-card-time{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;color:#6c6256;background:#faf6ee;border:1px solid #ece0cc;border-radius:20px;padding:5px 14px}
+.jour-actions{display:flex;gap:10px;width:100%;max-width:380px}
+.jour-btn{flex:1;font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;padding:14px 16px;border-radius:14px;cursor:pointer;border:1.5px solid transparent;transition:all .18s}
+.jour-btn.primary{background:#8d5f2e;color:#fff;border-color:#8d5f2e}
+.jour-btn.primary:hover{background:#7a5226}
+.jour-btn.ghost{background:#fff;color:#8d5f2e;border-color:#dcc9aa}
+.jour-btn.ghost:hover{background:#faf6ee}
+.jour-other{background:none;border:none;color:#6c6256;font-size:13px;cursor:pointer;border-bottom:1px solid #d8c7ad;padding-bottom:2px;margin-top:2px}
+.jour-other:hover{color:#c9955a}
+
+/* ── ÉCRAN CHOIX : VIANDE / LÉGUME ── */
+#choix-wrap{display:none;height:100dvh;background:#f5f4ef;padding:1.2rem 1.25rem .8rem;color:#1a1a1a;flex-direction:column;overflow:hidden;box-sizing:border-box}
+.choix-scroll{flex:1;overflow-y:auto;min-height:0;padding:.3rem .1rem .5rem}
+.choix-group-title{font-family:'Playfair Display',Georgia,serif;font-size:13px;letter-spacing:1px;color:#8d5f2e;margin:16px 0 10px;font-weight:600}
+.choix-group-title.first{margin-top:4px}
+.choix-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:9px}
+.choix-chip{background:#fff;border:1.5px solid #e0d6c4;border-radius:14px;padding:12px 6px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;text-align:center}
+.choix-chip:hover{border-color:#c9955a;background:#faf7f1}
+.choix-chip.on{border-color:#c9955a;background:#fff7ec;box-shadow:0 2px 10px rgba(201,149,90,.18)}
+.choix-chip-ico{width:34px;height:34px;color:#c9955a}
+.choix-chip-ico svg{width:100%;height:100%}
+.choix-chip.on .choix-chip-ico{color:#8d5f2e}
+.choix-chip-name{font-size:11.5px;color:#5a5246;line-height:1.15}
+.choix-chip-nb{font-size:10px;color:#b3a890}
+.choix-footer{flex-shrink:0;display:flex;align-items:center;gap:12px;padding-top:10px;border-top:1px solid #e3d8c4}
+.choix-count{font-size:13px;color:#6c6256;flex:1}
+.choix-footer .jour-btn{flex:0 0 auto;min-width:165px}
 </style>
 </head>
 <body>
@@ -543,8 +588,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 <!-- SPLASH -->
 <div id="splash">
   <div class="sp-plate">
-    <div class="sp-plate-outer"></div>
-    <div class="sp-plate-inner"></div>
+    <svg class="sp-emblem" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="spGlowGrad" cx="50%" cy="48%" r="55%">
+          <stop offset="0%" stop-color="#f6e0bb" stop-opacity="0.6"/>
+          <stop offset="55%" stop-color="#f1d6ab" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="#f1d6ab" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="spGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#e8c994"/>
+          <stop offset="45%" stop-color="#c9955a"/>
+          <stop offset="100%" stop-color="#9c6a32"/>
+        </linearGradient>
+      </defs>
+      <circle class="sp-glow" cx="210" cy="206" r="200" fill="url(#spGlowGrad)"/>
+      <g class="sp-cutlery">
+        <g transform="rotate(-20 210 210)">
+          <line x1="195" y1="46" x2="195" y2="100"/>
+          <line x1="205" y1="44" x2="205" y2="100"/>
+          <line x1="215" y1="44" x2="215" y2="100"/>
+          <line x1="225" y1="46" x2="225" y2="100"/>
+          <path d="M195 100 Q195 119 210 121 Q225 119 225 100"/>
+          <line x1="210" y1="121" x2="210" y2="376"/>
+        </g>
+        <g transform="rotate(20 210 210)">
+          <path d="M210 44 C219 80 220 132 216 166 L204 166 C200 132 201 80 210 44 Z"/>
+          <line x1="210" y1="166" x2="210" y2="376"/>
+        </g>
+      </g>
+      <circle class="sp-ring sp-ring-outer" cx="210" cy="210" r="166"/>
+      <circle class="sp-ring sp-ring-groove" cx="210" cy="210" r="155"/>
+      <circle class="sp-ring sp-ring-well" cx="210" cy="210" r="112"/>
+    </svg>
   </div>
   <div class="sp-title">Mon livre<br>de cuisine</div>
   <div class="sp-line"></div>
@@ -552,105 +627,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
   <div class="sp-hint" style="margin-top:48px">Appuie n'importe où pour commencer</div>
 </div>
 
-<!-- MENU MANGER -->
+<!-- ACCUEIL : RECETTE DU JOUR -->
 <div id="menu-wrap">
   <div class="menu-header">
     <div class="menu-logo">Mon livre de cuisine</div>
     <div class="menu-tagline">Que mange-t-on ce soir ?</div>
     <div class="menu-divider"></div>
   </div>
-
-  <div class="menu-steps-wrap">
-  <!-- Step 1: Mood -->
-  <div class="menu-section visible" id="ms1">
-    <div class="menu-section-title">— Combien de temps as-tu ? —</div>
-    <div class="menu-options">
-      <button class="menu-opt" onclick="selectMood('long')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9"/>
-  <polyline points="12,7 12,12 15.5,14.5"/>
-</svg>
-        <span class="menu-opt-emoji">⏳</span>
-        <span class="menu-opt-title">J'ai le temps</span>
-      </button>
-      <button class="menu-opt" onclick="selectMood('rapide')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <polyline points="13,2 4,14 12,14 11,22 20,10 12,10"/>
-</svg>
-        <span class="menu-opt-emoji">⚡</span>
-        <span class="menu-opt-title">En 2/2</span>
-      </button>
-      <button class="menu-opt" onclick="selectMood('flemme')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-</svg>
-        <span class="menu-opt-emoji">🛋️</span>
-        <span class="menu-opt-title">Flemme</span>
-      </button>
-      <button class="menu-opt" onclick="selectMood('potes')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5 3 L8 3 C8 3 9 9 7.5 12 C6.5 13.5 5.5 14 5.5 14"/>
-  <line x1="5.5" y1="14" x2="5.5" y2="20"/>
-  <line x1="2.5" y1="20" x2="8.5" y2="20"/>
-  <path d="M16 3 L19 3 C19 3 20 9 18.5 12 C17.5 13.5 16.5 14 16.5 14"/>
-  <line x1="16.5" y1="14" x2="16.5" y2="20"/>
-  <line x1="13.5" y1="20" x2="19.5" y2="20"/>
-  <line x1="9" y1="5" x2="13" y2="3"/>
-</svg>
-        <span class="menu-opt-emoji">🥂</span>
-        <span class="menu-opt-title">On a des potes qui viennent dîner</span>
-      </button>
-      <button class="menu-opt" onclick="selectMood('sport')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9"/>
-  <path d="M12 3 C12 3 7 7 7 12 C7 17 12 21 12 21"/>
-  <path d="M12 3 C12 3 17 7 17 12 C17 17 12 21 12 21"/>
-  <line x1="3" y1="12" x2="21" y2="12"/>
-</svg>
-        <span class="menu-opt-emoji">💪</span>
-        <span class="menu-opt-title">Sport</span>
-      </button>
+  <div class="jour-wrap">
+    <div class="jour-eyebrow">— La recette du jour —</div>
+    <div id="jour-card" class="jour-card"></div>
+    <div class="jour-actions">
+      <button class="jour-btn primary" onclick="jourSee()">Voir la recette</button>
+      <button class="jour-btn ghost" onclick="jourReroll()">🎲 Essaie encore</button>
     </div>
+    <button class="jour-other" onclick="openChoix()">Pas celle-là ? Choisir viande / légume →</button>
   </div>
-
-  <!-- Step 2: Dietary -->
-  <div class="menu-section" id="ms2">
-    <div class="menu-section-title">— Contraintes alimentaires ? —</div>
-    <div class="menu-options">
-      <button class="menu-opt" onclick="selectDiet('tout')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9"/>
-  <polyline points="8,12 11,15 16,9"/>
-</svg>
-        <span class="menu-opt-emoji">😋</span>
-        <span class="menu-opt-title">On mange de tout</span>
-      </button>
-      <button class="menu-opt" onclick="selectDiet('intolerance')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9"/>
-  <line x1="5.4" y1="5.4" x2="18.6" y2="18.6"/>
-</svg>
-        <span class="menu-opt-emoji">🚫</span>
-        <span class="menu-opt-title">Y a de l'intolérance</span>
-      </button>
-      <button class="menu-opt" onclick="selectDiet('kids')">
-        <svg class="menu-svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-</svg>
-        <span class="menu-opt-emoji">👦</span>
-        <span class="menu-opt-title">Enfant à bord</span>
-      </button>
-    </div>
-  </div>
-  </div><!-- /menu-steps-wrap -->
-
   <div class="menu-footer">
     <button class="menu-all-link" onclick="goToApp()">Parcourir toutes les recettes →</button>
     <a href="icones-aliments.html" target="_blank" class="menu-all-link" style="font-size:11px;color:#bbb;display:block;margin-top:8px;text-decoration:none">📋 Classeur d'icônes</a>
-    <button class="menu-all-link" onclick="openManger()" style="margin-top:10px;display:block">← Retour à l'accueil</button>
   </div>
 </div>
 
+<!-- ÉCRAN CHOIX : VIANDE / LÉGUME -->
+<div id="choix-wrap">
+  <div class="menu-header">
+    <div class="menu-logo" style="font-size:clamp(22px,5.5vw,32px)">Qu'est-ce qui te ferait plaisir ?</div>
+    <div class="menu-tagline">Choisis une ou plusieurs envies</div>
+    <div class="menu-divider"></div>
+  </div>
+  <div class="choix-scroll">
+    <div class="choix-group-title first">🍖 Viandes &amp; poisson</div>
+    <div class="choix-chips" id="choix-viandes"></div>
+    <div class="choix-group-title">🥕 Légumes</div>
+    <div class="choix-chips" id="choix-legumes"></div>
+  </div>
+  <div class="choix-footer">
+    <div class="choix-count" id="choix-count">Tout afficher</div>
+    <button class="jour-btn primary" onclick="launchChoix()">Voir les recettes →</button>
   </div>
 </div>
 
@@ -707,6 +721,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 var CB={poulet:"#2979D4",dinde:"#5B8DEF",bœuf:"#C0392B",agneau:"#D4836E",veau:"#B86B5E",porc:"#E8701A",lapin:"#8E7CC3",poisson:"#169668",végétarien:"#4E8E1E"};
 var CBg={poulet:"#deeefb",dinde:"#e6efff",bœuf:"#fde8e6",agneau:"#fdf0ee",veau:"#f8e7e3",porc:"#fdf0d5",lapin:"#eee9fb",poisson:"#d6f3e8",végétarien:"#e5f4d3"};
 var CTc={poulet:"#14538f",dinde:"#2457a6",bœuf:"#7a1010",agneau:"#7a3025",veau:"#73362d",porc:"#7a4800",lapin:"#4c3b7a",poisson:"#0b5e41",végétarien:"#2e5c0e"};
+
+// ─── ÉTAT GLOBAL (init explicite pour robustesse navigateur) ─────────────────
+var cart=[];
+var checked=new Set();
+var filt=[];
+var VIEW="list";
+var selId=null;
+var svN=null;
+var menuMood=null;
+var menuDiet=null;
 
 var RX=[
   {
@@ -5747,7 +5771,13 @@ function calcQty(q,base,cur){return q===null?null:q*cur/base;}
 function getList(){
   var all=allRX();
   if(!filt.length)return all;
-  return sortRecipes(all.filter(function(r){return filt.every(function(f){return recipeHasFilter(r,f);});}));
+  return sortRecipes(all.filter(function(r){
+    return FILTER_GROUPS.every(function(g){
+      var sel=g.items.filter(function(it){return filt.indexOf(it.v)>=0;}).map(function(it){return it.v;});
+      if(!sel.length)return true;
+      return sel.some(function(v){return recipeHasFilter(r,v);});
+    });
+  }));
 }
 
 function mkEl(tag,cls,txt,styles){
@@ -5794,11 +5824,108 @@ function startFromSplash(){
 
 
 function openManger(){
-  var ids=["app-wrap","menu-wrap"];
-  ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
+  ["app-wrap","menu-wrap","choix-wrap"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
   var mw=document.getElementById("menu-wrap");
   if(mw)mw.style.display="flex";
   document.body.style.backgroundColor="#f5f4ef";
+  if(!jourRecipe)jourRecipe=pickDaily();
+  renderJourCard();
+}
+
+// ─── RECETTE DU JOUR ──────────────────────────────────────────────────────────
+var jourRecipe=null;
+function jEsc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function jourPool(){return allRX().filter(function(r){return r&&r.name;});}
+function dailySeed(){var d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
+function pickDaily(){var pool=jourPool();if(!pool.length)return null;return pool[dailySeed()%pool.length];}
+function pickRandomDifferent(){
+  var pool=jourPool();
+  if(pool.length<=1)return pool[0]||null;
+  var r,guard=0;
+  do{r=pool[Math.floor(Math.random()*pool.length)];guard++;}while(jourRecipe&&r.id===jourRecipe.id&&guard<30);
+  return r;
+}
+function catIcon(cat){
+  var g=FILTER_GROUPS.find(function(x){return x.id==="viandes";});
+  if(g){var it=g.items.find(function(i){return i.v===cat;});if(it)return it.icon;}
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>';
+}
+function catLabelText(cat){
+  var l=filterLabel(cat);
+  return l.replace(/<svg[\s\S]*?<\/svg>/,"").trim()||String(cat||"");
+}
+function renderJourCard(){
+  var card=document.getElementById("jour-card");
+  if(!card)return;
+  if(!jourRecipe){card.innerHTML='<div class="jour-card-name">Aucune recette disponible</div>';return;}
+  var r=jourRecipe;
+  var ti=[r.prep?r.prep+" min prép.":null,r.cook?r.cook+" min cuisson":null].filter(Boolean).join(" + ")||"temps non précisé";
+  card.innerHTML=
+    '<div class="jour-card-ico">'+catIcon(r.cat)+'</div>'+
+    '<div class="jour-card-cat">'+jEsc(catLabelText(r.cat))+'</div>'+
+    '<div class="jour-card-name">'+jEsc(r.name)+'</div>'+
+    (r.sub?'<div class="jour-card-sub">'+jEsc(r.sub)+'</div>':'')+
+    '<div class="jour-card-time">⏱ '+jEsc(ti)+'</div>';
+}
+function jourReroll(){jourRecipe=pickRandomDifferent();renderJourCard();}
+function jourSee(){
+  if(!jourRecipe)return;
+  VIEW="detail";selId=jourRecipe.id;svN=jourRecipe.base;
+  goToApp();
+  render();
+}
+
+// ─── ÉCRAN CHOIX VIANDE / LÉGUME ──────────────────────────────────────────────
+var CHOIX_SEL=[];
+function openChoix(){
+  ["app-wrap","menu-wrap","choix-wrap"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
+  var cw=document.getElementById("choix-wrap");if(cw)cw.style.display="flex";
+  document.body.style.backgroundColor="#f5f4ef";
+  rememberScreen("choix");
+  renderChoix();
+}
+function choixMatches(r){
+  return FILTER_GROUPS.every(function(g){
+    var sel=g.items.filter(function(it){return CHOIX_SEL.indexOf(it.v)>=0;}).map(function(it){return it.v;});
+    if(!sel.length)return true;
+    return sel.some(function(v){return recipeHasFilter(r,v);});
+  });
+}
+function choixMatchCount(){
+  if(!CHOIX_SEL.length)return allRX().length;
+  return allRX().filter(choixMatches).length;
+}
+function updateChoixCount(){
+  var el=document.getElementById("choix-count");if(!el)return;
+  if(!CHOIX_SEL.length){el.textContent="Tout afficher";return;}
+  var n=choixMatchCount();
+  el.textContent=n+" recette"+(n>1?"s":"");
+}
+function renderChoix(){
+  ["viandes","legumes"].forEach(function(gid){
+    var host=document.getElementById("choix-"+gid);
+    if(!host)return;
+    host.innerHTML="";
+    var g=FILTER_GROUPS.find(function(x){return x.id===gid;});
+    if(!g)return;
+    g.items.forEach(function(it){
+      var nb=allRX().filter(function(r){return recipeHasFilter(r,it.v);}).length;
+      var chip=mkEl("button","choix-chip"+(CHOIX_SEL.indexOf(it.v)>=0?" on":""),null);
+      var ico=mkEl("div","choix-chip-ico",null);ico.innerHTML=it.icon;
+      chip.appendChild(ico);
+      chip.appendChild(mkEl("div","choix-chip-name",it.l));
+      chip.appendChild(mkEl("div","choix-chip-nb",String(nb)));
+      chip.onclick=function(){var i=CHOIX_SEL.indexOf(it.v);if(i>=0)CHOIX_SEL.splice(i,1);else CHOIX_SEL.push(it.v);renderChoix();};
+      host.appendChild(chip);
+    });
+  });
+  updateChoixCount();
+}
+function launchChoix(){
+  filt=CHOIX_SEL.slice();
+  VIEW="list";selId=null;
+  goToApp();
+  render();
 }
 
 // ─── MENU PAGE ────────────────────────────────────────────────────────────────
@@ -5933,8 +6060,8 @@ document.getElementById("popup-overlay").addEventListener("click",function(e){
 });
 
 function goToApp(){
-  document.getElementById("menu-wrap").style.display="none";
-      document.getElementById("app-wrap").style.display="block";
+  ["menu-wrap","choix-wrap"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
+  document.getElementById("app-wrap").style.display="block";
   document.body.style.backgroundColor="#f5f4f0";
   if(!selId)render();
 }
@@ -6336,7 +6463,7 @@ var APP_STACK=[];
 function setGlobalBackVisible(){
   var b=document.getElementById("global-back-btn");
   if(!b)return;
-  var hide=(APP_SCREEN==="splash");
+  var hide=(APP_SCREEN==="splash"||APP_SCREEN==="menu-manger");
   b.style.display=hide?"none":"block";
 }
 function rememberScreen(next){
@@ -6347,13 +6474,15 @@ function rememberScreen(next){
   setTimeout(setGlobalBackVisible,0);
 }
 function showOnlyScreen(screen){
-  var ids=["menu-wrap","app-wrap"];
+  var ids=["menu-wrap","app-wrap","choix-wrap"];
   ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
-  if(screen==="menu-manger"){document.getElementById("menu-wrap").style.display="flex";document.body.style.backgroundColor="#f5f4ef";}
+  if(screen==="menu-manger"){document.getElementById("menu-wrap").style.display="flex";document.body.style.backgroundColor="#f5f4ef";if(!jourRecipe)jourRecipe=pickDaily();renderJourCard();}
+  if(screen==="choix"){var c=document.getElementById("choix-wrap");if(c)c.style.display="flex";document.body.style.backgroundColor="#f5f4ef";renderChoix();}
   if(screen==="app"){document.getElementById("app-wrap").style.display="block";document.body.style.backgroundColor="#f5f4f0";render();}
   APP_SCREEN=screen;
   setGlobalBackVisible();
 }
+
 function appGoBack(){
   if(document.getElementById("popup-overlay")&&document.getElementById("popup-overlay").classList.contains("open")){closePopup();return;}
   if(document.getElementById("import-overlay")&&document.getElementById("import-overlay").classList.contains("open")){closeImport();return;}
@@ -6361,7 +6490,7 @@ function appGoBack(){
     if(VIEW==="detail"){VIEW="list";selId=null;render();return;}
     if(VIEW==="cart"){VIEW="list";render();return;}
   }
-  var previous=APP_STACK.pop()||"splash";
+  var previous=APP_STACK.pop()||"menu-manger";
   showOnlyScreen(previous);
 }
 (function(){
