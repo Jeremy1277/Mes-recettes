@@ -7096,7 +7096,7 @@ function buildShoppingListText(){
   lines.push("");
   var items=buildShoppingList();
   items.forEach(function(item){
-    var qty=item.total!==null?(fmt(item.total)+(item.unit?" "+item.unit:"")):"selon goût";
+    var qty=item.total!==null?item.total:"selon goût";
     lines.push("☐ "+item.name.replace(" ☘","").replace(" ✱","")+" — "+qty);
   });
   return lines.join("\n");
@@ -7134,19 +7134,45 @@ function fallbackCopy(text){
   }
 }
 
+// Unités équivalentes qu'on peut regrouper ensemble (mêmes unités, orthographes différentes)
+function canonUnit(u){
+  var m={
+    "c. à soupe":"cs","cuillère à soupe":"cs","cuillères à soupe":"cs","cuil. à soupe":"cs",
+    "c. à café":"cc","cuillère à café":"cc","cuillères à café":"cc","cuil. à café":"cc",
+    "gousse(s)":"pièce(s)","gousse":"pièce(s)"
+  };
+  return m[u]||u;
+}
+
 function buildShoppingList(){
+  // On regroupe uniquement par nom d'ingrédient (indépendamment de l'unité)
+  // pour n'afficher chaque ingrédient qu'une seule fois dans la liste.
   var agg={};
   cart.forEach(function(ci){
     var r=allRX().find(function(x){return x.id===ci.id;});if(!r)return;
     r.ingr.forEach(function(i){
       var q=calcQty(i.q,r.base,ci.persons);
       var s=applySubst(i.n,i.u||"",q);
-      var key=s.name.toLowerCase()+"||"+s.unit;
-      if(!agg[key])agg[key]={name:s.name,unit:s.unit,total:null,subst:s.subst};
-      if(s.q!==null)agg[key].total=(agg[key].total===null?0:agg[key].total)+s.q;
+      var unit=canonUnit(s.unit);
+      var nameKey=s.name.toLowerCase();
+      if(!agg[nameKey])agg[nameKey]={name:s.name,subst:false,parts:{},order:[]};
+      if(s.subst)agg[nameKey].subst=true;
+      if(!(unit in agg[nameKey].parts)){agg[nameKey].parts[unit]=null;agg[nameKey].order.push(unit);}
+      if(s.q!==null)agg[nameKey].parts[unit]=(agg[nameKey].parts[unit]===null?0:agg[nameKey].parts[unit])+s.q;
     });
   });
-  var items=Object.keys(agg).map(function(k){var a=agg[k];return{name:a.name,unit:a.unit,total:a.total,subst:a.subst,key:k};});
+  var items=Object.keys(agg).map(function(k){
+    var a=agg[k];
+    // On combine les unités compatibles cumulées ; si des unités différentes
+    // subsistent (ex: g + sachet(s)), on les affiche l'une à côté de l'autre
+    // sur la même ligne plutôt que de dupliquer l'ingrédient.
+    var parts=a.order.map(function(u){
+      var v=a.parts[u];
+      return v!==null?(fmt(v)+(u?" "+u:"")):null;
+    }).filter(function(x){return x!==null;});
+    var totalDisplay=parts.length?parts.join(" + "):null;
+    return {name:a.name,subst:a.subst,total:totalDisplay,key:k};
+  });
   items.sort(function(a,b){
     if(a.total===null&&b.total!==null)return 1;if(a.total!==null&&b.total===null)return -1;
     return a.name.localeCompare(b.name,"fr");
@@ -7174,7 +7200,7 @@ function refreshIngredients(){
       nameWrap.appendChild(mkEl("span","subst-tag","substitution"));
     }
     var qd=mkEl("div","sl-item-qty"+(done?" done":""),
-      item.total!==null?(fmt(item.total)+(item.unit?" "+item.unit:"")):"selon goût");
+      item.total!==null?item.total:"selon goût");
     row.appendChild(chk);row.appendChild(nameWrap);row.appendChild(qd);
     // Bouton recherche drive
     if(selectedDrive){
