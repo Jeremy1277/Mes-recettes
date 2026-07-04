@@ -6566,15 +6566,14 @@ function doImport(){
   var fb=document.getElementById("import-feedback");
   var raw=document.getElementById("import-json").value.trim();
   if(!raw){fb.className="import-feedback err";fb.textContent="Colle d'abord un JSON.";return;}
-  var mode=document.getElementById("import-overlay").dataset.mode||"recipe";
 
   try{
     var arr=JSON.parse(raw);
     if(!Array.isArray(arr))arr=[arr];
-    var arr=JSON.parse(raw);
-    if(!Array.isArray(arr))arr=[arr];
-    // ── Mode recette ──
-    try{
+
+    var existingKeys={};
+    var count=0;
+    var skipped=0;
     allRX().forEach(function(x){existingKeys[recipeKey(x)]=true;});
     arr.forEach(function(r){
       // Validation minimale
@@ -6608,10 +6607,6 @@ function doImport(){
     if(skipped>0)msg+=" · "+skipped+" doublon"+(skipped>1?"s":"")+" ignoré"+(skipped>1?"s":"");
     fb.textContent=msg+" !";
     setTimeout(function(){closeImport();render();},1200);
-  }catch(e){
-    fb.className="import-feedback err";
-    fb.textContent="JSON invalide : "+e.message;
-  }
   }catch(e){
     fb.className="import-feedback err";
     fb.textContent="JSON invalide : "+e.message;
