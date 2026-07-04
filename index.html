@@ -356,6 +356,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .import-btn{flex:1;padding:10px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer}
 .import-btn.primary{background:#1a1a1a;color:#fff}
 .import-btn.secondary{background:#f0f0f0;color:#555}
+.ai-gen-box{background:#faf5ea;border:1.5px solid #f0dfb8;border-radius:12px;padding:12px;margin-bottom:14px}
+.ai-gen-title{font-size:13px;font-weight:700;color:#8a6400;margin-bottom:8px}
+.ai-gen-input{width:100%;box-sizing:border-box;border:1.5px solid #e3d3a8;border-radius:8px;padding:9px 10px;font-size:13px;color:#1a1a1a;background:#fff;margin-bottom:8px}
+.ai-gen-input:focus{outline:none;border-color:#c9955a}
+.ai-gen-row{display:flex;gap:8px}
+.ai-gen-persons{width:64px;border:1.5px solid #e3d3a8;border-radius:8px;padding:9px 6px;font-size:13px;text-align:center;background:#fff}
+.ai-gen-row .import-btn{flex:1;margin:0}
+.ai-gen-feedback{font-size:12px;margin-top:8px;font-weight:600;min-height:16px}
+.ai-gen-feedback.ok{color:#2e7d32}
+.ai-gen-feedback.err{color:#c62828}
+.ai-gen-key-row{display:flex;gap:8px;margin-top:8px}
+.ai-gen-key-input{flex:1;border:1.5px solid #e3d3a8;border-radius:8px;padding:9px 10px;font-size:12px;background:#fff}
+.ai-gen-key-row .import-btn{margin:0;flex:none;padding:9px 14px}
+.ai-gen-hint{font-size:10.5px;color:#a68a55;margin-top:6px;line-height:1.4}
+.import-divider{text-align:center;font-size:11px;color:#bbb;margin:4px 0 12px;font-weight:600}
 /* Card photo */
 .card-photo{width:100%;height:90px;object-fit:cover;border-radius:8px;margin-bottom:8px;display:block}
 /* Detail photo */
@@ -726,6 +741,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     <button class="popup-close" onclick="closeImport()" style="position:absolute;top:14px;right:14px">✕</button>
     <div class="import-title">📥 Importer des recettes</div>
     <div class="import-sub">Colle ici le JSON généré par Claude à partir de tes scans.<br>Les recettes s'ajoutent sans écraser les existantes.</div>
+    <div class="ai-gen-box">
+      <div class="ai-gen-title">✨ Générer une recette avec l'IA</div>
+      <input type="text" id="ai-gen-input" class="ai-gen-input" placeholder="Ex : Tarte alsacienne — ou : poulet, courgettes, riz…">
+      <div class="ai-gen-row">
+        <input type="number" id="ai-gen-persons" class="ai-gen-persons" min="1" max="12" value="4" title="Nombre de personnes">
+        <button class="import-btn primary" id="ai-gen-btn" onclick="generateWithAI()">✨ Générer</button>
+      </div>
+      <div class="ai-gen-feedback" id="ai-gen-feedback"></div>
+      <div class="ai-gen-key-row" id="ai-gen-key-row" style="display:none">
+        <input type="password" id="ai-gen-apikey" class="ai-gen-key-input" placeholder="Clé API Anthropic (sk-ant-…)">
+        <button class="import-btn secondary" onclick="saveApiKeyAndGenerate()">Enregistrer</button>
+      </div>
+      <div class="ai-gen-hint">Ta clé API reste uniquement sur cet appareil (localStorage) et n'est envoyée qu'à Anthropic.</div>
+    </div>
+    <div class="import-divider">— ou colle un JSON directement —</div>
     <div class="import-format">[ {
   "name": "Nom de la recette",
   "sub": "Sous-titre court",
@@ -6428,8 +6458,107 @@ function openImport(){
   document.getElementById("import-json").value="";
   document.getElementById("import-feedback").textContent="";
   document.getElementById("import-feedback").className="import-feedback";
+  document.getElementById("ai-gen-feedback").textContent="";
+  document.getElementById("ai-gen-feedback").className="ai-gen-feedback";
   document.getElementById("import-overlay").classList.add("open");
 }
+
+// ─── GÉNÉRATION DE RECETTE PAR IA (Anthropic) ────────────────────────────────
+function getApiKey(){
+  try{return localStorage.getItem("anthropic_api_key")||"";}catch(e){return "";}
+}
+function setApiKey(k){
+  try{localStorage.setItem("anthropic_api_key",k);}catch(e){}
+}
+function saveApiKeyAndGenerate(){
+  var k=document.getElementById("ai-gen-apikey").value.trim();
+  if(!k){return;}
+  setApiKey(k);
+  document.getElementById("ai-gen-key-row").style.display="none";
+  document.getElementById("ai-gen-apikey").value="";
+  generateWithAI();
+}
+
+var AI_RECIPE_SYSTEM_PROMPT=[
+  "Tu es un assistant qui génère des fiches recettes au format JSON, dans le style HelloFresh, en français.",
+  "Réponds UNIQUEMENT avec un objet JSON valide (pas de texte autour, pas de balises markdown), avec exactement ces champs :",
+  "{",
+  '  "name": "Nom de la recette",',
+  '  "sub": "Sous-titre court décrivant l\'accompagnement",',
+  '  "base": 4,',
+  '  "prep": 15,',
+  '  "cook": 25,',
+  '  "cat": "poulet|bœuf|porc|agneau|veau|lapin|dinde|poisson|végétarien",',
+  '  "mood": ["tout"],',
+  '  "allergens": [],',
+  '  "allergens_full": "Liste des allergènes en français, ou chaîne vide",',
+  '  "kids": true,',
+  '  "course": "plat",',
+  '  "ingr": [ {"n":"Nom ingrédient","q":200,"u":"g"} ],',
+  '  "steps": ["Étape 1 détaillée…", "Étape 2 détaillée…", "Étape 3…", "Étape 4…"]',
+  "}",
+  "Les quantités (q) sont TOUJOURS pour le nombre de personnes indiqué (base). Les unités (u) courantes : g, ml, cl, pièce(s), sachet(s), cs, cc, pincée(s), pot(s), paquet(s), tranche(s), gousse(s).",
+  "Les étapes doivent être rédigées comme des instructions de cuisine précises et complètes (temps de cuisson, températures, techniques), sur le modèle des fiches HelloFresh : 4 à 6 étapes.",
+  "N'ajoute aucun ingrédient de type 'sel et poivre' avec quantité — utilise q:null et u:\"\" pour les assaisonnements 'selon goût'."
+].join("\n");
+
+function generateWithAI(){
+  var input=document.getElementById("ai-gen-input").value.trim();
+  var persons=parseInt(document.getElementById("ai-gen-persons").value,10)||4;
+  var fb=document.getElementById("ai-gen-feedback");
+  if(!input){fb.className="ai-gen-feedback err";fb.textContent="Indique un nom de plat ou des ingrédients.";return;}
+  var apiKey=getApiKey();
+  if(!apiKey){
+    document.getElementById("ai-gen-key-row").style.display="flex";
+    fb.className="ai-gen-feedback err";
+    fb.textContent="Colle ta clé API Anthropic ci-dessous pour continuer.";
+    return;
+  }
+  var btn=document.getElementById("ai-gen-btn");
+  btn.disabled=true;btn.textContent="Génération…";
+  fb.className="ai-gen-feedback";fb.textContent="La recette est en cours de génération…";
+
+  var userMsg="Crée une recette pour "+persons+" personnes à partir de : "+input+". Réponds uniquement avec le JSON, sans texte autour.";
+
+  fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "x-api-key":apiKey,
+      "anthropic-version":"2023-06-01",
+      "anthropic-dangerous-direct-browser-access":"true"
+    },
+    body:JSON.stringify({
+      model:"claude-sonnet-4-6",
+      max_tokens:2000,
+      system:AI_RECIPE_SYSTEM_PROMPT,
+      messages:[{role:"user",content:userMsg}]
+    })
+  }).then(function(res){
+    if(!res.ok){
+      return res.json().then(function(errBody){
+        throw new Error((errBody&&errBody.error&&errBody.error.message)||("Erreur HTTP "+res.status));
+      });
+    }
+    return res.json();
+  }).then(function(data){
+    var text=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("\n").trim();
+    text=text.replace(/^```json\s*/i,"").replace(/^```\s*/,"").replace(/```\s*$/,"").trim();
+    var parsed;
+    try{parsed=JSON.parse(text);}catch(e){throw new Error("Réponse IA illisible (JSON invalide).");}
+    if(!parsed.name||!parsed.ingr||!parsed.steps){throw new Error("La recette générée est incomplète.");}
+    document.getElementById("import-json").value=JSON.stringify([parsed],null,2);
+    fb.className="ai-gen-feedback ok";
+    fb.textContent="✓ Recette générée ! Vérifie-la ci-dessous puis clique sur Importer.";
+    document.getElementById("import-json").scrollIntoView({behavior:"smooth",block:"center"});
+  }).catch(function(err){
+    fb.className="ai-gen-feedback err";
+    fb.textContent="Erreur : "+err.message;
+  }).finally(function(){
+    btn.disabled=false;btn.textContent="✨ Générer";
+  });
+}
+
 function closeImport(){document.getElementById("import-overlay").classList.remove("open");}
 document.getElementById("import-overlay").addEventListener("click",function(e){if(e.target===this)closeImport();});
 
