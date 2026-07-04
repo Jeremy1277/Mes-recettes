@@ -128,7 +128,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 #app-wrap{display:none;background-color:#f5f4f0;color:#1a1a1a;min-height:100vh}
 #wrap{background-color:#f5f4f0;color:#1a1a1a;max-width:900px;margin:0 auto;padding:1.25rem}
 .tabs{display:flex;gap:8px;margin-bottom:1.25rem;align-items:center;flex-wrap:wrap}
-.tab{font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;color:#666;cursor:pointer;position:relative}
+.tab{font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;color:#666;cursor:pointer;position:relative;display:inline-flex;align-items:center;gap:6px}
+.tab-ico{display:inline-flex;width:16px;height:16px;flex-shrink:0}
+.tab-ico svg{width:100%;height:100%}
+.tab.on .tab-ico{color:inherit}
 .tab.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .tab-badge{position:absolute;top:-6px;right:-6px;background:#e53935;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
@@ -6822,20 +6825,35 @@ function goToApp(){
   if(!selId)render();
 }
 
+// ─── ICÔNES DES ONGLETS (même style ligne que les icônes ingrédients) ──────
+var TAB_ICONS={
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 L12 4.5 L20 11.5"/><path d="M6 10 L6 20 L10 20 L10 14.5 L14 14.5 L14 20 L18 20 L18 10"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5 Q9 4.5 4 5.5 L4 18.5 Q9 17.5 12 19.5"/><path d="M12 6.5 Q15 4.5 20 5.5 L20 18.5 Q15 17.5 12 19.5"/><line x1="12" y1="6.5" x2="12" y2="19.5"/></svg>',
+  cart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 4.5 L5.5 4.5 L7.8 15 L18.2 15 L20 7.5 L6.3 7.5"/><circle cx="9.2" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></svg>',
+  import:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 L12 14"/><path d="M8 10 Q10 12 12 14 Q14 12 16 10"/><path d="M4.5 16.5 L4.5 20 Q4.5 20.5 5 20.5 L19 20.5 Q19.5 20.5 19.5 20 L19.5 16.5"/></svg>'
+};
+function mkTabIcon(name){var s=mkEl("span","tab-ico",null);s.innerHTML=TAB_ICONS[name];return s;}
+function mkTab(iconName,label,extraCls){
+  var b=mkEl("button","tab"+(extraCls?" "+extraCls:""),null);
+  b.appendChild(mkTabIcon(iconName));
+  b.appendChild(mkEl("span","tab-lbl",label));
+  return b;
+}
+
 // ─── NAV TABS ────────────────────────────────────────────────────────────────
 function renderNav(app){
   var tabs=mkEl("div","tabs");
-  var tm=mkEl("button","tab","🏠 Accueil");
+  var tm=mkTab("home","Accueil");
   tm.onclick=function(){openManger();};
   tabs.appendChild(tm);
-  var t1=mkEl("button","tab"+(VIEW==="list"||VIEW==="detail"?" on":""),"📚 Recettes");
+  var t1=mkTab("book","Recettes",(VIEW==="list"||VIEW==="detail")?"on":"");
   t1.onclick=function(){VIEW="list";selId=null;render();};
   tabs.appendChild(t1);
-  var t2=mkEl("button","tab"+(VIEW==="cart"?" on":""),"🛒 Courses");
+  var t2=mkTab("cart","Courses",VIEW==="cart"?"on":"");
   if(cartCount()>0){var bd=mkEl("span","tab-badge",String(cartCount()));t2.appendChild(bd);}
   t2.onclick=function(){VIEW="cart";render();};
   tabs.appendChild(t2);
-  var t3=mkEl("button","tab","📥 Importer");
+  var t3=mkTab("import","Importer");
   t3.onclick=function(){openImport();};
   tabs.appendChild(t3);
   app.appendChild(tabs);
