@@ -67,7 +67,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 @keyframes growLine{from{width:0}to{width:min(300px,55vw)}}
 
 /* ── MENU PAGE ──────────────────────────── */
-#menu-wrap{display:none;height:100dvh;background:#f5f4ef;padding:1.2rem 1.25rem 0.8rem;color:#1a1a1a;flex-direction:column;overflow:hidden;box-sizing:border-box}
+#menu-wrap{display:none;height:100dvh;background:#f5f4ef;padding:1.2rem 1.25rem 0.8rem;color:#1a1a1a;flex-direction:column;overflow-y:auto;box-sizing:border-box}
 .menu-header{text-align:center;margin-bottom:0;padding-top:0;flex-shrink:0}
 .menu-logo{font-family:'Caveat',cursive;font-size:clamp(24px,6vw,38px);font-weight:700;color:#8d5f2e;line-height:1.1}
 .menu-tagline{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(12px,3vw,15px);color:#6c6256;margin-top:3px;letter-spacing:.3px}
@@ -572,6 +572,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 /* ── ACCUEIL : RECETTE DU JOUR ── */
 #menu-wrap{justify-content:flex-start}
 .jour-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:0;padding:.4rem 0;width:100%}
+.chef-atelier{background:#fff;border:1px solid #e7dcc8;border-radius:20px;padding:clamp(16px,3.5vw,22px);width:100%;max-width:380px;margin:14px auto 0;box-shadow:0 10px 30px rgba(141,95,46,.10);box-sizing:border-box}
+.chef-atelier-title{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;color:#1a1a1a;text-align:center;margin-bottom:2px}
+.chef-atelier-sub{font-size:12px;color:#8d7a5c;text-align:center;margin-bottom:12px}
+.chef-preview{margin-top:12px;background:#faf7f0;border:1px solid #e7dcc8;border-radius:12px;padding:12px;text-align:left}
+.chef-preview-name{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:15px;color:#1a1a1a;margin-bottom:4px}
+.chef-preview-sub{font-size:12px;color:#8d7a5c;margin-bottom:8px}
+.chef-preview-meta{font-size:11px;color:#999;margin-bottom:10px}
+.chef-preview-actions{display:flex;gap:8px}
+.chef-preview-actions .jour-btn{padding:10px 12px;font-size:13px}
 .jour-eyebrow{font-family:'Playfair Display',Georgia,serif;font-size:clamp(10px,2.5vw,13px);letter-spacing:2px;text-transform:uppercase;color:#b08a52}
 .jour-card{background:#fff;border:1px solid #e7dcc8;border-radius:20px;padding:clamp(20px,4vw,30px);width:100%;max-width:380px;box-shadow:0 10px 30px rgba(141,95,46,.10);text-align:center;position:relative;overflow:hidden}
 .jour-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e8c994,#c9955a,#9c6a32)}
@@ -694,6 +703,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     </div>
     <button class="jour-other" onclick="openChoix()">Pas celle-là ? Choisir viande / légume →</button>
   </div>
+  <div class="chef-atelier">
+    <div class="chef-atelier-title">👨‍🍳 Mon atelier de Chef</div>
+    <div class="chef-atelier-sub">Demande-moi la recette de n'importe quel plat</div>
+    <input type="text" id="chef-input" class="ai-gen-input" placeholder="Ex : Tarte alsacienne — ou : poulet, courgettes, riz…">
+    <div class="ai-gen-row">
+      <input type="number" id="chef-persons" class="ai-gen-persons" min="1" max="12" value="4" title="Nombre de personnes">
+      <button class="jour-btn primary" id="chef-btn" onclick="generateChefRecipe()">✨ Générer ma recette</button>
+    </div>
+    <div class="ai-gen-feedback" id="chef-feedback"></div>
+    <div class="ai-gen-key-row" id="chef-key-row" style="display:none">
+      <input type="password" id="chef-apikey" class="ai-gen-key-input" placeholder="Clé API Anthropic (sk-ant-…)">
+      <button class="jour-btn ghost" onclick="saveApiKeyAndGenerateChef()">Enregistrer</button>
+    </div>
+    <div id="chef-preview" class="chef-preview" style="display:none"></div>
+  </div>
   <div class="menu-footer">
     <button class="menu-all-link" onclick="goToApp()">Parcourir toutes les recettes →</button>
     <a href="icones-aliments.html" target="_blank" class="menu-all-link" style="font-size:11px;color:#bbb;display:block;margin-top:8px;text-decoration:none">📋 Classeur d'icônes</a>
@@ -792,6 +816,7 @@ var CTc={poulet:"#14538f",dinde:"#2457a6",bœuf:"#7a1010",agneau:"#7a3025",veau:
 var cart=[];
 var checked=new Set();
 var filt=[];
+var showNewOnly=false;
 var VIEW="list";
 var selId=null;
 var svN=null;
@@ -6502,25 +6527,9 @@ var AI_RECIPE_SYSTEM_PROMPT=[
   "N'ajoute aucun ingrédient de type 'sel et poivre' avec quantité — utilise q:null et u:\"\" pour les assaisonnements 'selon goût'."
 ].join("\n");
 
-function generateWithAI(){
-  var input=document.getElementById("ai-gen-input").value.trim();
-  var persons=parseInt(document.getElementById("ai-gen-persons").value,10)||4;
-  var fb=document.getElementById("ai-gen-feedback");
-  if(!input){fb.className="ai-gen-feedback err";fb.textContent="Indique un nom de plat ou des ingrédients.";return;}
-  var apiKey=getApiKey();
-  if(!apiKey){
-    document.getElementById("ai-gen-key-row").style.display="flex";
-    fb.className="ai-gen-feedback err";
-    fb.textContent="Colle ta clé API Anthropic ci-dessous pour continuer.";
-    return;
-  }
-  var btn=document.getElementById("ai-gen-btn");
-  btn.disabled=true;btn.textContent="Génération…";
-  fb.className="ai-gen-feedback";fb.textContent="La recette est en cours de génération…";
-
+function callClaudeForRecipe(input,persons,apiKey){
   var userMsg="Crée une recette pour "+persons+" personnes à partir de : "+input+". Réponds uniquement avec le JSON, sans texte autour.";
-
-  fetch("https://api.anthropic.com/v1/messages",{
+  return fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
@@ -6547,6 +6556,27 @@ function generateWithAI(){
     var parsed;
     try{parsed=JSON.parse(text);}catch(e){throw new Error("Réponse IA illisible (JSON invalide).");}
     if(!parsed.name||!parsed.ingr||!parsed.steps){throw new Error("La recette générée est incomplète.");}
+    return parsed;
+  });
+}
+
+function generateWithAI(){
+  var input=document.getElementById("ai-gen-input").value.trim();
+  var persons=parseInt(document.getElementById("ai-gen-persons").value,10)||4;
+  var fb=document.getElementById("ai-gen-feedback");
+  if(!input){fb.className="ai-gen-feedback err";fb.textContent="Indique un nom de plat ou des ingrédients.";return;}
+  var apiKey=getApiKey();
+  if(!apiKey){
+    document.getElementById("ai-gen-key-row").style.display="flex";
+    fb.className="ai-gen-feedback err";
+    fb.textContent="Colle ta clé API Anthropic ci-dessous pour continuer.";
+    return;
+  }
+  var btn=document.getElementById("ai-gen-btn");
+  btn.disabled=true;btn.textContent="Génération…";
+  fb.className="ai-gen-feedback";fb.textContent="La recette est en cours de génération…";
+
+  callClaudeForRecipe(input,persons,apiKey).then(function(parsed){
     document.getElementById("import-json").value=JSON.stringify([parsed],null,2);
     fb.className="ai-gen-feedback ok";
     fb.textContent="✓ Recette générée ! Vérifie-la ci-dessous puis clique sur Importer.";
@@ -6560,7 +6590,113 @@ function generateWithAI(){
 }
 
 function closeImport(){document.getElementById("import-overlay").classList.remove("open");}
+
+// ─── MON ATELIER DE CHEF (page d'accueil) ────────────────────────────────────
+var chefLastRecipe=null;
+
+function saveApiKeyAndGenerateChef(){
+  var k=document.getElementById("chef-apikey").value.trim();
+  if(!k){return;}
+  setApiKey(k);
+  document.getElementById("chef-key-row").style.display="none";
+  document.getElementById("chef-apikey").value="";
+  generateChefRecipe();
+}
+
+function generateChefRecipe(){
+  var input=document.getElementById("chef-input").value.trim();
+  var persons=parseInt(document.getElementById("chef-persons").value,10)||4;
+  var fb=document.getElementById("chef-feedback");
+  var preview=document.getElementById("chef-preview");
+  preview.style.display="none";
+  if(!input){fb.className="ai-gen-feedback err";fb.textContent="Indique un nom de plat ou des ingrédients.";return;}
+  var apiKey=getApiKey();
+  if(!apiKey){
+    document.getElementById("chef-key-row").style.display="flex";
+    fb.className="ai-gen-feedback err";
+    fb.textContent="Colle ta clé API Anthropic ci-dessous pour continuer.";
+    return;
+  }
+  var btn=document.getElementById("chef-btn");
+  btn.disabled=true;btn.textContent="Génération…";
+  fb.className="ai-gen-feedback";fb.textContent="Le chef prépare ta recette…";
+
+  callClaudeForRecipe(input,persons,apiKey).then(function(parsed){
+    chefLastRecipe=parsed;
+    fb.className="ai-gen-feedback ok";
+    fb.textContent="✓ Recette prête !";
+    var nbIngr=(parsed.ingr||[]).length;
+    var nbSteps=(parsed.steps||[]).length;
+    preview.innerHTML="";
+    preview.appendChild(mkEl("div","chef-preview-name",parsed.name));
+    if(parsed.sub)preview.appendChild(mkEl("div","chef-preview-sub",parsed.sub));
+    var meta=[nbIngr+" ingrédient"+(nbIngr>1?"s":""),nbSteps+" étape"+(nbSteps>1?"s":"")];
+    if(parsed.prep)meta.push(parsed.prep+"min prép");
+    if(parsed.cook)meta.push(parsed.cook+"min cuisson");
+    preview.appendChild(mkEl("div","chef-preview-meta",meta.join(" · ")));
+    var actions=mkEl("div","chef-preview-actions");
+    var addBtn=mkEl("button","jour-btn primary","+ Ajouter à mon livre");
+    addBtn.onclick=function(){
+      var res=commitRecipeImport([chefLastRecipe]);
+      if(res.count>0){
+        fb.className="ai-gen-feedback ok";
+        fb.textContent="✓ Ajoutée à ton livre de recettes !";
+        preview.style.display="none";
+        document.getElementById("chef-input").value="";
+      } else {
+        fb.className="ai-gen-feedback err";
+        fb.textContent="Cette recette existe déjà dans ton livre.";
+      }
+    };
+    var againBtn=mkEl("button","jour-btn ghost","🎲 Une autre idée");
+    againBtn.onclick=function(){generateChefRecipe();};
+    actions.appendChild(addBtn);actions.appendChild(againBtn);
+    preview.appendChild(actions);
+    preview.style.display="block";
+  }).catch(function(err){
+    fb.className="ai-gen-feedback err";
+    fb.textContent="Erreur : "+err.message;
+  }).finally(function(){
+    btn.disabled=false;btn.textContent="✨ Générer ma recette";
+  });
+}
 document.getElementById("import-overlay").addEventListener("click",function(e){if(e.target===this)closeImport();});
+
+function commitRecipeImport(arr){
+  if(!Array.isArray(arr))arr=[arr];
+  var existingKeys={};
+  var count=0;
+  var skipped=0;
+  allRX().forEach(function(x){existingKeys[recipeKey(x)]=true;});
+  arr.forEach(function(r){
+    // Validation minimale
+    if(!r.name||!r.ingr||!r.steps)return;
+    var originalCat=r.cat;
+    var originalLegumes=r.legumes||r.vegetables||[];
+    if(!confirmUnknownRecipe(originalCat,originalLegumes))return;
+    normalizeRecipe(r);
+    var key=recipeKey(r);
+    if(key&&existingKeys[key]){skipped++;return;}
+    r.id=nextId();
+    // Valeurs par défaut
+    r.src=r.src||"livre";
+    r.base=r.base||4;
+    r.cat=normalizeCatValue(r.cat||"végétarien",r);
+    r.tags=r.tags||[r.course==="entree"?"entrée":"plat chaud",r.cat];
+    r.mood=r.mood||["tout"];
+    r.allergens=r.allergens||[];
+    r.kids=r.kids||false;
+    r.course=r.course||"plat";
+    r.imported=true;
+    normalizeRecipe(r);
+    importedRX.push(r);
+    existingKeys[key]=true;
+    count++;
+  });
+  importedRX=sortRecipes(dedupeRecipes(importedRX.map(normalizeRecipe)));
+  saveImported();
+  return {count:count,skipped:skipped};
+}
 
 function doImport(){
   var fb=document.getElementById("import-feedback");
@@ -6569,39 +6705,8 @@ function doImport(){
 
   try{
     var arr=JSON.parse(raw);
-    if(!Array.isArray(arr))arr=[arr];
-
-    var existingKeys={};
-    var count=0;
-    var skipped=0;
-    allRX().forEach(function(x){existingKeys[recipeKey(x)]=true;});
-    arr.forEach(function(r){
-      // Validation minimale
-      if(!r.name||!r.ingr||!r.steps)return;
-      var originalCat=r.cat;
-      var originalLegumes=r.legumes||r.vegetables||[];
-      if(!confirmUnknownRecipe(originalCat,originalLegumes))return;
-      normalizeRecipe(r);
-      var key=recipeKey(r);
-      if(key&&existingKeys[key]){skipped++;return;}
-      r.id=nextId();
-      // Valeurs par défaut
-      r.src=r.src||"livre";
-      r.base=r.base||4;
-      r.cat=normalizeCatValue(r.cat||"végétarien",r);
-      r.tags=r.tags||[r.course==="entree"?"entrée":"plat chaud",r.cat];
-      r.mood=r.mood||["tout"];
-      r.allergens=r.allergens||[];
-      r.kids=r.kids||false;
-      r.course=r.course||"plat";
-      r.imported=true;
-      normalizeRecipe(r);
-      importedRX.push(r);
-      existingKeys[key]=true;
-      count++;
-    });
-    importedRX=sortRecipes(dedupeRecipes(importedRX.map(normalizeRecipe)));
-    saveImported();
+    var res=commitRecipeImport(arr);
+    var count=res.count,skipped=res.skipped;
     fb.className="import-feedback ok";
     var msg="✓ "+count+" recette"+(count>1?"s":"")+" importée"+(count>1?"s":"");
     if(skipped>0)msg+=" · "+skipped+" doublon"+(skipped>1?"s":"")+" ignoré"+(skipped>1?"s":"");
@@ -6659,6 +6764,7 @@ function calcQty(q,base,cur){return q===null?null:q*cur/base;}
 
 function getList(){
   var all=allRX();
+  if(showNewOnly)all=all.filter(function(r){return r.imported;});
   if(!filt.length)return all;
   return sortRecipes(all.filter(function(r){
     return FILTER_GROUPS.every(function(g){
@@ -7077,10 +7183,23 @@ function renderList(){
     fd.appendChild(b);
   });
   app.appendChild(fd);
+  var nbNew=allRX().filter(function(r){return r.imported;}).length;
+  var newBtn=mkEl("button","filter-menu-btn newness-btn"+(showNewOnly?" active":""),null);
+  if(nbNew){var newBadge=mkEl("span","filter-menu-badge",""+nbNew);newBtn.appendChild(newBadge);}
+  var newIco=mkEl("span","filter-menu-ico",null);
+  newIco.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 L14.2 9 L20 9.8 L15.8 13.8 L16.9 19.5 L12 16.6 L7.1 19.5 L8.2 13.8 L4 9.8 L9.8 9 Z"/></svg>';
+  newBtn.appendChild(newIco);
+  var newTxt=mkEl("span",null,null,{display:"block"});
+  newTxt.appendChild(mkEl("span","filter-menu-title","Nouveautés"));
+  newTxt.appendChild(mkEl("span","filter-menu-sub",showNewOnly?"Retour à tout voir":"Mes dernières recettes"));
+  newBtn.appendChild(newTxt);
+  newBtn.onclick=function(){showNewOnly=!showNewOnly;renderList();};
+  fd.appendChild(newBtn);
   renderActiveFilters(app);
   var list=getList();
-  app.appendChild(mkEl("p","count",list.length+" recette"+(list.length>1?"s":"")+(filt.length?" filtrée"+(list.length>1?"s":""):" au total")));
-  if(!list.length){app.appendChild(mkEl("div","empty","Aucune recette pour ces filtres."));return;}
+  var countLabel=showNewOnly?" nouvelle"+(list.length>1?"s":""):(filt.length?" filtrée"+(list.length>1?"s":""):" au total");
+  app.appendChild(mkEl("p","count",list.length+" recette"+(list.length>1?"s":"")+countLabel));
+  if(!list.length){app.appendChild(mkEl("div","empty",showNewOnly?"Aucune nouvelle recette pour l'instant. Génère-en une depuis l'Accueil !":"Aucune recette pour ces filtres."));return;}
   var reel=mkEl("div","reel");
   list.forEach(function(r){
     var bar=CB[r.cat]||"#ccc",bg=CBg[r.cat]||"#f5f5f5",tc=CTc[r.cat]||"#555";
