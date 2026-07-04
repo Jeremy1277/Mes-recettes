@@ -368,6 +368,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 /* ── COVER ───────────────────────────────── */
 @media(max-width:420px){}
 .print-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;border:1.5px solid #1a1a1a;background:#fff;font-size:13px;font-weight:700;cursor:pointer;color:#1a1a1a;transition:all .18s;margin-bottom:12px;width:100%}
+.notes-btn{border-color:#f5b400;color:#8a6400;background:#fff8e6}
+@media print{.notes-btn{display:none!important}}
 .print-btn:hover{background:#1a1a1a;color:#fff}
 @media print{
   #splash,#menu-wrap,#popup-overlay,#import-overlay,.tabs,.drive-section,.intoler-toggle,.sl-actions,.print-btn,.add-btn,.back-btn,  body,html{background:#fff!important;color:#000!important}
@@ -7064,6 +7066,55 @@ function applySubst(name, unit, q){
   return {name:name,unit:unit,q:q,subst:false};
 }
 
+function buildShoppingListText(){
+  var lines=[];
+  lines.push("🛒 Ma liste de courses");
+  lines.push("");
+  cart.forEach(function(ci){
+    var r=allRX().find(function(x){return x.id===ci.id;});
+    if(r)lines.push("• "+r.name+" ("+ci.persons+" pers.)");
+  });
+  lines.push("");
+  var items=buildShoppingList();
+  items.forEach(function(item){
+    var qty=item.total!==null?(fmt(item.total)+(item.unit?" "+item.unit:"")):"selon goût";
+    lines.push("☐ "+item.name.replace(" ☘","").replace(" ✱","")+" — "+qty);
+  });
+  return lines.join("\n");
+}
+
+function sendToNotes(){
+  var text=buildShoppingListText();
+  if(navigator.share){
+    navigator.share({title:"Ma liste de courses",text:text}).catch(function(err){
+      if(err && err.name==="AbortError")return; // annulé par l'utilisateur
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  function done(ok){
+    alert(ok
+      ? "Liste copiée ! Ouvre l'app Notes et colle-la (appui long → Coller)."
+      : "Impossible de copier automatiquement. Sélectionne et copie le texte manuellement.");
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){done(true);}).catch(function(){done(false);});
+  } else {
+    try{
+      var ta=document.createElement("textarea");
+      ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+      document.body.appendChild(ta);ta.focus();ta.select();
+      var ok=document.execCommand("copy");
+      document.body.removeChild(ta);
+      done(ok);
+    }catch(e){done(false);}
+  }
+}
+
 function buildShoppingList(){
   var agg={};
   cart.forEach(function(ci){
@@ -7142,6 +7193,10 @@ function renderCart(){
   // ── Print / PDF ──
   var ph2=mkEl("h2","print-title","🛒 Ma liste de courses",{display:"none"});
   app.appendChild(ph2);
+  var notesBtn=mkEl("button","print-btn notes-btn",null);
+  notesBtn.innerHTML="📝 Envoyer vers Notes";
+  notesBtn.onclick=function(){sendToNotes();};
+  app.appendChild(notesBtn);
   var printBtn=mkEl("button","print-btn",null);
   printBtn.innerHTML="🖨️ Imprimer / Enregistrer en PDF";
   printBtn.onclick=function(){window.print();};
