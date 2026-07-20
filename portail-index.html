@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>studio 42</title>
+<meta name="description" content="Les applications de Jeremy Ducrot.">
+<meta name="theme-color" content="#EDEFEC">
+<meta name="apple-mobile-web-app-title" content="studio 42">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2314181A'/><text x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23EDEFEC' text-anchor='middle'>42</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ------------------------------------------------------------------
+   studio 42 — vestibule.
+   Parti pris : la page est achromatique, toute la couleur vient
+   des applications elles-mêmes. Chaque app garde son identité.
+   ------------------------------------------------------------------ */
+:root{
+  --paper:#EDEFEC;      /* papier légèrement froid */
+  --paper-2:#E3E6E1;
+  --ink:#14181A;
+  --ink-60:rgba(20,24,26,.6);
+  --ink-25:rgba(20,24,26,.25);
+  --ink-12:rgba(20,24,26,.12);
+
+  --display:'Bricolage Grotesque',Georgia,serif;
+  --body:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --gap:clamp(14px,3vw,22px);
+  --pad:clamp(20px,5vw,44px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100svh;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-weight:300;line-height:1.5;
+  padding:calc(env(safe-area-inset-top,0px) + var(--pad)) var(--pad)
+          calc(env(safe-area-inset-bottom,0px) + var(--pad));
+  display:flex;flex-direction:column;
+}
+body::after{ /* grain discret, sinon l'aplat est trop plat */
+  content:'';position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:radial-gradient(var(--ink-12) .5px,transparent .5px);background-size:4px 4px;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
+
+/* ---------- En-tête ---------- */
+header{max-width:1080px;width:100%;margin:0 auto clamp(28px,6vw,56px)}
+.mark{display:flex;align-items:baseline;gap:12px}
+.mark b{font-family:var(--display);font-weight:800;font-size:clamp(30px,7vw,46px);
+  letter-spacing:-.03em;line-height:1}
+.mark span{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-60)}
+header p{margin:14px 0 0;max-width:34ch;color:var(--ink-60);font-size:clamp(15px,2.4vw,17px)}
+
+/* ---------- Les cartes ---------- */
+main{max-width:1080px;width:100%;margin:0 auto;flex:1}
+.deck{display:grid;gap:var(--gap);grid-template-columns:1fr}
+@media (min-width:760px){ .deck{grid-template-columns:repeat(3,1fr)} }
+
+.app{
+  position:relative;overflow:hidden;border-radius:22px;
+  min-height:clamp(190px,42vw,340px);
+  padding:clamp(18px,3vw,26px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  color:#fff;isolation:isolate;
+  box-shadow:0 1px 2px rgba(20,24,26,.10), 0 10px 26px rgba(20,24,26,.10);
+  transition:transform .35s cubic-bezier(.2,.8,.3,1), box-shadow .35s ease;
+  animation:settle .7s cubic-bezier(.2,.9,.3,1) both;
+}
+.app:nth-child(1){animation-delay:.05s}
+.app:nth-child(2){animation-delay:.14s}
+.app:nth-child(3){animation-delay:.23s}
+@keyframes settle{
+  from{opacity:0;transform:translateY(26px) rotate(var(--tilt,0deg)) scale(.97)}
+  to{opacity:1;transform:none}
+}
+.app::before{content:'';position:absolute;inset:0;z-index:-2;background:var(--art)}
+.app::after{content:'';position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(to top,rgba(12,10,14,.78) 4%,rgba(12,10,14,.18) 52%,transparent 78%)}
+@media (hover:hover){
+  .app:hover{transform:translateY(-6px);box-shadow:0 2px 4px rgba(20,24,26,.12),0 22px 44px rgba(20,24,26,.20)}
+}
+.app:active{transform:translateY(-2px) scale(.995)}
+
+.app .kicker{font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,255,255,.72);margin-bottom:8px}
+.app h2{font-family:var(--display);font-weight:600;font-size:clamp(25px,4.2vw,32px);
+  letter-spacing:-.02em;line-height:1.05;margin:0 0 6px}
+.app p{margin:0;font-size:14px;color:rgba(255,255,255,.78);max-width:30ch}
+.app .go{position:absolute;top:clamp(18px,3vw,26px);right:clamp(18px,3vw,26px);
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.35);color:#fff}
+.app[data-external] .go::after{content:'';position:absolute;inset:-1px;border-radius:50%;
+  border:1px dashed rgba(255,255,255,.35)}
+
+/* ---------- Pied ---------- */
+footer{max-width:1080px;width:100%;margin:clamp(30px,6vw,54px) auto 0;
+  border-top:1px solid var(--ink-12);padding-top:16px;
+  display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline;
+  font-size:13px;color:var(--ink-60)}
+footer .dot{width:5px;height:5px;border-radius:50%;background:var(--ink-25);display:inline-block}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mark"><b>studio 42</b><span>Jeremy Ducrot</span></div>
+  <p>Trois applications, faites à la maison, pour des usages qui n'avaient pas d'outil satisfaisant.</p>
+</header>
+
+<main>
+  <div class="deck">
+
+    <a class="app" href="/recettes/"
+       style="--art:linear-gradient(150deg,#2F4A3A,#7FA86B 48%,#E4C979); --tilt:-1.5deg">
+      <span class="go" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      <p class="kicker">Cuisine</p>
+      <h2>Mon livre de cuisine</h2>
+      <p>Les 63 recettes, la liste de courses qui se regroupe toute seule, et de quoi en inventer d'autres.</p>
+    </a>
+
+    <a class="app" href="/anglais/"
+       style="--art:linear-gradient(150deg,#3A1D42,#C9A9E9 46%,#F6C9B8)">
+      <span class="go" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      <p class="kicker">Anglais · quotidien</p>
+      <h2>The Season</h2>
+      <p>Quinze minutes par jour : cinq mots, un texte, une phrase à voix haute, trois à écrire.</p>
+    </a>
+
+    <a class="app" href="https://jeremy1277.github.io/run-and-bike-trainer/" data-external
+       style="--art:linear-gradient(150deg,#12354F,#3E8FB0 45%,#F0A860); --tilt:1.5deg">
+      <span class="go" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      <p class="kicker">Course &amp; gravel</p>
+      <h2>Run &amp; Bike</h2>
+      <p>Séances, tracés, export GPX et un coach qui lit vraiment les sorties Strava.</p>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <span>www.studio-42.app</span>
+  <span class="dot"></span>
+  <span>Applications privées, à usage familial</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>The Season — English</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="The Season">
+<meta name="theme-color" content="#241228">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   Palette : aubergine profond, glycine, bleu poudre, pêche, or
+   ============================================================ */
+:root{
+  --ink:#241228;          /* fond */
+  --velvet:#33193B;       /* surface */
+  --velvet-2:#3F2049;     /* surface haute */
+  --wisteria:#C9A9E9;     /* accent principal */
+  --powder:#9FC4E8;       /* accent secondaire */
+  --peach:#F6C9B8;        /* accent chaud */
+  --gilt:#D9B96C;         /* or */
+  --gilt-soft:#E9D8A6;
+  --cream:#FBF3F6;        /* texte */
+  --muted:#B79FBF;        /* texte secondaire */
+  --line:rgba(233,216,166,.22);
+  --ok:#8FD9B6;
+  --warn:#F2A5A5;
+
+  --display:'Cormorant Garamond',Georgia,serif;
+  --body:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --r:18px;
+  --pad:20px;
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--ink)!important;color-scheme:dark}
+html,body{min-height:100%}
+body{
+  margin:0;background:var(--ink)!important;color:var(--cream);
+  font-family:var(--body);font-weight:300;font-size:16px;line-height:1.55;
+  overscroll-behavior:none;-webkit-font-smoothing:antialiased;
+}
+/* Couche de fond fixe : certains viewers intégrés ignorent le fond du body */
+#backdrop{position:fixed;inset:-2px;z-index:-1;background:var(--ink);pointer-events:none}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(120% 60% at 15% -5%,rgba(201,169,233,.20),transparent 60%),
+    radial-gradient(90% 50% at 95% 105%,rgba(159,196,232,.14),transparent 60%);
+}
+button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--gilt);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+#app{position:relative;z-index:1;max-width:520px;margin:0 auto;
+  padding:calc(var(--safe-t) + 8px) var(--pad) 0;}
+.screen{display:none;animation:fade .35s ease both}
+.screen.on{display:flex;flex-direction:column;
+  min-height:calc(100vh - var(--safe-t) - 8px);
+  min-height:calc(100dvh - var(--safe-t) - 8px)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* Grand écran : on encadre la maquette au format iPhone.
+   #app devient le conteneur de défilement, donc la barre d'action
+   sticky reste ancrée au cadre et non à la fenêtre. */
+@media (min-width:620px) and (min-height:620px){
+  body{display:grid;place-items:center;overflow:hidden}
+  #app{width:402px;max-width:none;height:min(844px,94vh);
+    overflow-y:auto;overflow-x:hidden;border-radius:38px;
+    border:1px solid var(--line);box-shadow:0 40px 90px rgba(0,0,0,.55)}
+  #app::-webkit-scrollbar{width:0}
+  .screen.on{min-height:calc(100% - var(--safe-t) - 8px)}
+  #toast{bottom:auto;top:calc(50vh + 300px)}
+}
+
+/* Typo */
+.eyebrow{font-family:var(--body);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gilt);font-weight:500}
+h1{font-family:var(--display);font-weight:300;font-size:40px;line-height:1.05;margin:.2em 0 .3em;
+  letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--wisteria)}
+h2{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.15;margin:0 0 10px}
+h3{font-family:var(--body);font-weight:500;font-size:15px;letter-spacing:.02em;margin:0 0 8px}
+p{margin:0 0 14px;color:var(--muted)}
+p.lead{color:var(--cream)}
+.small{font-size:13px;color:var(--muted)}
+
+/* Filet gravé */
+.rule{display:flex;align-items:center;gap:12px;margin:26px 0;color:var(--line)}
+.rule::before,.rule::after{content:'';height:1px;flex:1;background:currentColor}
+.rule svg{width:22px;height:22px;opacity:.7;color:var(--gilt)}
+
+/* Cartes */
+.card{background:linear-gradient(160deg,var(--velvet),var(--velvet-2));
+  border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card + .card{margin-top:12px}
+
+/* Boutons */
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  min-height:56px;border-radius:100px;font-weight:500;letter-spacing:.02em;
+  background:linear-gradient(120deg,var(--gilt),var(--gilt-soft));color:#2B1730;
+  transition:transform .15s ease,filter .15s ease}
+.btn:active{transform:scale(.975)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--cream)}
+.btn.quiet{background:none;color:var(--muted);min-height:44px;font-size:14px}
+.btn.small{min-height:44px;font-size:14px;padding:0 18px;width:auto}
+.btn-row{display:flex;gap:10px;margin-top:12px}
+.btn-row .btn{flex:1}
+
+/* Champs */
+label.field{display:block;margin-bottom:14px}
+label.field span{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=url],textarea,select{
+  width:100%;background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:12px;
+  padding:14px;color:var(--cream);font-weight:300}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+
+/* ============================================================
+   SCEAU DE CIRE — élément signature
+   ============================================================ */
+.seal{width:var(--s,44px);height:var(--s,44px);position:relative;flex:none}
+.seal svg{width:100%;height:100%;display:block}
+.seal .wax{fill:#7A2E4A}
+.seal .rim{fill:none;stroke:var(--gilt);stroke-width:1.2;opacity:.8}
+.seal .mono{font-family:var(--display);font-size:15px;fill:var(--gilt-soft);
+  text-anchor:middle;dominant-baseline:central}
+.seal.empty .wax{fill:rgba(255,255,255,.05)}
+.seal.empty .rim{stroke:var(--line)}
+.seal.empty .mono{fill:rgba(255,255,255,.18)}
+.seal.stamp{animation:stamp .6s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes stamp{
+  0%{transform:scale(2.6) rotate(-14deg);opacity:0}
+  55%{transform:scale(.92) rotate(2deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+.seal-row{display:flex;gap:9px;align-items:center}
+
+/* ============================================================
+   ACCUEIL
+   ============================================================ */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:6px 0 2px}
+.brand{font-family:var(--display);font-size:19px;letter-spacing:.04em}
+.brand em{font-style:italic;color:var(--wisteria)}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+.streakcard{margin-top:14px;padding:18px;border-radius:var(--r);
+  background:linear-gradient(150deg,rgba(201,169,233,.18),rgba(159,196,232,.08));
+  border:1px solid var(--line)}
+.streakcard .n{font-family:var(--display);font-size:52px;line-height:.9;color:var(--cream)}
+.streakcard .n sup{font-family:var(--body);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gilt);vertical-align:super;margin-left:8px}
+
+/* Invitation = carte de séance */
+.invite{position:relative;overflow:hidden;border-radius:22px;border:1px solid var(--line);
+  padding:22px;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end;
+  margin-top:16px;text-align:left;width:100%}
+.invite .cover{position:absolute;inset:0;z-index:0}
+.invite .veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(36,18,40,.94) 8%,rgba(36,18,40,.35) 60%,rgba(36,18,40,.1))}
+.invite .inner{position:relative;z-index:2}
+.invite h2{font-size:31px;margin-bottom:4px}
+.invite .meta{font-size:13px;color:var(--muted)}
+
+/* Sélecteur de thème */
+.themes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.theme-chip{position:relative;overflow:hidden;border-radius:14px;border:1px solid var(--line);
+  min-height:86px;padding:12px;display:flex;align-items:flex-end;text-align:left;
+  font-family:var(--display);font-size:19px;line-height:1.1;color:var(--cream)}
+.theme-chip .cover{position:absolute;inset:0;opacity:.55}
+.theme-chip span{position:relative;z-index:1}
+.theme-chip[aria-pressed=true]{border-color:var(--gilt);box-shadow:0 0 0 1px var(--gilt) inset}
+.theme-chip[aria-pressed=true]::after{content:'✓';position:absolute;top:8px;right:10px;z-index:1;
+  color:var(--gilt);font-size:14px}
+
+/* ============================================================
+   SESSION
+   ============================================================ */
+.ribbon{display:flex;gap:5px;margin:10px 0 18px}
+.ribbon i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.12)}
+.ribbon i.done{background:var(--gilt)}
+.ribbon i.now{background:var(--wisteria)}
+.phase-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+
+/* Warm-up : cartes mot */
+.word{display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;
+  border:1px solid var(--line);background:rgba(0,0,0,.18);margin-bottom:10px;width:100%;text-align:left}
+.word .en{font-family:var(--display);font-size:24px;line-height:1.1}
+.word .fr{font-size:13px;color:var(--muted);display:block;margin-top:2px;
+  opacity:0;transition:opacity .3s ease}
+.word.revealed .fr{opacity:1}
+.word .spk{margin-left:auto;color:var(--gilt);width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none}
+
+/* Input : texte */
+.reading{font-family:var(--display);font-size:21px;line-height:1.6;color:var(--cream)}
+.reading .g{border-bottom:1px dotted var(--wisteria);cursor:pointer}
+.qcm{margin-top:8px}
+.opt{display:block;width:100%;text-align:left;padding:14px 16px;border-radius:12px;
+  border:1px solid var(--line);margin-bottom:8px;background:rgba(0,0,0,.18)}
+.opt.right{border-color:var(--ok);background:rgba(143,217,182,.12)}
+.opt.wrong{border-color:var(--warn);background:rgba(242,165,165,.1)}
+
+/* Oral */
+.mode-switch{display:flex;gap:6px;background:rgba(0,0,0,.25);border-radius:100px;padding:4px;margin-bottom:16px}
+.mode-switch button{flex:1;min-height:40px;border-radius:100px;font-size:13px;color:var(--muted)}
+.mode-switch button[aria-pressed=true]{background:var(--velvet-2);color:var(--cream);
+  box-shadow:0 0 0 1px var(--line) inset}
+.target{font-family:var(--display);font-size:26px;line-height:1.35;margin:6px 0 6px}
+.target-fr{font-size:13px;color:var(--muted);margin-bottom:18px}
+.mic{width:104px;height:104px;border-radius:50%;margin:6px auto 14px;display:flex;
+  align-items:center;justify-content:center;background:linear-gradient(140deg,var(--wisteria),var(--powder));
+  color:#2B1730;position:relative}
+.mic.rec{background:linear-gradient(140deg,#F2A5A5,var(--peach))}
+.mic.rec::after{content:'';position:absolute;inset:-10px;border-radius:50%;
+  border:2px solid rgba(242,165,165,.5);animation:pulse 1.3s ease-out infinite}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(1.25);opacity:0}}
+.ab{display:flex;gap:10px;margin-top:8px}
+.ab button{flex:1;min-height:52px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(0,0,0,.18);font-size:14px}
+.rate{display:flex;gap:8px;margin-top:16px}
+.rate button{flex:1;min-height:60px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(0,0,0,.18);font-size:13px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px}
+.rate button b{font-size:22px;font-weight:400;font-family:var(--display)}
+.heard{margin-top:14px;padding:14px;border-radius:12px;border:1px dashed var(--line);
+  font-family:var(--display);font-size:19px;min-height:56px}
+
+/* Output */
+.prompt-q{font-family:var(--display);font-size:23px;line-height:1.3;margin-bottom:4px}
+.correction{border-left:2px solid var(--gilt);padding-left:14px;margin-top:14px}
+.correction .fix{font-family:var(--display);font-size:20px;line-height:1.45;color:var(--cream)}
+.correction ins{text-decoration:none;color:var(--ok);border-bottom:1px solid var(--ok)}
+.correction del{color:var(--warn);opacity:.65}
+
+/* Clôture */
+.finale{text-align:center;padding-top:30px}
+.finale .seal{margin:0 auto 22px}
+.recap{text-align:left;margin-top:24px}
+.recap-line{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.recap-line span:last-child{color:var(--cream)}
+
+/* Quiz diagnostic */
+.qprog{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gilt)}
+
+/* Réglages */
+.set-group{margin-bottom:22px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 11px;
+  border-radius:100px;border:1px solid var(--line);color:var(--muted)}
+.badge.ok{color:var(--ok);border-color:rgba(143,217,182,.4)}
+.badge.off{color:var(--warn);border-color:rgba(242,165,165,.35)}
+
+/* Barre d'action fixe */
+.dock{position:sticky;bottom:0;z-index:20;margin:28px calc(var(--pad) * -1) 0;margin-top:auto;
+  padding:18px var(--pad) calc(var(--safe-b) + 16px);
+  background:linear-gradient(to top,var(--ink) 62%,rgba(36,18,40,0))}
+
+/* Toast */
+#toast{position:fixed;left:50%;bottom:calc(var(--safe-b) + 100px);transform:translate(-50%,20px);
+  background:var(--velvet-2);border:1px solid var(--line);border-radius:100px;padding:11px 20px;
+  font-size:14px;z-index:60;opacity:0;pointer-events:none;transition:all .3s ease;max-width:88vw;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:var(--gilt);
+  border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div id="backdrop"></div>
+<div id="app">
+
+  <!-- ============ 1. BIENVENUE ============ -->
+  <section class="screen on" id="s-welcome">
+    <div style="height:40px"></div>
+    <p class="eyebrow">Saison 2026</p>
+    <h1>Chaque jour,<br>une <em>invitation</em>.</h1>
+    <p class="lead">Quinze minutes d'anglais construites autour de ce que tu regardes, portes et écoutes vraiment.</p>
+    <div class="rule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3c2 4 6 5 6 8a6 6 0 0 1-12 0c0-3 4-4 6-8z"/></svg></div>
+    <label class="field"><span>Ton prénom</span>
+      <input type="text" id="in-name" placeholder="Alessia" autocomplete="given-name"></label>
+    <p class="small">On commence par un quiz de départ. Pas de note, pas de correction rouge — juste de quoi caler le bon point de départ.</p>
+    <div class="dock"><button class="btn" id="go-quiz">Commencer le quiz</button></div>
+  </section>
+
+  <!-- ============ 2. QUIZ DIAGNOSTIC ============ -->
+  <section class="screen" id="s-quiz">
+    <div class="topbar"><span class="qprog" id="q-prog">Question 1 / 12</span><span class="eyebrow" id="q-theme"></span></div>
+    <div class="ribbon" id="q-ribbon"></div>
+    <div style="height:24px"></div>
+    <h2 id="q-text">…</h2>
+    <p class="small" id="q-hint"></p>
+    <div class="qcm" id="q-opts"></div>
+    <div style="height:calc(env(safe-area-inset-bottom,0px) + 24px)"></div>
+  </section>
+
+  <!-- ============ 3. RÉSULTAT DU QUIZ ============ -->
+  <section class="screen" id="s-result">
+    <div style="height:32px"></div>
+    <p class="eyebrow">Ton point de départ</p>
+    <h1 id="r-title">Level <em>2</em></h1>
+    <p class="lead" id="r-text"></p>
+    <div class="rule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3c2 4 6 5 6 8a6 6 0 0 1-12 0c0-3 4-4 6-8z"/></svg></div>
+    <h3>Choisis tes univers</h3>
+    <p class="small">Tes séances seront écrites autour de ça. Tu peux en changer quand tu veux.</p>
+    <div class="themes" id="theme-picker"></div>
+    <div class="dock"><button class="btn" id="go-home">C'est parti</button></div>
+  </section>
+
+  <!-- ============ 4. ACCUEIL ============ -->
+  <section class="screen" id="s-home">
+    <div class="topbar">
+      <div class="brand">The <em>Season</em></div>
+      <button class="icon-btn" id="open-settings" aria-label="Réglages">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+
+    <div class="streakcard">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between">
+        <div class="n" id="h-streak">0<sup>jours</sup></div>
+        <div class="seal-row" id="h-seals"></div>
+      </div>
+      <p class="small" style="margin:12px 0 0" id="h-streak-msg">Ta première séance t'attend.</p>
+    </div>
+
+    <button class="invite" id="h-invite">
+      <div class="cover" id="h-cover"></div><div class="veil"></div>
+      <div class="inner">
+        <p class="eyebrow" id="h-eyebrow">Séance du jour</p>
+        <h2 id="h-theme">Bridgerton</h2>
+        <p class="meta" id="h-meta">5 mots · 1 texte · 1 oral · 3 phrases — 14 min</p>
+      </div>
+    </button>
+
+    <div class="rule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3c2 4 6 5 6 8a6 6 0 0 1-12 0c0-3 4-4 6-8z"/></svg></div>
+
+    <h3>Ton univers de la semaine</h3>
+    <div class="themes" id="home-themes"></div>
+    <div style="height:20px"></div>
+    <div class="dock"><button class="btn" id="start-session">Ouvrir la séance</button></div>
+  </section>
+
+  <!-- ============ 5. SÉANCE ============ -->
+  <section class="screen" id="s-session">
+    <div class="topbar">
+      <span class="eyebrow" id="p-name">Échauffement</span>
+      <button class="btn quiet" id="quit-session" style="width:auto">Fermer</button>
+    </div>
+    <div class="ribbon" id="p-ribbon"><i></i><i></i><i></i><i></i><i></i></div>
+    <div id="p-body"></div>
+    <div class="dock"><button class="btn" id="p-next">Continuer</button></div>
+  </section>
+
+  <!-- ============ 6. RÉGLAGES ============ -->
+  <section class="screen" id="s-settings">
+    <div class="topbar">
+      <div class="brand">Réglages</div>
+      <button class="btn quiet" id="close-settings" style="width:auto">Fermer</button>
+    </div>
+    <div class="rule"></div>
+
+    <div class="set-group">
+      <h3>Moteur de cours</h3>
+      <p class="small">L'adresse du proxy Cloudflare qui détient la clé Anthropic. Sans elle, l'app tourne sur le contenu embarqué.</p>
+      <label class="field"><span>URL du proxy</span>
+        <input type="url" id="set-proxy" placeholder="https://xxx.workers.dev/claude"></label>
+      <div class="btn-row">
+        <button class="btn ghost small" id="test-proxy">Tester la connexion</button>
+        <span class="badge" id="proxy-badge">Non configuré</span>
+      </div>
+    </div>
+
+    <div class="set-group">
+      <h3>Récapitulatif du soir</h3>
+      <p class="small">L'adresse du script Google qui enregistre la progression et envoie le mail à 19 h.</p>
+      <label class="field"><span>URL du script</span>
+        <input type="url" id="set-mail" placeholder="https://script.google.com/macros/s/.../exec"></label>
+      <button class="btn ghost small" id="test-mail">Envoyer un récap de test</button>
+    </div>
+
+    <div class="set-group">
+      <h3>Voix</h3>
+      <label class="field"><span>Accent</span>
+        <select id="set-voice"></select></label>
+      <button class="btn ghost small" id="test-voice">Écouter</button>
+    </div>
+
+    <div class="set-group">
+      <h3>Suivi parents</h3>
+      <div id="parent-view"></div>
+    </div>
+
+    <div class="set-group">
+      <button class="btn quiet" id="reset-all">Tout effacer et recommencer</button>
+    </div>
+    <div style="height:40px"></div>
+  </section>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ============================================================================
+   CONTENU — banque de secours. Le moteur Claude régénère par-dessus quand
+   le proxy est configuré.
+   ============================================================================ */
+const COVERS = {
+  bridgerton:'linear-gradient(150deg,#6B3A6E,#C9A9E9 45%,#F6C9B8)',
+  beauty:'linear-gradient(150deg,#8A3B57,#F6C9B8 50%,#E9D8A6)',
+  fashion:'linear-gradient(150deg,#2B4A6B,#9FC4E8 55%,#D9B96C)',
+  crown:'linear-gradient(150deg,#4A2B6B,#9FC4E8 40%,#C9A9E9)',
+  contresens:'linear-gradient(150deg,#7A2E4A,#F2A5A5 50%,#E9D8A6)'
+};
+
+const THEMES = {
+bridgerton:{
+  id:'bridgerton', name:'Bridgerton', tag:'Regency · gossip · bals',
+  words:[
+    {en:'a rumour',fr:'une rumeur',ex:'A rumour spread across the ballroom in ten minutes.'},
+    {en:'to court someone',fr:'faire la cour à quelqu\'un',ex:'He courted her for the whole season.'},
+    {en:'a gown',fr:'une robe (de soirée)',ex:'Her gown was pale blue silk.'},
+    {en:'engaged',fr:'fiancé(e)',ex:'They got engaged in the spring.'},
+    {en:'to whisper',fr:'chuchoter',ex:'People whispered behind their fans.'}
+  ],
+  text:`Everyone loves a good rumour. In the show, one anonymous writer publishes a gossip paper, and the whole city reads it before breakfast. A single sentence can ruin a reputation or make a girl the star of the season. The clothes are beautiful, the ballrooms are enormous, but the real weapon is information. That is why the series works so well: it is a story about power, and the power is in the words.`,
+  qcm:[
+    {q:'What is the real weapon in the story?',opts:['Money','Information','Dancing'],a:1},
+    {q:'"Before breakfast" means…',opts:['Very early','Very slowly','Very late'],a:0}
+  ],
+  shadow:[
+    {en:'A single sentence can ruin a reputation.',fr:'Une seule phrase peut ruiner une réputation.'},
+    {en:'Everyone reads the gossip paper before breakfast.',fr:'Tout le monde lit le journal à ragots avant le petit-déjeuner.'},
+    {en:'She wore a pale blue gown to the ball.',fr:'Elle portait une robe bleu pâle au bal.'}
+  ],
+  write:[
+    {q:'Describe your favourite character in three sentences.',model:'My favourite character is Penelope. She is quiet in public, but she writes everything. I like her because she is clever.'},
+    {q:'Would you like to live in that period? Why?',model:'I would not like to live then. Women could not choose their life. But the dresses were beautiful.'},
+    {q:'Tell a friend why she should watch the show.',model:'You should watch it. The story is romantic and the costumes are amazing. Every episode ends with a surprise.'}
+  ]
+},
+beauty:{
+  id:'beauty', name:'Maquillage', tag:'routine · produits · tutos',
+  words:[
+    {en:'to blend',fr:'estomper / fondre',ex:'Blend the blush with a clean brush.'},
+    {en:'a shade',fr:'une teinte',ex:'This shade is too light for me.'},
+    {en:'glowy',fr:'lumineux / glowy',ex:'I want a glowy finish, not matte.'},
+    {en:'to apply',fr:'appliquer',ex:'Apply the cream before your foundation.'},
+    {en:'affordable',fr:'abordable',ex:'This brand is affordable and really good.'}
+  ],
+  text:`My routine takes eight minutes, and honestly most of it is skincare. I apply moisturiser first, then a light foundation with my fingers, because brushes take too long in the morning. Then blush — always more than people expect — and I blend it up towards my eyes. Mascara, a little lip balm, done. I do not think expensive products are better. My favourite blush costs nine euros and I have bought it four times.`,
+  qcm:[
+    {q:'How long does the routine take?',opts:['Eight minutes','Eighteen minutes','Half an hour'],a:0},
+    {q:'What does she think about expensive products?',opts:['They are worth it','They are not better','She never buys makeup'],a:1}
+  ],
+  shadow:[
+    {en:'I blend the blush up towards my eyes.',fr:'J\'estompe le blush vers les yeux.'},
+    {en:'I do not think expensive products are better.',fr:'Je ne pense pas que les produits chers soient meilleurs.'},
+    {en:'This shade is a bit too light for my skin.',fr:'Cette teinte est un peu trop claire pour ma peau.'}
+  ],
+  write:[
+    {q:'Describe your morning routine in three steps.',model:'First I wash my face. Then I apply a light cream. Finally I put on mascara and lip balm.'},
+    {q:'Recommend one product and say why.',model:'I recommend this blush. It is affordable and the colour lasts all day. I have bought it three times.'},
+    {q:'Is makeup necessary? Give your opinion.',model:'Makeup is not necessary, but I enjoy it. It is a way to play with colours. I never feel obliged to wear it.'}
+  ]
+},
+fashion:{
+  id:'fashion', name:'Mode actuelle', tag:'looks · pièces · tendances',
+  words:[
+    {en:'an outfit',fr:'une tenue',ex:'That outfit is perfect for autumn.'},
+    {en:'oversized',fr:'oversize / trop grand',ex:'She wore an oversized jacket.'},
+    {en:'to layer',fr:'superposer',ex:'In winter I layer two jumpers.'},
+    {en:'second-hand',fr:'d\'occasion / seconde main',ex:'Half of my wardrobe is second-hand.'},
+    {en:'it suits you',fr:'ça te va bien',ex:'That colour really suits you.'}
+  ],
+  text:`Trends move so fast now that a piece can be everywhere in March and embarrassing in June. I have stopped following them completely. Instead I buy second-hand, mostly denim and oversized jackets, and I keep the same five or six pieces for years. My friends say my style is boring. Maybe. But I never open my wardrobe in the morning and think I have nothing to wear.`,
+  qcm:[
+    {q:'What does she buy most?',opts:['New designer clothes','Second-hand denim and jackets','Only dresses'],a:1},
+    {q:'"Embarrassing" is closest to…',opts:['Gênant','Confortable','Cher'],a:0}
+  ],
+  shadow:[
+    {en:'Trends move so fast that I stopped following them.',fr:'Les tendances vont si vite que j\'ai arrêté de les suivre.'},
+    {en:'Half of my wardrobe is second-hand.',fr:'La moitié de mon dressing est en seconde main.'},
+    {en:'That colour really suits you.',fr:'Cette couleur te va vraiment bien.'}
+  ],
+  write:[
+    {q:'Describe the outfit you are wearing today.',model:'I am wearing wide jeans and a white t-shirt. My jacket is oversized and second-hand. I like it because it is comfortable.'},
+    {q:'Do you follow trends? Explain.',model:'I do not really follow trends. They change too fast. I prefer to keep the same pieces for years.'},
+    {q:'Write a comment under a friend\'s outfit photo.',model:'This outfit is amazing. The colour really suits you and the jacket is perfect. Where did you find it?'}
+  ]
+},
+crown:{
+  id:'crown', name:'Perfect Crown', tag:'K-drama · palais · pouvoir',
+  words:[
+    {en:'a plot / a plan',fr:'un complot / un plan',ex:'There is a plot against the queen.'},
+    {en:'loyal',fr:'loyal / fidèle',ex:'He stayed loyal to her family.'},
+    {en:'to betray',fr:'trahir',ex:'Her closest friend betrayed her.'},
+    {en:'an episode',fr:'un épisode',ex:'The last episode ends on a cliffhanger.'},
+    {en:'subtitles',fr:'sous-titres',ex:'I watch it with English subtitles now.'}
+  ],
+  text:`I started watching K-dramas with French subtitles, then I switched to English ones, and now I understand maybe half of the English without reading. It is the best trick I know. The episodes are long, the stories are about power and loyalty, and you always want to watch the next one. So you are learning for two hours without noticing. My advice: choose a show you already love, and change the subtitles, not the audio.`,
+  qcm:[
+    {q:'What does she recommend changing?',opts:['The audio','The subtitles','The platform'],a:1},
+    {q:'Why does the trick work?',opts:['Episodes are short','You learn without noticing','The vocabulary is easy'],a:1}
+  ],
+  shadow:[
+    {en:'I watch it with English subtitles now.',fr:'Je le regarde avec les sous-titres en anglais maintenant.'},
+    {en:'Her closest friend betrayed her in the last episode.',fr:'Sa meilleure amie l\'a trahie dans le dernier épisode.'},
+    {en:'Choose a show you already love.',fr:'Choisis une série que tu aimes déjà.'}
+  ],
+  write:[
+    {q:'Summarise the last episode you watched.',model:'In the last episode, the main character discovered the plot. She confronted her friend. The episode ended without an answer.'},
+    {q:'Why do you like K-dramas?',model:'I like K-dramas because the stories are intense. The characters are complicated. And I learn English with the subtitles.'},
+    {q:'Recommend a series to someone who has never watched one.',model:'You should start with a short series. The first episodes are slow, but then you cannot stop. Watch it with English subtitles.'}
+  ]
+},
+contresens:{
+  id:'contresens', name:'À contresens', tag:'romance · films · tension',
+  words:[
+    {en:'a crush',fr:'un béguin',ex:'She had a crush on him from day one.'},
+    {en:'to argue',fr:'se disputer',ex:'They argue in almost every scene.'},
+    {en:'to forgive',fr:'pardonner',ex:'He never forgave his brother.'},
+    {en:'to move in',fr:'emménager',ex:'She moved in with her mother\'s new family.'},
+    {en:'unfair',fr:'injuste',ex:'The situation was completely unfair to her.'}
+  ],
+  text:`The films follow a girl who moves into a huge house with her mother's new family, and immediately hates the boy who lives there. They argue in almost every scene. Of course, nobody believes the hate for one second — that is the whole point. It is not a complicated story, and the dialogues are simple, which makes it perfect in English. I watched the second film twice: once with subtitles, once without.`,
+  qcm:[
+    {q:'Why is it good for learning English?',opts:['The dialogues are simple','There is no dialogue','It is very old'],a:0},
+    {q:'How many times did she watch the second film?',opts:['Once','Twice','Three times'],a:1}
+  ],
+  shadow:[
+    {en:'They argue in almost every scene.',fr:'Ils se disputent dans presque chaque scène.'},
+    {en:'She moved in with her mother\'s new family.',fr:'Elle a emménagé avec la nouvelle famille de sa mère.'},
+    {en:'I watched the second film twice.',fr:'J\'ai regardé le deuxième film deux fois.'}
+  ],
+  write:[
+    {q:'Do you prefer the books or the films? Why?',model:'I prefer the films because the actors are good. The books explain more, but they are slower. I watched the films first.'},
+    {q:'Describe the main character in three sentences.',model:'She is stubborn and very independent. She does not accept the new house easily. But she is honest with everyone.'},
+    {q:'Write a message to convince a friend to watch it.',model:'You have to watch this film. The story is simple but the tension is great. And the English is easy to follow.'}
+  ]
+}
+};
+
+/* ============================================================================
+   QUIZ ADAPTATIF — 5 niveaux, on monte/descend selon les réponses
+   ============================================================================ */
+const QUIZ = {
+1:[
+ {q:'She ___ my best friend.',o:['is','are','be'],a:0},
+ {q:'I have two ___.',o:['brother','brothers','brothes'],a:1},
+ {q:'___ do you live?',o:['What','Where','Who'],a:1},
+ {q:'"Une robe" =',o:['a dress','a dessert','a desk'],a:0},
+ {q:'They ___ students.',o:['is','am','are'],a:2},
+ {q:'"Sous-titres" =',o:['subtitles','subways','subjects'],a:0}
+],
+2:[
+ {q:'She ___ makeup every morning.',o:['wear','wears','wearing'],a:1},
+ {q:'I ___ like horror films.',o:['don\'t','doesn\'t','not'],a:0},
+ {q:'There ___ a lot of people at the ball.',o:['was','were','is'],a:1},
+ {q:'"It suits you" =',o:['Ça te va bien','Ça te coûte cher','Ça te dérange'],a:0},
+ {q:'This dress is ___ than the other one.',o:['beautiful','more beautiful','beautifuller'],a:1},
+ {q:'She is good ___ drawing.',o:['at','in','on'],a:0}
+],
+3:[
+ {q:'Yesterday I ___ the last episode.',o:['watch','watched','have watched'],a:1},
+ {q:'She ___ to the party last night.',o:['goed','went','gone'],a:1},
+ {q:'I\'m looking ___ a black jacket.',o:['for','at','after'],a:0},
+ {q:'"Second-hand" =',o:['de mauvaise qualité','d\'occasion','fait main'],a:1},
+ {q:'He didn\'t ___ me the truth.',o:['told','tell','telling'],a:1},
+ {q:'If it rains, we ___ at home.',o:['stay','will stay','stayed'],a:1}
+],
+4:[
+ {q:'I ___ this series three times.',o:['saw','have seen','am seeing'],a:1},
+ {q:'She\'s been living here ___ 2019.',o:['for','since','during'],a:1},
+ {q:'"To give up" =',o:['abandonner','offrir','se lever'],a:0},
+ {q:'The film ___ by a Spanish director.',o:['directed','was directed','has directed'],a:1},
+ {q:'I wish I ___ more confident in English.',o:['am','was','will be'],a:1},
+ {q:'She said she ___ tired.',o:['is','was','has'],a:1}
+],
+5:[
+ {q:'Had I known, I ___ differently.',o:['would act','would have acted','had acted'],a:1},
+ {q:'"To come across as" =',o:['donner l\'impression d\'être','tomber sur','traverser'],a:0},
+ {q:'Hardly ___ she arrived when it started.',o:['had','has','did'],a:0},
+ {q:'It\'s high time you ___ studying.',o:['start','started','will start'],a:1},
+ {q:'"Blunt" describes someone who is…',o:['very direct','very shy','very rich'],a:0},
+ {q:'The point ___ he never apologised.',o:['is that','is what','that is'],a:0}
+]
+};
+const LEVEL_NAMES = {1:'A1',2:'A1+',3:'A2',4:'B1',5:'B1+'};
+const LEVEL_COPY = {
+1:"On repart des bases, et c'est exactement ce qu'il faut. Les fondations d'abord, le reste vient vite.",
+2:"Tu as déjà les briques de base. On va surtout travailler l'aisance et les automatismes.",
+3:"Bon socle. L'enjeu maintenant c'est le passé, les nuances et l'oral.",
+4:"Tu es plus à l'aise que tu ne le penses. On va viser la précision et la spontanéité.",
+5:"Très bon niveau. On travaille l'idiomatique et l'expression naturelle."
+};
+
+/* ============================================================================
+   ÉTAT
+   ============================================================================ */
+const KEY='theseason_v1';
+let S = load();
+function load(){
+  try{ const r=JSON.parse(localStorage.getItem(KEY)); if(r) return r; }catch(e){}
+  return {name:'',level:2,cefr:'A1+',themes:['bridgerton','beauty','fashion'],
+    week:'bridgerton',streak:0,lastDay:null,sessions:[],errors:[],proxy:'',mailUrl:'',voice:''};
+}
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function show(id){ $$('.screen').forEach(e=>e.classList.remove('on')); $('#'+id).classList.add('on'); window.scrollTo(0,0); }
+function toast(msg,ms=2400){ const t=$('#toast'); t.innerHTML=msg; t.classList.add('on');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),ms); }
+function today(){ return new Date().toISOString().slice(0,10); }
+
+function sealSVG(letter,filled){
+  return `<div class="seal ${filled?'':'empty'}"><svg viewBox="0 0 44 44">
+    <circle class="wax" cx="22" cy="22" r="19"/>
+    <circle class="rim" cx="22" cy="22" r="15"/>
+    <text class="mono" x="22" y="23">${letter}</text></svg></div>`;
+}
+
+/* ============================================================================
+   VOIX — synthèse (fiable sur iOS) 
+   ============================================================================ */
+let VOICES=[];
+function loadVoices(){
+  VOICES=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  const sel=$('#set-voice'); if(!sel) return;
+  sel.innerHTML = VOICES.map(v=>`<option value="${v.name}" ${S.voice===v.name?'selected':''}>${v.name} — ${v.lang}</option>`).join('')
+    || '<option>Voix par défaut du système</option>';
+}
+speechSynthesis.onvoiceschanged=loadVoices; loadVoices();
+function speak(text,rate=0.92){
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  const v=VOICES.find(x=>x.name===S.voice) || VOICES.find(x=>x.lang==='en-GB') || VOICES[0];
+  if(v) u.voice=v;
+  u.lang = v? v.lang : 'en-GB'; u.rate=rate;
+  speechSynthesis.speak(u);
+}
+
+/* ============================================================================
+   MOTEUR CLAUDE — via le proxy Cloudflare (la clé ne sort jamais du serveur)
+   ============================================================================ */
+async function claude(system,user,maxTokens=1200){
+  if(!S.proxy) throw new Error('no-proxy');
+  const r = await fetch(S.proxy,{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:maxTokens,
+      system, messages:[{role:'user',content:user}] })
+  });
+  if(!r.ok) throw new Error('http-'+r.status);
+  const d = await r.json();
+  return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+}
+function parseJSON(txt){
+  const clean = txt.replace(/```json|```/g,'').trim();
+  const s=clean.indexOf('{'), e=clean.lastIndexOf('}');
+  return JSON.parse(s>=0? clean.slice(s,e+1) : clean);
+}
+
+/* Génère la séance du jour. Échoue proprement sur la banque embarquée. */
+async function buildLesson(themeId){
+  const base = THEMES[themeId];
+  if(!S.proxy) return base;
+  const sys = `Tu es professeur d'anglais pour une adolescente francophone de 14 ans, niveau ${S.cefr}.
+Tu écris des micro-leçons courtes, modernes, jamais scolaires, sur un thème qu'elle adore.
+L'anglais doit être authentique mais calibré ${S.cefr} : phrases courtes, vocabulaire concret.
+Erreurs récurrentes à retravailler discrètement : ${(S.errors.slice(-6).join(', '))||'aucune connue'}.
+Réponds UNIQUEMENT en JSON, sans texte autour, au format exact :
+{"words":[{"en":"","fr":"","ex":""}],"text":"","qcm":[{"q":"","opts":["","",""],"a":0}],
+"shadow":[{"en":"","fr":""}],"write":[{"q":"","model":""}]}
+5 mots, un texte de 70 à 90 mots à la première personne, 2 QCM, 3 phrases d'oral, 3 consignes d'écriture.`;
+  const usr = `Thème : ${base.name} (${base.tag}). Écris la séance du jour. Ne réutilise pas d'exemples déjà vus.`;
+  try{
+    const out = parseJSON(await claude(sys,usr,1600));
+    return {...base, ...out};
+  }catch(e){ return base; }
+}
+
+/* Corrige une production écrite */
+async function correct(prompt,answer,model){
+  if(!S.proxy){
+    return {ok:null, fixed:null, note:"Moteur non connecté — compare avec la phrase modèle ci-dessous.", model};
+  }
+  const sys=`Tu corriges l'anglais d'une élève francophone de 14 ans, niveau ${S.cefr}.
+Ton : encourageant, jamais sévère, tutoiement, en français pour les explications.
+Réponds UNIQUEMENT en JSON : {"fixed":"la version corrigée en anglais","note":"une phrase de retour en français, positive et concrète","tags":["type d'erreur en 2 mots"]}
+S'il n'y a pas d'erreur, "fixed" reprend sa phrase telle quelle.`;
+  try{
+    const out = parseJSON(await claude(sys,`Consigne : ${prompt}\nSa réponse : ${answer}`,700));
+    if(out.tags) S.errors.push(...out.tags), S.errors=S.errors.slice(-20), save();
+    return {...out, model};
+  }catch(e){ return {fixed:null, note:"Correction indisponible. Compare avec la phrase modèle.", model}; }
+}
+
+/* ============================================================================
+   ÉCRAN 1 — BIENVENUE
+   ============================================================================ */
+$('#go-quiz').onclick=()=>{
+  const n=$('#in-name').value.trim();
+  if(!n){ toast('Écris ton prénom pour commencer'); return; }
+  S.name=n; save(); startQuiz();
+};
+
+/* ============================================================================
+   ÉCRAN 2 — QUIZ ADAPTATIF
+   ============================================================================ */
+let Q={i:0,lvl:2,score:[],used:new Set(),total:12};
+function startQuiz(){
+  Q={i:0,lvl:2,score:[],used:new Set(),total:12};
+  $('#q-ribbon').innerHTML=Array.from({length:12},()=>'<i></i>').join('');
+  show('s-quiz'); nextQ();
+}
+function pickQ(lvl){
+  const pool=QUIZ[lvl].filter((_,k)=>!Q.used.has(lvl+'-'+k));
+  if(!pool.length) return pickQ(lvl>1?lvl-1:2);
+  const k=QUIZ[lvl].indexOf(pool[Math.floor(Math.random()*pool.length)]);
+  Q.used.add(lvl+'-'+k); return {...QUIZ[lvl][k],lvl};
+}
+function nextQ(){
+  if(Q.i>=Q.total) return endQuiz();
+  const item=pickQ(Q.lvl);
+  $('#q-prog').textContent=`Question ${Q.i+1} / ${Q.total}`;
+  $('#q-theme').textContent='';
+  $$('#q-ribbon i').forEach((el,k)=>{ el.className = k<Q.i?'done':(k===Q.i?'now':''); });
+  $('#q-text').textContent=item.q;
+  $('#q-hint').textContent='';
+  $('#q-opts').innerHTML=item.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('');
+  $$('#q-opts .opt').forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k, right=k===item.a;
+    b.classList.add(right?'right':'wrong');
+    if(!right) $$('#q-opts .opt')[item.a].classList.add('right');
+    $$('#q-opts .opt').forEach(x=>x.onclick=null);
+    Q.score.push({lvl:item.lvl,right});
+    Q.lvl = right ? Math.min(5,Q.lvl+1) : Math.max(1,Q.lvl-1);
+    Q.i++;
+    setTimeout(nextQ, right?500:1100);
+  });
+}
+function endQuiz(){
+  const w=Q.score.reduce((a,s)=>a+(s.right?s.lvl:0),0);
+  const n=Q.score.filter(s=>s.right).length||1;
+  const lvl=Math.max(1,Math.min(5,Math.round(w/n)));
+  S.level=lvl; S.cefr=LEVEL_NAMES[lvl]; save();
+  $('#r-title').innerHTML=`Level <em>${lvl}</em>`;
+  $('#r-text').textContent=LEVEL_COPY[lvl];
+  renderThemePicker(); show('s-result');
+}
+
+/* ============================================================================
+   ÉCRAN 3 — CHOIX DES THÈMES
+   ============================================================================ */
+function themeChip(t,on){
+  return `<button class="theme-chip" data-t="${t.id}" aria-pressed="${on}">
+    <div class="cover" style="background:${COVERS[t.id]}"></div><span>${t.name}</span></button>`;
+}
+function renderThemePicker(){
+  $('#theme-picker').innerHTML=Object.values(THEMES).map(t=>themeChip(t,S.themes.includes(t.id))).join('');
+  $$('#theme-picker .theme-chip').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.t;
+    if(S.themes.includes(id)){ if(S.themes.length<=1){toast('Garde au moins un univers');return;} S.themes=S.themes.filter(x=>x!==id); }
+    else S.themes.push(id);
+    save(); b.setAttribute('aria-pressed',S.themes.includes(id));
+  });
+}
+$('#go-home').onclick=()=>{ if(!S.themes.includes(S.week)) S.week=S.themes[0]; save(); renderHome(); show('s-home'); };
+
+/* ============================================================================
+   ÉCRAN 4 — ACCUEIL
+   ============================================================================ */
+function renderHome(){
+  const L=(S.name[0]||'A').toUpperCase();
+  $('#h-streak').innerHTML=`${S.streak}<sup>${S.streak>1?'jours':'jour'}</sup>`;
+  $('#h-seals').innerHTML=Array.from({length:5},(_,k)=>sealSVG(L,k<Math.min(5,S.streak))).join('');
+  $('#h-streak-msg').textContent = S.lastDay===today()
+    ? `Séance faite aujourd'hui. Tu peux en refaire une si tu veux.`
+    : (S.streak?`Encore une aujourd'hui et tu tiens ta série.`:`Ta première séance t'attend.`);
+  const t=THEMES[S.week];
+  $('#h-cover').style.background=COVERS[t.id];
+  $('#h-theme').textContent=t.name;
+  $('#h-eyebrow').textContent=`Séance du jour · Level ${S.level}`;
+  $('#h-meta').textContent='5 mots · 1 texte · 1 oral · 3 phrases — 14 min';
+  $('#home-themes').innerHTML=S.themes.map(id=>themeChip(THEMES[id],id===S.week)).join('');
+  $$('#home-themes .theme-chip').forEach(b=>b.onclick=()=>{ S.week=b.dataset.t; save(); renderHome(); });
+}
+$('#h-invite').onclick=()=>startSession();
+$('#start-session').onclick=()=>startSession();
+$('#open-settings').onclick=()=>{ renderSettings(); show('s-settings'); };
+$('#close-settings').onclick=()=>{ renderHome(); show('s-home'); };
+
+/* ============================================================================
+   ÉCRAN 5 — SÉANCE, machine à 5 phases
+   ============================================================================ */
+const PHASES=['Échauffement','Lecture','À voix haute','À toi d\'écrire','Le sceau'];
+let SESS=null;
+
+async function startSession(){
+  show('s-session');
+  $('#p-name').textContent='Préparation';
+  $('#p-body').innerHTML=`<div style="text-align:center;padding:60px 0">
+     <span class="spinner"></span><p class="small" style="margin-top:14px">On prépare ta séance…</p></div>`;
+  $('#p-next').style.display='none';
+  const lesson=await buildLesson(S.week);
+  SESS={lesson,phase:0,t0:Date.now(),revealed:0,qcmScore:0,oralMode:'shadow',
+        oralDone:0,selfRate:null,written:[],theme:S.week};
+  $('#p-next').style.display='';
+  renderPhase();
+}
+$('#quit-session').onclick=()=>{ if(confirm('Fermer la séance ? La progression du jour sera perdue.')){ speechSynthesis.cancel(); renderHome(); show('s-home'); } };
+$('#p-next').onclick=()=>{ if(SESS.phase<4){ SESS.phase++; renderPhase(); } };
+
+function renderPhase(){
+  const p=SESS.phase;
+  $('#p-name').textContent=PHASES[p];
+  $$('#p-ribbon i').forEach((el,k)=>{ el.className = k<p?'done':(k===p?'now':''); });
+  $('#p-next').textContent = p===3?'Voir le sceau':(p===4?'Terminer':'Continuer');
+  window.scrollTo(0,0);
+  [phaseWarmup,phaseRead,phaseOral,phaseWrite,phaseFinale][p]();
+}
+
+/* --- Phase 1 : 5 mots ------------------------------------------------------ */
+function phaseWarmup(){
+  const w=SESS.lesson.words;
+  $('#p-body').innerHTML=`<h2>Cinq mots pour aujourd'hui</h2>
+    <p class="small">Touche un mot pour la traduction, l'icône pour l'entendre.</p>
+    ${w.map((x,k)=>`<button class="word" data-k="${k}">
+      <div><div class="en">${x.en}</div><span class="fr">${x.fr} — <i>${x.ex||''}</i></span></div>
+      <div class="spk" data-spk="${k}">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg>
+      </div></button>`).join('')}`;
+  $$('#p-body .word').forEach(b=>b.onclick=()=>{ b.classList.add('revealed'); speak(w[+b.dataset.k].en); });
+  $$('#p-body .spk').forEach(b=>b.onclick=(e)=>{ e.stopPropagation();
+    const x=w[+b.dataset.spk]; b.closest('.word').classList.add('revealed'); speak(x.ex||x.en); });
+}
+
+/* --- Phase 2 : texte + audio + QCM ---------------------------------------- */
+function phaseRead(){
+  const L=SESS.lesson;
+  $('#p-body').innerHTML=`
+    <div class="invite" style="min-height:120px;margin-top:0">
+      <div class="cover" style="background:${COVERS[SESS.theme]}"></div><div class="veil"></div>
+      <div class="inner"><p class="eyebrow">${THEMES[SESS.theme].name}</p></div></div>
+    <div class="btn-row"><button class="btn ghost small" id="play-text">▸ Écouter le texte</button>
+      <button class="btn ghost small" id="slow-text">▸ Plus lentement</button></div>
+    <div class="rule"></div>
+    <p class="reading">${L.text}</p>
+    <div class="rule"></div>
+    <h3>Deux questions</h3><div id="qcm-box"></div>`;
+  $('#play-text').onclick=()=>speak(L.text,0.95);
+  $('#slow-text').onclick=()=>speak(L.text,0.72);
+  const box=$('#qcm-box');
+  box.innerHTML=L.qcm.map((q,i)=>`<div style="margin-bottom:18px"><p class="lead">${q.q}</p>
+    ${q.opts.map((o,k)=>`<button class="opt" data-q="${i}" data-k="${k}">${o}</button>`).join('')}</div>`).join('');
+  $$('#qcm-box .opt').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.q,k=+b.dataset.k,ok=k===L.qcm[i].a;
+    if(ok) SESS.qcmScore++;
+    b.classList.add(ok?'right':'wrong');
+    $$(`#qcm-box .opt[data-q="${i}"]`).forEach(x=>{ x.onclick=null; if(+x.dataset.k===L.qcm[i].a) x.classList.add('right'); });
+  });
+}
+
+/* --- Phase 3 : oral, Shadow (fiable) + Speak (bonus) ---------------------- */
+const HAS_SR = !!(window.SpeechRecognition||window.webkitSpeechRecognition);
+let mediaRec=null, chunks=[], lastBlob=null;
+
+function phaseOral(){
+  const s=SESS.lesson.shadow[SESS.oralDone % SESS.lesson.shadow.length];
+  SESS.current=s;
+  $('#p-body').innerHTML=`
+    <div class="mode-switch">
+      <button id="m-shadow" aria-pressed="${SESS.oralMode==='shadow'}">Shadow — écoute &amp; répète</button>
+      <button id="m-speak" aria-pressed="${SESS.oralMode==='speak'}" ${HAS_SR?'':'disabled style="opacity:.35"'}>Speak — reconnaissance</button>
+    </div>
+    <p class="target">${s.en}</p>
+    <p class="target-fr">${s.fr}</p>
+    <div class="btn-row" style="margin-bottom:6px">
+      <button class="btn ghost small" id="hear-model">▸ Écouter le modèle</button>
+      <button class="btn ghost small" id="hear-slow">▸ Lentement</button></div>
+    <div id="oral-zone"></div>`;
+  $('#hear-model').onclick=()=>speak(s.en,0.9);
+  $('#hear-slow').onclick=()=>speak(s.en,0.68);
+  $('#m-shadow').onclick=()=>{ SESS.oralMode='shadow'; phaseOral(); };
+  $('#m-speak').onclick=()=>{ if(HAS_SR){ SESS.oralMode='speak'; phaseOral(); } };
+  SESS.oralMode==='shadow'? oralShadow(s) : oralSpeak(s);
+}
+
+function oralShadow(s){
+  $('#oral-zone').innerHTML=`
+    <button class="mic" id="rec-btn" aria-label="Enregistrer">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></button>
+    <p class="small" style="text-align:center" id="rec-hint">Appuie, répète la phrase, appuie à nouveau.</p>
+    <div class="ab" id="ab-zone" style="display:none">
+      <button id="play-model">▸ Le modèle</button><button id="play-me">▸ Ma voix</button></div>
+    <div class="rate" id="rate-zone" style="display:none">
+      <button data-r="1"><b>1</b>À refaire</button>
+      <button data-r="2"><b>2</b>Ça va</button>
+      <button data-r="3"><b>3</b>Nickel</button></div>`;
+  const btn=$('#rec-btn');
+  btn.onclick=async()=>{
+    if(mediaRec && mediaRec.state==='recording'){ mediaRec.stop(); return; }
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      chunks=[]; mediaRec=new MediaRecorder(stream);
+      mediaRec.ondataavailable=e=>chunks.push(e.data);
+      mediaRec.onstop=()=>{
+        lastBlob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});
+        stream.getTracks().forEach(t=>t.stop());
+        btn.classList.remove('rec'); $('#rec-hint').textContent='Compare les deux, puis note-toi.';
+        $('#ab-zone').style.display='flex'; $('#rate-zone').style.display='flex';
+      };
+      mediaRec.start(); btn.classList.add('rec'); $('#rec-hint').textContent='Enregistrement… appuie pour arrêter.';
+    }catch(e){ toast('Micro refusé. Autorise-le dans Réglages ▸ Safari.'); }
+  };
+  $('#play-model').onclick=()=>speak(SESS.current.en,0.9);
+  $('#play-me').onclick=()=>{ if(!lastBlob) return; const a=new Audio(URL.createObjectURL(lastBlob)); a.play(); };
+  $$('#rate-zone button').forEach(b=>b.onclick=()=>{
+    SESS.selfRate=+b.dataset.r; SESS.oralDone++;
+    if(SESS.oralDone<2){ toast('Une deuxième phrase, puis on passe à l\'écrit.'); phaseOral(); }
+    else { toast('Bien joué. Passe à la suite.'); }
+  });
+}
+
+function oralSpeak(s){
+  $('#oral-zone').innerHTML=`
+    <button class="mic" id="sr-btn" aria-label="Parler">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></button>
+    <p class="small" style="text-align:center" id="sr-hint">Appuie et dis la phrase.</p>
+    <div class="heard" id="sr-out">…</div>
+    <button class="btn quiet" id="sr-skip">Je passe cette phrase</button>`;
+  $('#sr-skip').onclick=()=>{ SESS.oralDone++; SESS.oralMode='shadow'; phaseOral(); };
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  $('#sr-btn').onclick=()=>{
+    const rec=new SR(); rec.lang='en-GB'; rec.interimResults=false; rec.maxAlternatives=3;
+    $('#sr-btn').classList.add('rec'); $('#sr-hint').textContent='On t\'écoute…';
+    rec.onresult=e=>{
+      const heard=e.results[0][0].transcript;
+      $('#sr-out').textContent=heard;
+      const score=similarity(heard,s.en);
+      $('#sr-hint').innerHTML = score>.8 ? '<span style="color:var(--ok)">Très proche du modèle.</span>'
+        : score>.5 ? 'Presque — réécoute le modèle et retente.' : 'La reconnaissance a du mal. Passe en Shadow, c\'est plus fiable.';
+      SESS.oralDone++;
+    };
+    rec.onerror=()=>{ $('#sr-hint').textContent='La reconnaissance n\'a pas répondu. Passe en Shadow.'; };
+    rec.onend=()=>$('#sr-btn').classList.remove('rec');
+    try{ rec.start(); }catch(e){ toast('Reconnaissance indisponible ici.'); }
+  };
+}
+function similarity(a,b){
+  const n=s=>s.toLowerCase().replace(/[^a-z ]/g,'').split(/\s+/).filter(Boolean);
+  const A=n(a),B=n(b); if(!B.length) return 0;
+  return A.filter(w=>B.includes(w)).length / B.length;
+}
+
+/* --- Phase 4 : production écrite + correction ----------------------------- */
+function phaseWrite(){
+  const items=SESS.lesson.write;
+  $('#p-body').innerHTML=`<h2>Trois phrases, à ta façon</h2>
+    <p class="small">Écris comme tu peux. Les erreurs, c'est le matériau — pas le problème.</p>
+    ${items.map((it,k)=>`<div class="card" style="margin-top:14px">
+      <p class="prompt-q">${it.q}</p>
+      <textarea id="w-${k}" placeholder="Write here…"></textarea>
+      <button class="btn ghost small" data-fix="${k}" style="margin-top:10px">Corriger</button>
+      <div id="c-${k}"></div></div>`).join('')}`;
+  $$('#p-body [data-fix]').forEach(b=>b.onclick=async()=>{
+    const k=+b.dataset.fix, val=$('#w-'+k).value.trim();
+    if(!val){ toast('Écris au moins une phrase'); return; }
+    b.innerHTML='<span class="spinner"></span>'; b.disabled=true;
+    const r=await correct(items[k].q,val,items[k].model);
+    SESS.written.push({q:items[k].q,answer:val,fixed:r.fixed||null});
+    $('#c-'+k).innerHTML=`<div class="correction">
+      ${r.fixed?`<p class="fix">${r.fixed}</p>`:''}
+      <p class="small" style="margin:6px 0 0">${r.note||''}</p>
+      ${!r.fixed?`<p class="small" style="margin-top:10px;opacity:.8"><b>Modèle :</b> ${r.model}</p>`:''}
+      <button class="btn quiet" style="justify-content:flex-start" data-say="${k}">▸ Écouter la version corrigée</button>
+    </div>`;
+    b.style.display='none';
+    const sayBtn=$(`[data-say="${k}"]`); if(sayBtn) sayBtn.onclick=()=>speak(r.fixed||r.model);
+  });
+}
+
+/* --- Phase 5 : le sceau + envoi du récap ---------------------------------- */
+function phaseFinale(){
+  const mins=Math.max(1,Math.round((Date.now()-SESS.t0)/60000));
+  const L=(S.name[0]||'A').toUpperCase();
+  const newDay = S.lastDay!==today();
+  if(newDay){ 
+    const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+    S.streak = (S.lastDay===y)? S.streak+1 : 1;
+    S.lastDay=today();
+  }
+  const rec={date:today(),name:S.name,level:S.cefr,theme:THEMES[SESS.theme].name,minutes:mins,
+    words:SESS.lesson.words.map(w=>w.en),comprehension:`${SESS.qcmScore}/${SESS.lesson.qcm.length}`,
+    oral:SESS.oralMode==='shadow'?`Shadow, auto-évaluation ${SESS.selfRate||'—'}/3`:'Reconnaissance vocale',
+    written:SESS.written, streak:S.streak};
+  S.sessions.push(rec); S.sessions=S.sessions.slice(-60); save();
+
+  $('#p-body').innerHTML=`<div class="finale">
+    <div style="--s:120px" id="seal-slot"></div>
+    <p class="eyebrow">Séance ${S.sessions.length}</p>
+    <h1 style="font-size:34px">Série de <em>${S.streak}</em> ${S.streak>1?'jours':'jour'}</h1>
+    <div class="recap">
+      <div class="recap-line"><span>Univers</span><span>${rec.theme}</span></div>
+      <div class="recap-line"><span>Temps</span><span>${mins} min</span></div>
+      <div class="recap-line"><span>Compréhension</span><span>${rec.comprehension}</span></div>
+      <div class="recap-line"><span>Oral</span><span>${rec.oral}</span></div>
+      <div class="recap-line"><span>Phrases écrites</span><span>${SESS.written.length}</span></div>
+    </div>
+    <p class="small" style="margin-top:20px" id="sync-state">Récapitulatif enregistré sur cet appareil.</p>
+  </div>`;
+  const slot=$('#seal-slot');
+  slot.innerHTML=sealSVG(L,true);
+  requestAnimationFrame(()=>slot.querySelector('.seal').classList.add('stamp'));
+  syncRecap(rec);
+  $('#p-next').onclick=()=>{ renderHome(); show('s-home'); $('#p-next').onclick=()=>{ if(SESS.phase<4){SESS.phase++;renderPhase();} }; };
+}
+
+async function syncRecap(rec){
+  if(!S.mailUrl){ $('#sync-state').textContent='Récapitulatif enregistré sur cet appareil (envoi du soir non configuré).'; return; }
+  try{
+    await fetch(S.mailUrl,{method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)});
+    $('#sync-state').textContent='Récapitulatif envoyé. Le mail du soir partira à 19 h.';
+  }catch(e){ $('#sync-state').textContent='Envoi impossible pour le moment. Il repartira à la prochaine séance.'; }
+}
+
+/* ============================================================================
+   ÉCRAN 6 — RÉGLAGES
+   ============================================================================ */
+function renderSettings(){
+  $('#set-proxy').value=S.proxy||''; $('#set-mail').value=S.mailUrl||'';
+  loadVoices();
+  const b=$('#proxy-badge');
+  b.className='badge '+(S.proxy?'ok':'off'); b.textContent=S.proxy?'Configuré':'Non configuré';
+  const last=S.sessions.slice(-7).reverse();
+  $('#parent-view').innerHTML = last.length? `
+    <p class="small">Niveau estimé : <b style="color:var(--cream)">${S.cefr}</b> · ${S.sessions.length} séances · série de ${S.streak}</p>
+    <p class="small">Points à retravailler : ${[...new Set(S.errors)].slice(-6).join(', ')||'aucun encore identifié'}</p>
+    ${last.map(r=>`<div class="recap-line"><span>${r.date} · ${r.theme}</span><span>${r.minutes} min · ${r.comprehension}</span></div>`).join('')}`
+    : '<p class="small">Aucune séance enregistrée pour l\'instant.</p>';
+}
+$('#set-proxy').oninput=e=>{ S.proxy=e.target.value.trim(); save(); renderSettings(); };
+$('#set-mail').oninput=e=>{ S.mailUrl=e.target.value.trim(); save(); };
+$('#set-voice').onchange=e=>{ S.voice=e.target.value; save(); };
+$('#test-voice').onclick=()=>speak('Good evening. Shall we begin?');
+$('#test-proxy').onclick=async()=>{
+  const b=$('#proxy-badge'); b.className='badge'; b.innerHTML='<span class="spinner"></span> Test…';
+  try{ const r=await claude('Réponds en un mot.','Say OK',20);
+    b.className='badge ok'; b.textContent='Connecté'; toast('Moteur connecté : '+r.slice(0,30)); }
+  catch(e){ b.className='badge off'; b.textContent='Échec'; toast('Connexion refusée ('+e.message+'). Vérifie l\'URL du proxy.'); }
+};
+$('#test-mail').onclick=()=>{
+  if(!S.mailUrl){ toast('Renseigne d\'abord l\'URL du script'); return; }
+  syncRecap({date:today(),name:S.name||'Test',level:S.cefr,theme:'Test',minutes:0,
+    words:['test'],comprehension:'—',oral:'—',written:[],streak:S.streak,test:true});
+  toast('Récap de test envoyé au script.');
+};
+$('#reset-all').onclick=()=>{ if(confirm('Effacer toute la progression ?')){ localStorage.removeItem(KEY);location.reload(); } };
+
+/* ============================================================================
+   DÉMARRAGE
+   ============================================================================ */
+if(S.name){ renderHome(); show('s-home'); }
+else show('s-welcome');
+</script>
+</body>
+</html>
