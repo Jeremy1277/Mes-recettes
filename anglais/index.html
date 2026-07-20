@@ -170,6 +170,7 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
   padding:22px;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end;
   margin-top:16px;text-align:left;width:100%}
 .invite .cover{position:absolute;inset:0;z-index:0}
+.cover svg{width:100%;height:100%;display:block}
 .invite .veil{position:absolute;inset:0;z-index:1;
   background:linear-gradient(to top,rgba(36,18,40,.94) 8%,rgba(36,18,40,.35) 60%,rgba(36,18,40,.1))}
 .invite .inner{position:relative;z-index:2}
@@ -429,6 +430,49 @@ const COVERS = {
   fashion:'linear-gradient(150deg,#2B4A6B,#9FC4E8 55%,#D9B96C)',
   crown:'linear-gradient(150deg,#4A2B6B,#9FC4E8 40%,#C9A9E9)',
   contresens:'linear-gradient(150deg,#7A2E4A,#F2A5A5 50%,#E9D8A6)'
+};
+
+/* Couvertures illustrées — SVG inline, aucun chargement réseau.
+   viewBox portrait recadré en "slice" : tient dans une vignette de 86px
+   comme dans une carte de 220px. */
+const ART = {
+bridgerton:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
+  <circle cx="60" cy="62" r="40" fill="#C9A9E9" opacity=".38"/>
+  <path d="M60 96 L20 62 A50 50 0 0 1 100 62 Z" fill="#F6C9B8" opacity=".92"/>
+  <path d="M60 96 L60 57 M60 96 L40 65 M60 96 L80 65" stroke="#4A2350" stroke-width="1.5" fill="none" opacity=".8"/>
+  <circle cx="60" cy="97" r="3.6" fill="#E9D8A6"/>
+  <path d="M30 126 q30 -16 60 0" stroke="#E9D8A6" stroke-width="1.3" fill="none" opacity=".85"/>
+  <circle cx="34" cy="120" r="2.4" fill="#E9D8A6" opacity=".7"/>
+  <circle cx="86" cy="120" r="2.4" fill="#E9D8A6" opacity=".7"/>
+</svg>`,
+beauty:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
+  <circle cx="60" cy="60" r="33" fill="#FBE3DA" opacity=".95"/>
+  <circle cx="60" cy="60" r="20" fill="#E58F86" opacity=".9"/>
+  <rect x="53" y="98" width="14" height="46" rx="6" fill="#E9D8A6"/>
+  <path d="M53 98 q7 -22 14 0 Z" fill="#FBE3DA"/>
+  <circle cx="26" cy="128" r="8" fill="#F6C9B8" opacity=".6"/>
+  <circle cx="96" cy="134" r="5" fill="#FBE3DA" opacity=".55"/>
+</svg>`,
+fashion:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
+  <path d="M60 34 a10 10 0 0 1 10 10" stroke="#E9D8A6" stroke-width="2" fill="none"/>
+  <path d="M60 44 L20 88 q40 12 80 0 Z" fill="#9FC4E8" opacity=".95"/>
+  <path d="M20 88 q40 30 80 0 L92 140 q-32 12 -64 0 Z" fill="#CBDDF0" opacity=".92"/>
+  <path d="M42 88 L46 140 M78 88 L74 140" stroke="#20405C" stroke-width="1.1" opacity=".4" fill="none"/>
+</svg>`,
+crown:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
+  <path d="M28 96 L28 58 L44 72 L60 48 L76 72 L92 58 L92 96 Z" fill="#E9D8A6" opacity=".95"/>
+  <circle cx="60" cy="40" r="5" fill="#F6C9B8"/>
+  <rect x="28" y="103" width="64" height="6" rx="3" fill="#C9A9E9" opacity=".9"/>
+  <path d="M22 138 q38 -20 76 0" stroke="#9FC4E8" stroke-width="1.5" fill="none" opacity=".8"/>
+  <circle cx="40" cy="126" r="2.8" fill="#C9A9E9"/>
+  <circle cx="80" cy="126" r="2.8" fill="#C9A9E9"/>
+</svg>`,
+contresens:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
+  <path d="M18 158 q40 -78 84 -140" stroke="#F2A5A5" stroke-width="24" fill="none" opacity=".45"/>
+  <path d="M26 156 q38 -74 78 -136" stroke="#FBE3DA" stroke-width="2" stroke-dasharray="7 10" fill="none" opacity=".85"/>
+  <circle cx="60" cy="86" r="14" fill="#E9D8A6"/>
+  <circle cx="60" cy="86" r="5" fill="#6E2438"/>
+</svg>`
 };
 
 const THEMES = {
@@ -771,7 +815,7 @@ function endQuiz(){
    ============================================================================ */
 function themeChip(t,on){
   return `<button class="theme-chip" data-t="${t.id}" aria-pressed="${on}">
-    <div class="cover" style="background:${COVERS[t.id]}"></div><span>${t.name}</span></button>`;
+    <div class="cover" style="background:${COVERS[t.id]}">${ART[t.id]||''}</div><span>${t.name}</span></button>`;
 }
 function renderThemePicker(){
   $('#theme-picker').innerHTML=Object.values(THEMES).map(t=>themeChip(t,S.themes.includes(t.id))).join('');
@@ -795,7 +839,7 @@ function renderHome(){
     ? `Séance faite aujourd'hui. Tu peux en refaire une si tu veux.`
     : (S.streak?`Encore une aujourd'hui et tu tiens ta série.`:`Ta première séance t'attend.`);
   const t=THEMES[S.week];
-  $('#h-cover').style.background=COVERS[t.id];
+  $('#h-cover').style.background=COVERS[t.id]; $('#h-cover').innerHTML=ART[t.id]||'';
   $('#h-theme').textContent=t.name;
   $('#h-eyebrow').textContent=`Séance du jour · Level ${S.level}`;
   $('#h-meta').textContent='5 mots · 1 texte · 1 oral · 3 phrases — 14 min';
@@ -858,7 +902,7 @@ function phaseRead(){
   const L=SESS.lesson;
   $('#p-body').innerHTML=`
     <div class="invite" style="min-height:120px;margin-top:0">
-      <div class="cover" style="background:${COVERS[SESS.theme]}"></div><div class="veil"></div>
+      <div class="cover" style="background:${COVERS[SESS.theme]}">${ART[SESS.theme]||''}</div><div class="veil"></div>
       <div class="inner"><p class="eyebrow">${THEMES[SESS.theme].name}</p></div></div>
     <div class="btn-row"><button class="btn ghost small" id="play-text">▸ Écouter le texte</button>
       <button class="btn ghost small" id="slow-text">▸ Plus lentement</button></div>
