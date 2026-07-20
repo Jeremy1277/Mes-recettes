@@ -450,7 +450,8 @@ const COVERS = {
   fashion:'linear-gradient(150deg,#2B4A6B,#9FC4E8 55%,#D9B96C)',
   crown:'linear-gradient(150deg,#4A2B6B,#9FC4E8 40%,#C9A9E9)',
   contresens:'linear-gradient(150deg,#7A2E4A,#F2A5A5 50%,#E9D8A6)',
-  work:'linear-gradient(150deg,#16302F,#5E8C8C 52%,#E9D8A6)'
+  work:'linear-gradient(150deg,#16302F,#5E8C8C 52%,#E9D8A6)',
+  voyage:'linear-gradient(150deg,#0F4E63,#5AB9BE 46%,#F6C9B8)'
 };
 
 /* Couvertures illustrées — SVG inline, aucun chargement réseau.
@@ -512,6 +513,16 @@ work:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
   <rect x="51" y="79" width="18" height="16" rx="4" fill="#E9D8A6"/>
   <rect x="57" y="85" width="6" height="4" rx="1.5" fill="#16302F"/>
   <path d="M30 132 h60 M30 142 h38" stroke="#9FC4E8" stroke-width="3" stroke-linecap="round" opacity=".55" fill="none"/>
+</svg>`,
+voyage:`<svg viewBox="0 0 120 170" preserveAspectRatio="xMidYMid slice">
+  <rect x="22" y="40" width="76" height="96" rx="34" fill="#0B3B4A" opacity=".55"/>
+  <rect x="28" y="46" width="64" height="84" rx="28" fill="#8FD3DA"/>
+  <path d="M28 100 h64 v2 a28 28 0 0 1 -28 28 h-8 a28 28 0 0 1 -28 -28 z" fill="#1E7A87"/>
+  <circle cx="76" cy="70" r="11" fill="#E9D8A6"/>
+  <path d="M34 86 q10 -7 20 0 t20 0" stroke="#FBE3DA" stroke-width="2.6" fill="none" opacity=".8" stroke-linecap="round"/>
+  <path d="M36 112 q12 -6 24 0 t24 0" stroke="#8FD3DA" stroke-width="2.2" fill="none" opacity=".55" stroke-linecap="round"/>
+  <rect x="22" y="40" width="76" height="96" rx="34" fill="none" stroke="#E9D8A6" stroke-width="2.4"/>
+  <circle cx="60" cy="146" r="3.4" fill="#E9D8A6" opacity=".85"/>
 </svg>`
 };
 
@@ -694,6 +705,36 @@ work:{
     {q:'Write a short email asking a colleague to move a meeting.',model:'Hi Anna, would it be possible to move our meeting to Thursday morning? I have a conflict on Wednesday. Let me know what works for you.'},
     {q:'Describe your job in three sentences.',model:'I coordinate road transport for an industrial site. I work with carriers and plan the weekly loads. My main challenge is keeping the costs under control.'},
     {q:'Give one piece of feedback to someone in your team, politely.',model:'Your report was very clear and well structured. One suggestion: could you add the figures for last quarter? It would help the team compare.'}
+  ]
+},
+voyage:{
+  id:'voyage', name:'Voyages', tag:'depart · sejours · retours',
+  words:[
+    {en:'to book',fr:'reserver',ex:'We booked the flight three months early.'},
+    {en:'luggage',fr:'les bagages',ex:'My luggage did not arrive with me.'},
+    {en:'a trip',fr:'un voyage / un sejour',ex:'It was the best trip of my life.'},
+    {en:'to look forward to',fr:'avoir hate de',ex:'I am looking forward to the summer.'},
+    {en:'crowded',fr:'bonde / plein de monde',ex:'The old town was too crowded in August.'}
+  ],
+  text:`The best holiday I ever had was also the worst planned. We booked the flights two days before leaving, we had no hotel for the first night, and my luggage arrived a day late. But we ended up in a small town nobody had recommended, we ate in the same place every evening because the owner remembered our names, and we came home with three hundred photos of almost nothing. Since then I book less and I decide less. The trips I remember are never the organised ones.`,
+  qcm:[
+    {q:'When did they book the flights?',opts:['Three months early','Two days before','The same morning'],a:1},
+    {q:'What happened to the luggage?',opts:['It was lost','It arrived a day late','It was too heavy'],a:1},
+    {q:'Why did they always eat in the same place?',opts:['It was cheap','The owner remembered them','It was the only one open'],a:1},
+    {q:'What does she do differently now?',opts:['She plans more','She plans less','She travels alone'],a:1},
+    {q:'"Crowded" means…',opts:['Bonde','Calme','Ferme'],a:0}
+  ],
+  shadow:[
+    {en:'We booked the flights two days before leaving.',fr:'Nous avons reserve les vols deux jours avant de partir.'},
+    {en:'My luggage arrived a day late.',fr:'Mes bagages sont arrives avec un jour de retard.'},
+    {en:'I am really looking forward to the summer.',fr:'J\'ai vraiment hate d\'etre en ete.'},
+    {en:'The old town was far too crowded in August.',fr:'La vieille ville etait bien trop bondee en aout.'},
+    {en:'The trips I remember are never the organised ones.',fr:'Les voyages dont je me souviens ne sont jamais les organises.'}
+  ],
+  write:[
+    {q:'Describe your best holiday in three sentences.',model:'My best holiday was in Italy. We stayed in a small village near the sea. We did almost nothing and it was perfect.'},
+    {q:'You are at a hotel desk. Ask for a later check-out.',model:'Good morning. Would it be possible to check out at one instead of eleven? Our train leaves in the afternoon. Thank you very much.'},
+    {q:'Where would you like to go next, and why?',model:'I would like to go to Japan. I want to see the temples and try the food. I have been saving for two years.'}
   ]
 }
 };
