@@ -390,6 +390,8 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
         <button class="btn ghost small" id="test-proxy">Tester la connexion</button>
         <span class="badge" id="proxy-badge">Non configuré</span>
       </div>
+      <button class="btn ghost small" id="test-state" style="margin-top:10px">Tester la sauvegarde</button>
+      <p class="small" id="sync-info" style="margin-top:8px"></p>
     </div>
 
     <div class="set-group">
@@ -677,12 +679,16 @@ function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} c
    La progression vit donc aussi côté serveur, et revient au lancement. */
 function stateURL(){ return proxyURL().replace(/\/+$/,'') + '/state'; }
 let syncT=null;
+let lastSync='jamais';
 function cloudSave(){
-  if(!S.proxy || !S.name) return;
+  if(!S.proxy || !S.name){ lastSync = !S.proxy ? 'proxy absent' : 'prénom absent'; return; }
   clearTimeout(syncT);
-  syncT=setTimeout(function(){
-    fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({user:S.name.toLowerCase(),state:S})}).catch(function(){});
+  syncT=setTimeout(async function(){
+    try{
+      const r=await fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({user:S.name.toLowerCase(),state:S})});
+      lastSync = r.ok ? ('ok à '+new Date().toLocaleTimeString('fr-FR')) : ('erreur http-'+r.status);
+    }catch(e){ lastSync='échec réseau : '+e.message; }
   },1500);
 }
 async function cloudLoad(){
@@ -1133,6 +1139,7 @@ async function syncRecap(rec){
 function renderSettings(){
   $('#set-proxy').value=S.proxy||''; $('#set-mail').value=S.mailUrl||'';
   loadVoices();
+  const si=$('#sync-info'); if(si) si.textContent='Dernière sauvegarde : '+lastSync;
   const b=$('#proxy-badge');
   b.className='badge '+(S.proxy?'ok':'off'); b.textContent=S.proxy?'Configuré':'Non configuré';
   const last=S.sessions.slice(-7).reverse();
@@ -1146,6 +1153,22 @@ $('#set-proxy').oninput=e=>{ S.proxy=e.target.value.trim(); save(); renderSettin
 $('#set-mail').oninput=e=>{ S.mailUrl=e.target.value.trim(); save(); };
 $('#set-voice').onchange=e=>{ S.voice=e.target.value; save(); };
 $('#test-voice').onclick=()=>speak('Good evening. Shall we begin?');
+$('#test-state').onclick=async()=>{
+  const out=$('#sync-info');
+  if(!S.name){ out.textContent='Aucun prénom enregistré : rien à sauvegarder.'; return; }
+  out.innerHTML='<span class="spinner"></span> Test en cours…';
+  try{
+    const w=await fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user:S.name.toLowerCase(),state:S})});
+    const wt=await w.text();
+    if(!w.ok){ out.textContent='Écriture refusée (http-'+w.status+') : '+wt.slice(0,120); return; }
+    const g=await fetch(stateURL()+'?u='+encodeURIComponent(S.name.toLowerCase()));
+    const d=await g.json();
+    out.textContent = (d && d.state)
+      ? 'Sauvegarde opérationnelle. '+((d.state.sessions||[]).length)+' séance(s) enregistrée(s) côté serveur.'
+      : 'Écriture acceptée mais relecture vide. Vérifie le binding KV STATE.';
+  }catch(e){ out.textContent='Échec réseau : '+e.message+' (souvent un problème CORS ou d\'URL).'; }
+};
 $('#test-proxy').onclick=async()=>{
   const b=$('#proxy-badge'); b.className='badge'; b.innerHTML='<span class="spinner"></span> Test…';
   try{ const r=await claude('Réponds en un mot.','Say OK',20);
