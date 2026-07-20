@@ -337,6 +337,9 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
       </button>
     </div>
 
+    <p id="h-hello" style="font-family:var(--display);font-style:italic;font-size:21px;
+      line-height:1.25;color:var(--wisteria);margin:14px 0 0">Dear Gentle Reader…</p>
+
     <div class="streakcard">
       <div style="display:flex;align-items:flex-end;justify-content:space-between">
         <div class="n" id="h-streak">0<sup>jours</sup></div>
@@ -909,8 +912,16 @@ $('#go-home').onclick=()=>{ if(!S.themes.includes(S.week)) S.week=S.themes[0]; s
 /* ============================================================================
    ÉCRAN 4 — ACCUEIL
    ============================================================================ */
+const SALUTS = [
+  'Dear Gentle Reader…',
+  'Dear Reader, the ton awaits.',
+  'This author has news for you.',
+  'Dear Gentle Reader, shall we begin?'
+];
 function renderHome(){
   const L=(S.name[0]||'A').toUpperCase();
+  const hb=$('#h-hello');
+  if(hb) hb.textContent = SALUTS[(S.sessions.length||0) % SALUTS.length];
   $('#h-streak').innerHTML=`${S.streak}<sup>${S.streak>1?'jours':'jour'}</sup>`;
   $('#h-seals').innerHTML=Array.from({length:5},(_,k)=>sealSVG(L,k<Math.min(5,S.streak))).join('');
   $('#h-streak-msg').textContent = S.lastDay===today()
