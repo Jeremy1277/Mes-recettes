@@ -670,7 +670,37 @@ function load(){
   return {name:'',level:2,cefr:'A1+',themes:['bridgerton','beauty','fashion'],
     week:'bridgerton',streak:0,lastDay:null,sessions:[],errors:[],proxy:'',mailUrl:'',voice:''};
 }
-function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} cloudSave(); }
+
+/* ── Sauvegarde distante ────────────────────────────────────────────────────
+   iOS purge le stockage d'une PWA après environ 7 jours sans ouverture.
+   La progression vit donc aussi côté serveur, et revient au lancement. */
+function stateURL(){ return proxyURL().replace(/\/+$/,'') + '/state'; }
+let syncT=null;
+function cloudSave(){
+  if(!S.proxy || !S.name) return;
+  clearTimeout(syncT);
+  syncT=setTimeout(function(){
+    fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user:S.name.toLowerCase(),state:S})}).catch(function(){});
+  },1500);
+}
+async function cloudLoad(){
+  if(!S.proxy || !S.name) return false;
+  try{
+    const r=await fetch(stateURL()+'?u='+encodeURIComponent(S.name.toLowerCase()));
+    if(!r.ok) return false;
+    const d=await r.json();
+    const dist=d && d.state;
+    if(dist && (dist.sessions||[]).length > (S.sessions||[]).length){
+      const local={proxy:S.proxy,mailUrl:S.mailUrl,voice:S.voice};
+      S=Object.assign({},S,dist,local);
+      try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){}
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 function show(id){ $$('.screen').forEach(e=>e.classList.remove('on')); $('#'+id).classList.add('on'); window.scrollTo(0,0); }
 function toast(msg,ms=2400){ const t=$('#toast'); t.innerHTML=msg; t.classList.add('on');
@@ -1133,8 +1163,12 @@ $('#reset-all').onclick=()=>{ if(confirm('Effacer toute la progression ?')){ loc
 /* ============================================================================
    DÉMARRAGE
    ============================================================================ */
-if(S.name){ renderHome(); show('s-home'); }
-else show('s-welcome');
+(async function(){
+  if(S.name){
+    renderHome(); show('s-home');
+    if(await cloudLoad()){ renderHome(); toast('Progression restaurée'); }
+  } else show('s-welcome');
+})();
 </script>
 </body>
 </html>
