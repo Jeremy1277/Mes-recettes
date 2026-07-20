@@ -430,7 +430,7 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
     </div>
 
     <div class="set-group">
-      <button class="btn quiet" id="reset-all">Tout effacer et recommencer</button>
+      <button class="btn quiet" id="reset-all">Effacer ce profil, ici et sur le serveur</button>
     </div>
     <div style="height:40px"></div>
   </section>
@@ -1524,16 +1524,26 @@ $('#test-mail').onclick=()=>{
   toast('Récap de test envoyé au script.');
 };
 $('#set-add-user').onclick=()=>nouveauProfil();
-$('#reset-all').onclick=()=>{
+$('#reset-all').onclick=async()=>{
   if(!S.name){ location.reload(); return; }
-  if(confirm('Effacer la progression de '+S.name+' ? Les autres profils sont conservés.')){
+  if(!confirm('Effacer la progression de '+S.name+' , sur cet appareil et sur le serveur ? Les autres profils sont conservés.')) return;
+  const nom=S.name;
+  /* On remet un état vierge côté serveur, sinon il restaurerait tout
+     au prochain démarrage sous le même prénom. */
+  if(S.proxy){
+    const b=$('#reset-all'); b.innerHTML='<span class="spinner"></span> Effacement…';
     try{
-      localStorage.removeItem(stateKey(S.name));
-      setUsers(listUsers().filter(function(x){ return slug(x)!==slug(S.name); }));
-      localStorage.removeItem(CUR_KEY);
-    }catch(e){}
-    location.reload();
+      const vide=vierge(); vide.name=nom;
+      await fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({user:nom.toLowerCase(),state:vide})});
+    }catch(e){ if(!confirm("Le serveur n'a pas répondu. Effacer quand même sur cet appareil ?")) { location.reload(); return; } }
   }
+  try{
+    localStorage.removeItem(stateKey(nom));
+    setUsers(listUsers().filter(function(x){ return slug(x)!==slug(nom); }));
+    localStorage.removeItem(CUR_KEY);
+  }catch(e){}
+  location.reload();
 };
 
 /* ============================================================================
