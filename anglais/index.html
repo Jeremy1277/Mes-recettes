@@ -827,6 +827,32 @@ function nouveauProfil(){
   const f=$('#in-name'); if(f) f.value='';
   renderUsers(); show('s-welcome');
 }
+/* Supprime un profil ici ET sur le serveur : on ecrase l'entree distante
+   par un profil vierge, sinon elle serait restauree au prochain lancement. */
+async function effacerDistant(nom){
+  if(!S.proxy || !nom) return false;
+  try{
+    const r = await fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user:nom.toLowerCase(), state:vierge()})});
+    return r.ok;
+  }catch(e){ return false; }
+}
+async function supprimerProfil(nom){
+  if(!nom) return;
+  if(!confirm('Supprimer le profil '+nom+' ?\n\nSa progression sera effacée sur cet appareil et sur le serveur. Cette action est définitive.')) return;
+  toast('<span class="spinner"></span> Suppression…', 8000);
+  const dist = await effacerDistant(nom);
+  try{
+    localStorage.removeItem(stateKey(nom));
+    setUsers(listUsers().filter(function(x){ return slug(x)!==slug(nom); }));
+    if(slug(nom)===slug(S.name)) localStorage.removeItem(CUR_KEY);
+  }catch(e){}
+  if(!dist && S.proxy){
+    alert('Profil supprimé sur cet appareil, mais le serveur n\'a pas répondu. Vérifie la connexion, puis recommence — sinon la progression reviendra.');
+  }
+  location.reload();
+}
+
 function renderUsers(){
   const u = listUsers();
   const box = $('#wel-users');
@@ -1471,13 +1497,17 @@ function renderSettings(){
   const us=listUsers();
   $('#set-users').innerHTML = us.map(function(n){
     const actif = slug(n)===slug(S.name);
-    return '<div class="recap-line"><span>'+n+(actif?' · en cours':'')+'</span>'+
-      (actif?'<span style="color:var(--gilt)">actif</span>'
-            :'<span><button class="btn quiet" style="width:auto" data-sw="'+n.replace(/"/g,'&quot;')+'">Basculer</button></span>')+
-      '</div>';
-  }).join('') || '<p class="small">Aucun autre profil.</p>';
+    const q = n.replace(/"/g,'&quot;');
+    return '<div class="recap-line"><span>'+n+(actif?' · actif':'')+'</span><span>'+
+      (actif?'':'<button class="btn quiet" style="width:auto;display:inline-flex" data-sw="'+q+'">Basculer</button> ')+
+      '<button class="btn quiet" style="width:auto;display:inline-flex;color:var(--warn)" data-del="'+q+'">Supprimer</button>'+
+      '</span></div>';
+  }).join('') || '<p class="small">Aucun profil enregistré.</p>';
   $$('#set-users [data-sw]').forEach(function(b){
     b.onclick=function(){ ouvrirProfil(b.dataset.sw); };
+  });
+  $$('#set-users [data-del]').forEach(function(b){
+    b.onclick=function(){ supprimerProfil(b.dataset.del); };
   });
   $('#set-proxy').value=S.proxy||''; $('#set-mail').value=S.mailUrl||'';
   loadVoices();
@@ -1524,27 +1554,7 @@ $('#test-mail').onclick=()=>{
   toast('Récap de test envoyé au script.');
 };
 $('#set-add-user').onclick=()=>nouveauProfil();
-$('#reset-all').onclick=async()=>{
-  if(!S.name){ location.reload(); return; }
-  if(!confirm('Effacer la progression de '+S.name+' , sur cet appareil et sur le serveur ? Les autres profils sont conservés.')) return;
-  const nom=S.name;
-  /* On remet un état vierge côté serveur, sinon il restaurerait tout
-     au prochain démarrage sous le même prénom. */
-  if(S.proxy){
-    const b=$('#reset-all'); b.innerHTML='<span class="spinner"></span> Effacement…';
-    try{
-      const vide=vierge(); vide.name=nom;
-      await fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({user:nom.toLowerCase(),state:vide})});
-    }catch(e){ if(!confirm("Le serveur n'a pas répondu. Effacer quand même sur cet appareil ?")) { location.reload(); return; } }
-  }
-  try{
-    localStorage.removeItem(stateKey(nom));
-    setUsers(listUsers().filter(function(x){ return slug(x)!==slug(nom); }));
-    localStorage.removeItem(CUR_KEY);
-  }catch(e){}
-  location.reload();
-};
+$('#reset-all').onclick=()=>{ if(S.name) supprimerProfil(S.name); else location.reload(); };
 
 /* ============================================================================
    DÉMARRAGE
