@@ -947,7 +947,7 @@ async function startSession(){
   $('#p-next').style.display='';
   renderPhase();
 }
-$('#quit-session').onclick=()=>{ if(confirm('Fermer la séance ? La progression du jour sera perdue.')){ speechSynthesis.cancel(); renderHome(); show('s-home'); } };
+$('#quit-session').onclick=()=>{ if(confirm('Fermer la séance ? La progression du jour sera perdue.')){ try{stopOral();}catch(e){} renderHome(); show('s-home'); } };
 $('#p-next').onclick=()=>{ if(SESS.phase<4){ SESS.phase++; renderPhase(); } };
 
 function renderPhase(){
@@ -1003,100 +1003,216 @@ function phaseRead(){
 
 /* --- Phase 3 : oral, Shadow (fiable) + Speak (bonus) ---------------------- */
 const HAS_SR = !!(window.SpeechRecognition||window.webkitSpeechRecognition);
-let mediaRec=null, chunks=[], lastBlob=null;
+let mediaRec=null, chunks=[], lastBlob=null, recog=null, recTimer=null;
 
-function phaseOral(){
-  const s=SESS.lesson.shadow[SESS.oralDone % SESS.lesson.shadow.length];
-  SESS.current=s;
-  const total=Math.min(5,SESS.lesson.shadow.length);
-  $('#p-body').innerHTML=`
-    <p class="small" style="margin-bottom:4px">Phrase ${Math.min(SESS.oralDone+1,total)} sur ${total}</p>
-    <div class="mode-switch">
-      <button id="m-shadow" aria-pressed="${SESS.oralMode==='shadow'}">Shadow — écoute &amp; répète</button>
-      <button id="m-speak" aria-pressed="${SESS.oralMode==='speak'}" ${HAS_SR?'':'disabled style="opacity:.35"'}>Speak — reconnaissance</button>
-    </div>
-    <p class="target">${s.en}</p>
-    <p class="target-fr">${s.fr}</p>
-    <div class="btn-row" style="margin-bottom:6px">
-      <button class="btn ghost small" id="hear-model">▸ Écouter le modèle</button>
-      <button class="btn ghost small" id="hear-slow">▸ Lentement</button></div>
-    <div id="oral-zone"></div>`;
-  $('#hear-model').onclick=()=>speak(s.en,0.9);
-  $('#hear-slow').onclick=()=>speak(s.en,0.68);
-  $('#m-shadow').onclick=()=>{ SESS.oralMode='shadow'; phaseOral(); };
-  $('#m-speak').onclick=()=>{ if(HAS_SR){ SESS.oralMode='speak'; phaseOral(); } };
-  SESS.oralMode==='shadow'? oralShadow(s) : oralSpeak(s);
+function oralTotal(){ return Math.min(5,(SESS.lesson.shadow||[]).length); }
+
+function stopOral(){
+  try{ if(recog){ recog.onend=null; recog.abort(); recog=null; } }catch(e){}
+  try{ if(mediaRec && mediaRec.state==='recording') mediaRec.stop(); }catch(e){}
+  clearTimeout(recTimer);
+  speechSynthesis.cancel();
 }
 
+function oralSuivant(note){
+  if(note) SESS.selfRates.push(note);
+  SESS.oralDone++;
+  lastBlob=null;
+  phaseOral();
+}
+
+/* Comparaison mot à mot : ce qui a été reconnu, ce qui manque. */
+function diffMots(cible, entendu){
+  const nz = t => String(t||'').toLowerCase().replace(/[^a-z' ]/g,' ').split(/\s+/).filter(Boolean);
+  const C = nz(cible), H = nz(entendu), reste = H.slice();
+  let ok = 0;
+  const html = C.map(function(w){
+    const k = reste.indexOf(w);
+    if(k>=0){ reste.splice(k,1); ok++; return '<span style="color:var(--ok)">'+w+'</span>'; }
+    return '<span style="color:var(--warn);border-bottom:1px dotted var(--warn)">'+w+'</span>';
+  }).join(' ');
+  return { html:html, ratio: C.length ? ok/C.length : 0, manquants: C.length-ok };
+}
+
+function phaseOral(){
+  stopOral();
+  const total = oralTotal();
+  if(SESS.oralDone >= total) return oralFini();
+
+  const s = SESS.lesson.shadow[SESS.oralDone];
+  SESS.current = s;
+  const sr = HAS_SR && window.isSecureContext;
+
+  $('#p-body').innerHTML =
+    '<p class="small" style="margin-bottom:6px">Phrase '+(SESS.oralDone+1)+' sur '+total+'</p>'+
+    '<div class="mode-switch">'+
+      '<button id="m-shadow" aria-pressed="'+(SESS.oralMode==='shadow')+'">Écoute et répète</button>'+
+      '<button id="m-speak" aria-pressed="'+(SESS.oralMode==='speak')+'"'+(sr?'':' disabled style="opacity:.35"')+'>Lis, je corrige</button>'+
+    '</div>'+
+    (sr?'':'<p class="small" style="margin-top:-8px;margin-bottom:14px">La reconnaissance vocale n\'est pas disponible sur ce navigateur. Le mode Écoute et répète fonctionne partout.</p>')+
+    '<p class="target">'+s.en+'</p>'+
+    '<p class="target-fr">'+s.fr+'</p>'+
+    '<div class="btn-row" style="margin-bottom:8px">'+
+      '<button class="btn ghost small" id="hear-model">Écouter le modèle</button>'+
+      '<button class="btn ghost small" id="hear-slow">Lentement</button></div>'+
+    '<div id="oral-zone"></div>'+
+    '<button class="btn quiet" id="oral-skip" style="margin-top:6px">Passer cette phrase</button>';
+
+  $('#hear-model').onclick = function(){ speak(s.en,0.9); };
+  $('#hear-slow').onclick  = function(){ speak(s.en,0.66); };
+  $('#m-shadow').onclick   = function(){ SESS.oralMode='shadow'; phaseOral(); };
+  $('#m-speak').onclick    = function(){ if(sr){ SESS.oralMode='speak'; phaseOral(); } };
+  $('#oral-skip').onclick  = function(){ oralSuivant(0); };
+
+  if(SESS.oralMode==='speak' && sr) oralSpeak(s); else oralShadow(s);
+}
+
+function oralFini(){
+  const r = SESS.selfRates.filter(function(x){return x>0;});
+  const moy = r.length ? (r.reduce(function(a,b){return a+b;},0)/r.length) : 0;
+  $('#p-body').innerHTML =
+    '<div class="card" style="text-align:center;padding:30px 20px">'+
+      '<p class="eyebrow">Oral terminé</p>'+
+      '<h2 style="font-size:30px;margin:8px 0 6px">'+(r.length?moy.toFixed(1)+' / 3':'—')+'</h2>'+
+      '<p class="small">'+(r.length? r.length+' phrase(s) travaillée(s).' : 'Aucune phrase notée.')+'</p>'+
+      '<button class="btn ghost small" id="oral-again" style="margin-top:16px">Refaire l\'oral</button>'+
+    '</div>';
+  $('#oral-again').onclick = function(){ SESS.oralDone=0; SESS.selfRates=[]; phaseOral(); };
+}
+
+/* ── Écoute et répète : fiable partout ─────────────────────────────────── */
 function oralShadow(s){
-  $('#oral-zone').innerHTML=`
-    <button class="mic" id="rec-btn" aria-label="Enregistrer">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></button>
-    <p class="small" style="text-align:center" id="rec-hint">Appuie, répète la phrase, appuie à nouveau.</p>
-    <div class="ab" id="ab-zone" style="display:none">
-      <button id="play-model">▸ Le modèle</button><button id="play-me">▸ Ma voix</button></div>
-    <div class="rate" id="rate-zone" style="display:none">
-      <button data-r="1"><b>1</b>À refaire</button>
-      <button data-r="2"><b>2</b>Ça va</button>
-      <button data-r="3"><b>3</b>Nickel</button></div>`;
-  const btn=$('#rec-btn');
-  btn.onclick=async()=>{
+  $('#oral-zone').innerHTML =
+    '<button class="mic" id="rec-btn" aria-label="Enregistrer">'+
+      '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">'+
+      '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></button>'+
+    '<p class="small" style="text-align:center" id="rec-hint">Appuie, répète la phrase, appuie à nouveau.</p>'+
+    '<div class="ab" id="ab-zone" style="display:none">'+
+      '<button id="play-model">Le modèle</button><button id="play-me">Ma voix</button></div>'+
+    '<div class="rate" id="rate-zone" style="display:none">'+
+      '<button data-r="1"><b>1</b>À refaire</button>'+
+      '<button data-r="2"><b>2</b>Ça va</button>'+
+      '<button data-r="3"><b>3</b>Nickel</button></div>';
+
+  const btn = $('#rec-btn');
+  btn.onclick = async function(){
     if(mediaRec && mediaRec.state==='recording'){ mediaRec.stop(); return; }
+    if(!navigator.mediaDevices || !window.isSecureContext){
+      $('#rec-hint').textContent = "L'enregistrement demande une connexion sécurisée. Ouvre l'appli depuis studio-42.app.";
+      return;
+    }
     try{
-      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      chunks=[]; mediaRec=new MediaRecorder(stream);
-      mediaRec.ondataavailable=e=>chunks.push(e.data);
-      mediaRec.onstop=()=>{
-        lastBlob=new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});
-        stream.getTracks().forEach(t=>t.stop());
-        btn.classList.remove('rec'); $('#rec-hint').textContent='Compare les deux, puis note-toi.';
-        $('#ab-zone').style.display='flex'; $('#rate-zone').style.display='flex';
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      chunks=[]; mediaRec = new MediaRecorder(stream);
+      mediaRec.ondataavailable = function(e){ chunks.push(e.data); };
+      mediaRec.onstop = function(){
+        lastBlob = new Blob(chunks,{type:mediaRec.mimeType||'audio/mp4'});
+        stream.getTracks().forEach(function(t){ t.stop(); });
+        btn.classList.remove('rec');
+        $('#rec-hint').textContent = 'Compare les deux, puis note-toi.';
+        $('#ab-zone').style.display='flex';
+        $('#rate-zone').style.display='flex';
       };
-      mediaRec.start(); btn.classList.add('rec'); $('#rec-hint').textContent='Enregistrement… appuie pour arrêter.';
-    }catch(e){ toast('Micro refusé. Autorise-le dans Réglages ▸ Safari.'); }
+      mediaRec.start(); btn.classList.add('rec');
+      $('#rec-hint').textContent = 'Enregistrement… appuie pour arrêter.';
+    }catch(e){
+      $('#rec-hint').textContent = (e && e.name==='NotAllowedError')
+        ? "Micro refusé. Réglages ▸ Safari ▸ Microphone, puis recharge."
+        : "Micro indisponible sur cet appareil.";
+    }
   };
-  $('#play-model').onclick=()=>speak(SESS.current.en,0.9);
-  $('#play-me').onclick=()=>{ if(!lastBlob) return; const a=new Audio(URL.createObjectURL(lastBlob)); a.play(); };
-  $$('#rate-zone button').forEach(b=>b.onclick=()=>{
-    SESS.selfRate=+b.dataset.r; SESS.selfRates.push(+b.dataset.r); SESS.oralDone++;
-    const total=Math.min(5,SESS.lesson.shadow.length);
-    if(SESS.oralDone<total){ toast('Phrase '+(SESS.oralDone+1)+' sur '+total); phaseOral(); }
-    else { toast('Les '+total+' phrases sont faites. Passe à la suite.'); }
+  $('#play-model').onclick = function(){ speak(SESS.current.en,0.9); };
+  $('#play-me').onclick = function(){
+    if(!lastBlob) return;
+    const a = new Audio(URL.createObjectURL(lastBlob)); a.play();
+  };
+  $$('#rate-zone button').forEach(function(b){
+    b.onclick = function(){ oralSuivant(+b.dataset.r); };
   });
 }
 
+/* ── Lis, je corrige : reconnaissance vocale ───────────────────────────── */
 function oralSpeak(s){
-  $('#oral-zone').innerHTML=`
-    <button class="mic" id="sr-btn" aria-label="Parler">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></button>
-    <p class="small" style="text-align:center" id="sr-hint">Appuie et dis la phrase.</p>
-    <div class="heard" id="sr-out">…</div>
-    <button class="btn quiet" id="sr-skip">Je passe cette phrase</button>`;
-  $('#sr-skip').onclick=()=>{ SESS.oralDone++; SESS.oralMode='shadow'; phaseOral(); };
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  $('#sr-btn').onclick=()=>{
-    const rec=new SR(); rec.lang='en-GB'; rec.interimResults=false; rec.maxAlternatives=3;
-    $('#sr-btn').classList.add('rec'); $('#sr-hint').textContent='On t\'écoute…';
-    rec.onresult=e=>{
-      const heard=e.results[0][0].transcript;
-      $('#sr-out').textContent=heard;
-      const score=similarity(heard,s.en);
-      $('#sr-hint').innerHTML = score>.8 ? '<span style="color:var(--ok)">Très proche du modèle.</span>'
-        : score>.5 ? 'Presque — réécoute le modèle et retente.' : 'La reconnaissance a du mal. Passe en Shadow, c\'est plus fiable.';
-      SESS.selfRates.push(score>0.8?3:(score>0.5?2:1));
-      SESS.oralDone++;
+  $('#oral-zone').innerHTML =
+    '<button class="mic" id="sr-btn" aria-label="Parler">'+
+      '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">'+
+      '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></button>'+
+    '<p class="small" style="text-align:center" id="sr-hint">Appuie, puis lis la phrase à voix haute.</p>'+
+    '<div class="heard" id="sr-out" style="display:none"></div>'+
+    '<p class="small" id="sr-verdict" style="margin-top:10px"></p>'+
+    '<div class="btn-row" id="sr-actions" style="display:none">'+
+      '<button class="btn ghost small" id="sr-retry">Réessayer</button>'+
+      '<button class="btn small" id="sr-next">Phrase suivante</button></div>';
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn = $('#sr-btn');
+
+  function fin(msg){
+    clearTimeout(recTimer);
+    btn.classList.remove('rec');
+    if(msg) $('#sr-hint').textContent = msg;
+  }
+
+  btn.onclick = function(){
+    if(recog){ try{ recog.abort(); }catch(e){} recog=null; fin(); return; }
+    let recu = false;
+    recog = new SR();
+    recog.lang='en-GB'; recog.interimResults=false; recog.maxAlternatives=3; recog.continuous=false;
+
+    recog.onstart = function(){
+      btn.classList.add('rec');
+      $('#sr-hint').textContent = 'On t\'écoute… appuie pour arrêter.';
     };
-    rec.onerror=()=>{ $('#sr-hint').textContent='La reconnaissance n\'a pas répondu. Passe en Shadow.'; };
-    rec.onend=()=>$('#sr-btn').classList.remove('rec');
-    try{ rec.start(); }catch(e){ toast('Reconnaissance indisponible ici.'); }
+    recog.onresult = function(e){
+      recu = true;
+      let best = e.results[0][0].transcript, meilleur = diffMots(s.en, best);
+      for(let k=1;k<e.results[0].length;k++){
+        const d = diffMots(s.en, e.results[0][k].transcript);
+        if(d.ratio > meilleur.ratio){ meilleur = d; best = e.results[0][k].transcript; }
+      }
+      const note = meilleur.ratio>=0.85 ? 3 : (meilleur.ratio>=0.55 ? 2 : 1);
+      SESS.dernierScoreOral = note;
+      $('#sr-out').style.display='block';
+      $('#sr-out').innerHTML = meilleur.html;
+      $('#sr-verdict').innerHTML = note===3
+        ? '<span style="color:var(--ok)">Tout est passé. Phrase maîtrisée.</span>'
+        : (note===2
+          ? 'Presque. Les mots soulignés n\'ont pas été reconnus — réécoute le modèle et retente.'
+          : 'Peu de mots reconnus. Va plus lentement, ou passe en Écoute et répète, souvent plus juste.');
+      $('#sr-actions').style.display='flex';
+      fin('Tu peux réessayer ou passer à la suite.');
+    };
+    recog.onerror = function(e){
+      const m = {
+        'not-allowed':"Micro refusé. Réglages ▸ Safari ▸ Microphone, puis recharge.",
+        'service-not-allowed':"Micro refusé par le système.",
+        'no-speech':"Rien entendu. Rapproche-toi du micro et retente.",
+        'audio-capture':"Aucun micro détecté.",
+        'network':"La reconnaissance a besoin d'internet.",
+        'aborted':""
+      }[e.error] || "La reconnaissance n'a pas répondu.";
+      if(m) $('#sr-verdict').textContent = m;
+      $('#sr-actions').style.display='flex';
+      fin('Appuie pour réessayer.');
+    };
+    recog.onend = function(){
+      recog = null;
+      if(!recu){ $('#sr-actions').style.display='flex'; fin('Appuie pour réessayer.'); }
+    };
+
+    try{
+      recog.start();
+      recTimer = setTimeout(function(){ try{ if(recog) recog.stop(); }catch(e){} }, 12000);
+    }catch(e){
+      recog=null;
+      $('#sr-verdict').textContent = "Impossible de démarrer la reconnaissance sur ce navigateur.";
+      $('#sr-actions').style.display='flex';
+      fin('');
+    }
   };
-}
-function similarity(a,b){
-  const n=s=>s.toLowerCase().replace(/[^a-z ]/g,'').split(/\s+/).filter(Boolean);
-  const A=n(a),B=n(b); if(!B.length) return 0;
-  return A.filter(w=>B.includes(w)).length / B.length;
+
+  $('#sr-retry').onclick = function(){ oralSpeak(s); };
+  $('#sr-next').onclick  = function(){ oralSuivant(SESS.dernierScoreOral || 1); };
 }
 
 /* --- Phase 4 : production écrite + correction ----------------------------- */
