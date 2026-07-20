@@ -1139,7 +1139,7 @@ async function syncRecap(rec){
 function renderSettings(){
   $('#set-proxy').value=S.proxy||''; $('#set-mail').value=S.mailUrl||'';
   loadVoices();
-  const si=$('#sync-info'); if(si) si.textContent='Dernière sauvegarde : '+lastSync;
+  const si=$('#sync-info'); if(si) si.textContent = (lastSync==='jamais') ? '' : ('Dernière sauvegarde : '+lastSync);
   const b=$('#proxy-badge');
   b.className='badge '+(S.proxy?'ok':'off'); b.textContent=S.proxy?'Configuré':'Non configuré';
   const last=S.sessions.slice(-7).reverse();
