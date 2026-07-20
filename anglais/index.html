@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<title>The Season — English</title>
+<title>Alessia in English</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="The Season">
+<meta name="apple-mobile-web-app-title" content="Alessia in English">
 <meta name="theme-color" content="#241228">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -328,10 +328,10 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
   <!-- ============ 4. ACCUEIL ============ -->
   <section class="screen" id="s-home">
     <div class="topbar">
-      <a class="icon-btn" href="/" aria-label="Retour à Studio 42">
+      <a class="icon-btn" href="/" aria-label="Retour a Studio 42">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg>
       </a>
-      <div class="brand">The <em>Season</em></div>
+      <div class="brand">Alessia in <em>English</em></div>
       <button class="icon-btn" id="open-settings" aria-label="Réglages">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
       </button>
@@ -485,20 +485,25 @@ bridgerton:{
   id:'bridgerton', name:'Bridgerton', tag:'Regency · gossip · bals',
   words:[
     {en:'a rumour',fr:'une rumeur',ex:'A rumour spread across the ballroom in ten minutes.'},
-    {en:'to court someone',fr:'faire la cour à quelqu\'un',ex:'He courted her for the whole season.'},
-    {en:'a gown',fr:'une robe (de soirée)',ex:'Her gown was pale blue silk.'},
-    {en:'engaged',fr:'fiancé(e)',ex:'They got engaged in the spring.'},
+    {en:'to court someone',fr:'faire la cour a quelqu\'un',ex:'He courted her for the whole season.'},
+    {en:'a gown',fr:'une robe (de soiree)',ex:'Her gown was pale blue silk.'},
+    {en:'engaged',fr:'fiance(e)',ex:'They got engaged in the spring.'},
     {en:'to whisper',fr:'chuchoter',ex:'People whispered behind their fans.'}
   ],
   text:`Everyone loves a good rumour. In the show, one anonymous writer publishes a gossip paper, and the whole city reads it before breakfast. A single sentence can ruin a reputation or make a girl the star of the season. The clothes are beautiful, the ballrooms are enormous, but the real weapon is information. That is why the series works so well: it is a story about power, and the power is in the words.`,
   qcm:[
     {q:'What is the real weapon in the story?',opts:['Money','Information','Dancing'],a:1},
-    {q:'"Before breakfast" means…',opts:['Very early','Very slowly','Very late'],a:0}
+    {q:'"Before breakfast" means…',opts:['Very early','Very slowly','Very late'],a:0},
+    {q:'Who writes the gossip paper?',opts:['The queen','An anonymous writer','A journalist from London'],a:1},
+    {q:'"To ruin a reputation" is closest to…',opts:['Detruire une reputation','Construire une reputation','Cacher une reputation'],a:0},
+    {q:'According to the text, the series is about…',opts:['Fashion','Power','Travel'],a:1}
   ],
   shadow:[
-    {en:'A single sentence can ruin a reputation.',fr:'Une seule phrase peut ruiner une réputation.'},
-    {en:'Everyone reads the gossip paper before breakfast.',fr:'Tout le monde lit le journal à ragots avant le petit-déjeuner.'},
-    {en:'She wore a pale blue gown to the ball.',fr:'Elle portait une robe bleu pâle au bal.'}
+    {en:'A single sentence can ruin a reputation.',fr:'Une seule phrase peut ruiner une reputation.'},
+    {en:'Everyone reads the gossip paper before breakfast.',fr:'Tout le monde lit le journal a ragots avant le petit-dejeuner.'},
+    {en:'She wore a pale blue gown to the ball.',fr:'Elle portait une robe bleu pale au bal.'},
+    {en:'They whispered behind their fans all evening.',fr:'Ils ont chuchote derriere leurs eventails toute la soiree.'},
+    {en:'The real weapon is information, not money.',fr:'La vraie arme, c\'est l\'information, pas l\'argent.'}
   ],
   write:[
     {q:'Describe your favourite character in three sentences.',model:'My favourite character is Penelope. She is quiet in public, but she writes everything. I like her because she is clever.'},
@@ -515,15 +520,20 @@ beauty:{
     {en:'to apply',fr:'appliquer',ex:'Apply the cream before your foundation.'},
     {en:'affordable',fr:'abordable',ex:'This brand is affordable and really good.'}
   ],
-  text:`My routine takes eight minutes, and honestly most of it is skincare. I apply moisturiser first, then a light foundation with my fingers, because brushes take too long in the morning. Then blush — always more than people expect — and I blend it up towards my eyes. Mascara, a little lip balm, done. I do not think expensive products are better. My favourite blush costs nine euros and I have bought it four times.`,
+  text:`My routine takes eight minutes, and honestly most of it is skincare. I apply moisturiser first, then a light foundation with my fingers, because brushes take too long in the morning. Then blush, always more than people expect, and I blend it up towards my eyes. Mascara, a little lip balm, done. I do not think expensive products are better. My favourite blush costs nine euros and I have bought it four times.`,
   qcm:[
     {q:'How long does the routine take?',opts:['Eight minutes','Eighteen minutes','Half an hour'],a:0},
-    {q:'What does she think about expensive products?',opts:['They are worth it','They are not better','She never buys makeup'],a:1}
+    {q:'What does she think about expensive products?',opts:['They are worth it','They are not better','She never buys makeup'],a:1},
+    {q:'Why does she use her fingers for foundation?',opts:['Brushes are too slow','She has no brush','It looks better'],a:0},
+    {q:'How many times has she bought her favourite blush?',opts:['Twice','Three times','Four times'],a:2},
+    {q:'"Affordable" means…',opts:['Cher','Abordable','Introuvable'],a:1}
   ],
   shadow:[
     {en:'I blend the blush up towards my eyes.',fr:'J\'estompe le blush vers les yeux.'},
     {en:'I do not think expensive products are better.',fr:'Je ne pense pas que les produits chers soient meilleurs.'},
-    {en:'This shade is a bit too light for my skin.',fr:'Cette teinte est un peu trop claire pour ma peau.'}
+    {en:'This shade is a bit too light for my skin.',fr:'Cette teinte est un peu trop claire pour ma peau.'},
+    {en:'Most of my routine is actually skincare.',fr:'La plus grande partie de ma routine, c\'est du soin.'},
+    {en:'I want a glowy finish, not a matte one.',fr:'Je veux un fini lumineux, pas mat.'}
   ],
   write:[
     {q:'Describe your morning routine in three steps.',model:'First I wash my face. Then I apply a light cream. Finally I put on mascara and lip balm.'},
@@ -532,23 +542,28 @@ beauty:{
   ]
 },
 fashion:{
-  id:'fashion', name:'Mode actuelle', tag:'looks · pièces · tendances',
+  id:'fashion', name:'Mode actuelle', tag:'looks · pieces · tendances',
   words:[
     {en:'an outfit',fr:'une tenue',ex:'That outfit is perfect for autumn.'},
     {en:'oversized',fr:'oversize / trop grand',ex:'She wore an oversized jacket.'},
     {en:'to layer',fr:'superposer',ex:'In winter I layer two jumpers.'},
     {en:'second-hand',fr:'d\'occasion / seconde main',ex:'Half of my wardrobe is second-hand.'},
-    {en:'it suits you',fr:'ça te va bien',ex:'That colour really suits you.'}
+    {en:'it suits you',fr:'ca te va bien',ex:'That colour really suits you.'}
   ],
   text:`Trends move so fast now that a piece can be everywhere in March and embarrassing in June. I have stopped following them completely. Instead I buy second-hand, mostly denim and oversized jackets, and I keep the same five or six pieces for years. My friends say my style is boring. Maybe. But I never open my wardrobe in the morning and think I have nothing to wear.`,
   qcm:[
     {q:'What does she buy most?',opts:['New designer clothes','Second-hand denim and jackets','Only dresses'],a:1},
-    {q:'"Embarrassing" is closest to…',opts:['Gênant','Confortable','Cher'],a:0}
+    {q:'"Embarrassing" is closest to…',opts:['Genant','Confortable','Cher'],a:0},
+    {q:'What do her friends say about her style?',opts:['It is boring','It is expensive','It is perfect'],a:0},
+    {q:'How long does she keep her pieces?',opts:['One season','A few months','Years'],a:2},
+    {q:'What problem does she never have?',opts:['Nothing to wear','No money','No time'],a:0}
   ],
   shadow:[
-    {en:'Trends move so fast that I stopped following them.',fr:'Les tendances vont si vite que j\'ai arrêté de les suivre.'},
-    {en:'Half of my wardrobe is second-hand.',fr:'La moitié de mon dressing est en seconde main.'},
-    {en:'That colour really suits you.',fr:'Cette couleur te va vraiment bien.'}
+    {en:'Trends move so fast that I stopped following them.',fr:'Les tendances vont si vite que j\'ai arrete de les suivre.'},
+    {en:'Half of my wardrobe is second-hand.',fr:'La moitie de mon dressing est en seconde main.'},
+    {en:'That colour really suits you.',fr:'Cette couleur te va vraiment bien.'},
+    {en:'I keep the same six pieces for years.',fr:'Je garde les memes six pieces pendant des annees.'},
+    {en:'In winter I layer two jumpers.',fr:'En hiver je superpose deux pulls.'}
   ],
   write:[
     {q:'Describe the outfit you are wearing today.',model:'I am wearing wide jeans and a white t-shirt. My jacket is oversized and second-hand. I like it because it is comfortable.'},
@@ -560,20 +575,25 @@ crown:{
   id:'crown', name:'Perfect Crown', tag:'K-drama · palais · pouvoir',
   words:[
     {en:'a plot / a plan',fr:'un complot / un plan',ex:'There is a plot against the queen.'},
-    {en:'loyal',fr:'loyal / fidèle',ex:'He stayed loyal to her family.'},
+    {en:'loyal',fr:'loyal / fidele',ex:'He stayed loyal to her family.'},
     {en:'to betray',fr:'trahir',ex:'Her closest friend betrayed her.'},
-    {en:'an episode',fr:'un épisode',ex:'The last episode ends on a cliffhanger.'},
+    {en:'an episode',fr:'un episode',ex:'The last episode ends on a cliffhanger.'},
     {en:'subtitles',fr:'sous-titres',ex:'I watch it with English subtitles now.'}
   ],
   text:`I started watching K-dramas with French subtitles, then I switched to English ones, and now I understand maybe half of the English without reading. It is the best trick I know. The episodes are long, the stories are about power and loyalty, and you always want to watch the next one. So you are learning for two hours without noticing. My advice: choose a show you already love, and change the subtitles, not the audio.`,
   qcm:[
     {q:'What does she recommend changing?',opts:['The audio','The subtitles','The platform'],a:1},
-    {q:'Why does the trick work?',opts:['Episodes are short','You learn without noticing','The vocabulary is easy'],a:1}
+    {q:'Why does the trick work?',opts:['Episodes are short','You learn without noticing','The vocabulary is easy'],a:1},
+    {q:'Which subtitles did she use first?',opts:['English','Korean','French'],a:2},
+    {q:'The stories are mainly about…',opts:['Power and loyalty','Sport','School'],a:0},
+    {q:'"To betray" means…',opts:['Proteger','Trahir','Suivre'],a:1}
   ],
   shadow:[
     {en:'I watch it with English subtitles now.',fr:'Je le regarde avec les sous-titres en anglais maintenant.'},
-    {en:'Her closest friend betrayed her in the last episode.',fr:'Sa meilleure amie l\'a trahie dans le dernier épisode.'},
-    {en:'Choose a show you already love.',fr:'Choisis une série que tu aimes déjà.'}
+    {en:'Her closest friend betrayed her in the last episode.',fr:'Sa meilleure amie l\'a trahie dans le dernier episode.'},
+    {en:'Choose a show you already love.',fr:'Choisis une serie que tu aimes deja.'},
+    {en:'You are learning for two hours without noticing.',fr:'Tu apprends pendant deux heures sans t\'en rendre compte.'},
+    {en:'Change the subtitles, not the audio.',fr:'Change les sous-titres, pas le son.'}
   ],
   write:[
     {q:'Summarise the last episode you watched.',model:'In the last episode, the main character discovered the plot. She confronted her friend. The episode ended without an answer.'},
@@ -582,23 +602,28 @@ crown:{
   ]
 },
 contresens:{
-  id:'contresens', name:'À contresens', tag:'romance · films · tension',
+  id:'contresens', name:'A contresens', tag:'romance · films · tension',
   words:[
-    {en:'a crush',fr:'un béguin',ex:'She had a crush on him from day one.'},
+    {en:'a crush',fr:'un beguin',ex:'She had a crush on him from day one.'},
     {en:'to argue',fr:'se disputer',ex:'They argue in almost every scene.'},
     {en:'to forgive',fr:'pardonner',ex:'He never forgave his brother.'},
-    {en:'to move in',fr:'emménager',ex:'She moved in with her mother\'s new family.'},
+    {en:'to move in',fr:'emmenager',ex:'She moved in with her mother\'s new family.'},
     {en:'unfair',fr:'injuste',ex:'The situation was completely unfair to her.'}
   ],
-  text:`The films follow a girl who moves into a huge house with her mother's new family, and immediately hates the boy who lives there. They argue in almost every scene. Of course, nobody believes the hate for one second — that is the whole point. It is not a complicated story, and the dialogues are simple, which makes it perfect in English. I watched the second film twice: once with subtitles, once without.`,
+  text:`The films follow a girl who moves into a huge house with her mother's new family, and immediately hates the boy who lives there. They argue in almost every scene. Of course, nobody believes the hate for one second, and that is the whole point. It is not a complicated story, and the dialogues are simple, which makes it perfect in English. I watched the second film twice: once with subtitles, once without.`,
   qcm:[
     {q:'Why is it good for learning English?',opts:['The dialogues are simple','There is no dialogue','It is very old'],a:0},
-    {q:'How many times did she watch the second film?',opts:['Once','Twice','Three times'],a:1}
+    {q:'How many times did she watch the second film?',opts:['Once','Twice','Three times'],a:1},
+    {q:'Where does the girl move?',opts:['To another country','Into a huge house','To a small flat'],a:1},
+    {q:'"To argue" means…',opts:['Se disputer','S\'excuser','Se taire'],a:0},
+    {q:'What does the writer think of the story?',opts:['It is complicated','It is not complicated','It is boring'],a:1}
   ],
   shadow:[
-    {en:'They argue in almost every scene.',fr:'Ils se disputent dans presque chaque scène.'},
-    {en:'She moved in with her mother\'s new family.',fr:'Elle a emménagé avec la nouvelle famille de sa mère.'},
-    {en:'I watched the second film twice.',fr:'J\'ai regardé le deuxième film deux fois.'}
+    {en:'They argue in almost every scene.',fr:'Ils se disputent dans presque chaque scene.'},
+    {en:'She moved in with her mother\'s new family.',fr:'Elle a emmenage avec la nouvelle famille de sa mere.'},
+    {en:'I watched the second film twice.',fr:'J\'ai regarde le deuxieme film deux fois.'},
+    {en:'The dialogues are simple and easy to follow.',fr:'Les dialogues sont simples et faciles a suivre.'},
+    {en:'Nobody believes the hate for one second.',fr:'Personne ne croit a cette haine une seule seconde.'}
   ],
   write:[
     {q:'Do you prefer the books or the films? Why?',model:'I prefer the films because the actors are good. The books explain more, but they are slower. I watched the films first.'},
@@ -775,7 +800,7 @@ Erreurs récurrentes à retravailler discrètement : ${(S.errors.slice(-6).join(
 Réponds UNIQUEMENT en JSON, sans texte autour, au format exact :
 {"words":[{"en":"","fr":"","ex":""}],"text":"","qcm":[{"q":"","opts":["","",""],"a":0}],
 "shadow":[{"en":"","fr":""}],"write":[{"q":"","model":""}]}
-5 mots, un texte de 70 à 90 mots à la première personne, 2 QCM, 3 phrases d'oral, 3 consignes d'écriture.`;
+5 mots, un texte de 90 à 110 mots à la première personne, 5 QCM de compréhension portant sur le texte, 5 phrases d'oral tirées du texte, 3 consignes d'écriture.`;
   const usr = `Thème : ${base.name} (${base.tag}). Écris la séance du jour. Ne réutilise pas d'exemples déjà vus.`;
   try{
     const out = parseJSON(await claude(sys,usr,1600));
@@ -908,7 +933,7 @@ async function startSession(){
   $('#p-next').style.display='none';
   const lesson=await buildLesson(S.week);
   SESS={lesson,phase:0,t0:Date.now(),revealed:0,qcmScore:0,oralMode:'shadow',
-        oralDone:0,selfRate:null,written:[],theme:S.week};
+        oralDone:0,selfRate:null,selfRates:[],written:[],theme:S.week};
   $('#p-next').style.display='';
   renderPhase();
 }
@@ -973,7 +998,9 @@ let mediaRec=null, chunks=[], lastBlob=null;
 function phaseOral(){
   const s=SESS.lesson.shadow[SESS.oralDone % SESS.lesson.shadow.length];
   SESS.current=s;
+  const total=Math.min(5,SESS.lesson.shadow.length);
   $('#p-body').innerHTML=`
+    <p class="small" style="margin-bottom:4px">Phrase ${Math.min(SESS.oralDone+1,total)} sur ${total}</p>
     <div class="mode-switch">
       <button id="m-shadow" aria-pressed="${SESS.oralMode==='shadow'}">Shadow — écoute &amp; répète</button>
       <button id="m-speak" aria-pressed="${SESS.oralMode==='speak'}" ${HAS_SR?'':'disabled style="opacity:.35"'}>Speak — reconnaissance</button>
@@ -1022,9 +1049,10 @@ function oralShadow(s){
   $('#play-model').onclick=()=>speak(SESS.current.en,0.9);
   $('#play-me').onclick=()=>{ if(!lastBlob) return; const a=new Audio(URL.createObjectURL(lastBlob)); a.play(); };
   $$('#rate-zone button').forEach(b=>b.onclick=()=>{
-    SESS.selfRate=+b.dataset.r; SESS.oralDone++;
-    if(SESS.oralDone<2){ toast('Une deuxième phrase, puis on passe à l\'écrit.'); phaseOral(); }
-    else { toast('Bien joué. Passe à la suite.'); }
+    SESS.selfRate=+b.dataset.r; SESS.selfRates.push(+b.dataset.r); SESS.oralDone++;
+    const total=Math.min(5,SESS.lesson.shadow.length);
+    if(SESS.oralDone<total){ toast('Phrase '+(SESS.oralDone+1)+' sur '+total); phaseOral(); }
+    else { toast('Les '+total+' phrases sont faites. Passe à la suite.'); }
   });
 }
 
@@ -1047,6 +1075,7 @@ function oralSpeak(s){
       const score=similarity(heard,s.en);
       $('#sr-hint').innerHTML = score>.8 ? '<span style="color:var(--ok)">Très proche du modèle.</span>'
         : score>.5 ? 'Presque — réécoute le modèle et retente.' : 'La reconnaissance a du mal. Passe en Shadow, c\'est plus fiable.';
+      SESS.selfRates.push(score>0.8?3:(score>0.5?2:1));
       SESS.oralDone++;
     };
     rec.onerror=()=>{ $('#sr-hint').textContent='La reconnaissance n\'a pas répondu. Passe en Shadow.'; };
@@ -1088,8 +1117,27 @@ function phaseWrite(){
 }
 
 /* --- Phase 5 : le sceau + envoi du récap ---------------------------------- */
+function normPhrase(t){ return String(t||'').toLowerCase().replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim(); }
+function noteSur20(){
+  const q = SESS.lesson.qcm.length ? SESS.qcmScore/SESS.lesson.qcm.length : 0;
+  const r = SESS.selfRates||[];
+  const o = r.length ? (r.reduce((a,b)=>a+b,0)/r.length)/3 : 0;
+  const nb = SESS.written.length;
+  const v = Math.min(1, nb/3);
+  const j = nb ? SESS.written.filter(x=>!x.fixed || normPhrase(x.fixed)===normPhrase(x.answer)).length/nb : 0;
+  const comp=q*8, oral=o*6, ecrit=v*3+j*3;
+  return { total:Math.round(comp+oral+ecrit), comp:Math.round(comp*10)/10,
+           oral:Math.round(oral*10)/10, ecrit:Math.round(ecrit*10)/10 };
+}
+function motSur(n){
+  if(n>=17) return 'Séance impeccable.';
+  if(n>=13) return 'Bonne séance, tu tiens le rythme.';
+  if(n>=9)  return 'Séance solide. Les points faibles sont repérés.';
+  return 'Séance faite, et c\'est ça qui compte aujourd\'hui.';
+}
 function phaseFinale(){
   const mins=Math.max(1,Math.round((Date.now()-SESS.t0)/60000));
+  const N=noteSur20();
   const L=(S.name[0]||'A').toUpperCase();
   const newDay = S.lastDay!==today();
   if(newDay){ 
@@ -1100,14 +1148,18 @@ function phaseFinale(){
   const rec={date:today(),name:S.name,level:S.cefr,theme:THEMES[SESS.theme].name,minutes:mins,
     words:SESS.lesson.words.map(w=>w.en),comprehension:`${SESS.qcmScore}/${SESS.lesson.qcm.length}`,
     oral:SESS.oralMode==='shadow'?`Shadow, auto-évaluation ${SESS.selfRate||'—'}/3`:'Reconnaissance vocale',
-    written:SESS.written, streak:S.streak};
+    written:SESS.written, streak:S.streak, note:N.total};
   S.sessions.push(rec); S.sessions=S.sessions.slice(-60); save();
 
   $('#p-body').innerHTML=`<div class="finale">
     <div style="--s:120px" id="seal-slot"></div>
-    <p class="eyebrow">Séance ${S.sessions.length}</p>
-    <h1 style="font-size:34px">Série de <em>${S.streak}</em> ${S.streak>1?'jours':'jour'}</h1>
+    <p class="eyebrow">Séance ${S.sessions.length} · série de ${S.streak}</p>
+    <h1 style="font-size:52px;margin:.1em 0 .1em"><em>${N.total}</em><span style="font-size:24px;opacity:.55"> / 20</span></h1>
+    <p class="lead" style="margin-bottom:4px">${motSur(N.total)}</p>
     <div class="recap">
+      <div class="recap-line"><span>Compréhension</span><span>${N.comp} / 8</span></div>
+      <div class="recap-line"><span>À voix haute</span><span>${N.oral} / 6</span></div>
+      <div class="recap-line"><span>Écrit</span><span>${N.ecrit} / 6</span></div>
       <div class="recap-line"><span>Univers</span><span>${rec.theme}</span></div>
       <div class="recap-line"><span>Temps</span><span>${mins} min</span></div>
       <div class="recap-line"><span>Compréhension</span><span>${rec.comprehension}</span></div>
