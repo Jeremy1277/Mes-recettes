@@ -299,21 +299,11 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
     <h1>Dear Gentle <em>Reader</em><br>— your daily quiz.</h1>
     <p class="lead">Quinze minutes d'anglais construites autour de ce que tu regardes, portes et écoutes vraiment.</p>
     <div class="rule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3c2 4 6 5 6 8a6 6 0 0 1-12 0c0-3 4-4 6-8z"/></svg></div>
-    <label class="field"><span>Ton prénom</span>
+    <div id="wel-users" style="margin-bottom:18px"></div>
+    <label class="field"><span id="wel-label">Ton prénom</span>
       <input type="text" id="in-name" placeholder="Alessia" autocomplete="given-name"></label>
-    <p class="small">On commence par un quiz de départ. Pas de note, pas de correction rouge — juste de quoi caler le bon point de départ.</p>
+    <p class="small" id="wel-hint">On commence par un quiz de départ. Pas de note, pas de correction rouge — juste de quoi caler le bon point de départ.</p>
     <div class="dock"><button class="btn" id="go-quiz">Commencer le quiz</button></div>
-  </section>
-
-  <!-- ============ 1bis. PROFILS ============ -->
-  <section class="screen" id="s-users">
-    <div style="height:8vh"></div>
-    <p class="eyebrow">Studio 42</p>
-    <h1>Qui <em>travaille</em><br>aujourd'hui ?</h1>
-    <div id="users-list" style="margin-top:22px"></div>
-    <div class="dock">
-      <button class="btn ghost" id="add-user">Ajouter un profil</button>
-    </div>
   </section>
 
   <!-- ============ 2. QUIZ DIAGNOSTIC ============ -->
@@ -782,8 +772,10 @@ function vierge(){ return {name:'',level:2,cefr:'A1+',themes:['bridgerton','beau
 /* Reprise de l'ancien stockage mono-utilisateur. */
 (function migration(){
   try{
+    if(localStorage.getItem('theseason_migre')) return;
+    localStorage.setItem('theseason_migre','1');
     const anc = localStorage.getItem('theseason_v1');
-    if(anc && !listUsers().length){
+    if(anc){
       const o = JSON.parse(anc);
       if(o && o.name){
         localStorage.setItem(stateKey(o.name), anc);
@@ -791,6 +783,7 @@ function vierge(){ return {name:'',level:2,cefr:'A1+',themes:['bridgerton','beau
         localStorage.setItem(CUR_KEY, o.name);
         localStorage.setItem(CFG_KEY, JSON.stringify({proxy:o.proxy,mailUrl:o.mailUrl,voice:o.voice}));
       }
+      localStorage.removeItem('theseason_v1');
     }
   }catch(e){}
 })();
@@ -832,17 +825,26 @@ function ouvrirProfil(n){
 function nouveauProfil(){
   S = load('');
   const f=$('#in-name'); if(f) f.value='';
-  show('s-welcome');
+  renderUsers(); show('s-welcome');
 }
 function renderUsers(){
   const u = listUsers();
-  $('#users-list').innerHTML = u.map(function(n){
-    return '<button class="word" data-u="'+n.replace(/"/g,'&quot;')+'">'+
-      '<div><div class="en">'+n+'</div></div></button>';
-  }).join('') || '<p class="small">Aucun profil enregistré.</p>';
-  $$('#users-list [data-u]').forEach(function(b){
+  const box = $('#wel-users');
+  box.innerHTML = u.length
+    ? '<p class="eyebrow" style="margin-bottom:10px">Reprendre</p>' + u.map(function(n){
+        return '<button class="word" data-u="'+n.replace(/"/g,'&quot;')+'">'+
+          '<div><div class="en">'+n+'</div></div>'+
+          '<div class="spk">&rsaquo;</div></button>';
+      }).join('')
+    : '';
+  $$('#wel-users [data-u]').forEach(function(b){
     b.onclick = function(){ ouvrirProfil(b.dataset.u); };
   });
+  $('#wel-label').textContent = u.length ? 'Ou un nouveau prénom' : 'Ton prénom';
+  $('#wel-hint').textContent = u.length
+    ? 'Un nouveau prénom démarre par le quiz de départ.'
+    : 'On commence par un quiz de départ. Pas de note, pas de correction rouge — juste de quoi caler le bon point de départ.';
+  $('#go-quiz').textContent = u.length ? 'Créer ce profil' : 'Commencer le quiz';
 }
 
 /* ── Sauvegarde distante ────────────────────────────────────────────────────
@@ -983,7 +985,7 @@ $('#go-quiz').onclick=()=>{
   }
   S.name=n; save(); startQuiz();
 };
-$('#add-user').onclick=()=>nouveauProfil();
+
 
 /* ============================================================================
    ÉCRAN 2 — QUIZ ADAPTATIF
@@ -1077,7 +1079,7 @@ function renderHome(){
 $('#h-invite').onclick=()=>startSession();
 $('#start-session').onclick=()=>startSession();
 $('#open-settings').onclick=()=>{ renderSettings(); show('s-settings'); };
-const hs=$('#h-switch'); if(hs) hs.onclick=()=>{ renderUsers(); show('s-users'); };
+const hs=$('#h-switch'); if(hs) hs.onclick=()=>{ nouveauProfil(); };
 $('#close-settings').onclick=()=>{ renderHome(); show('s-home'); };
 
 /* ============================================================================
@@ -1541,9 +1543,7 @@ $('#reset-all').onclick=()=>{
   if(S.name){
     renderHome(); show('s-home');
     if(await cloudLoad()){ renderHome(); toast('Progression restaurée'); }
-  } else if(listUsers().length){
-    renderUsers(); show('s-users');
-  } else show('s-welcome');
+  } else { renderUsers(); show('s-welcome'); }
 })();
 </script>
 </body>
