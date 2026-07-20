@@ -174,6 +174,10 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
   margin-top:16px;text-align:left;width:100%}
 .invite .cover{position:absolute;inset:0;z-index:0}
 .cover svg{width:100%;height:100%;display:block}
+/* Sur les grandes cartes, le dessin devient un motif lateral :
+   en pleine largeur il ecrasait le titre. */
+.invite .cover svg{width:auto;height:74%;position:absolute;right:2%;top:13%;opacity:.9}
+.theme-chip .cover svg{opacity:.9}
 .invite .veil{position:absolute;inset:0;z-index:1;
   background:linear-gradient(to top,rgba(36,18,40,.94) 8%,rgba(36,18,40,.35) 60%,rgba(36,18,40,.1))}
 .invite .inner{position:relative;z-index:2}
@@ -364,7 +368,7 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
       <div class="inner">
         <p class="eyebrow" id="h-eyebrow">Séance du jour</p>
         <h2 id="h-theme">Bridgerton</h2>
-        <p class="meta" id="h-meta">5 mots · 1 texte · 1 oral · 3 phrases — 14 min</p>
+        <p class="meta" id="h-meta">5 mots · 1 texte · 5 phrases orales · 3 à écrire</p>
       </div>
     </button>
 
@@ -1066,7 +1070,7 @@ function renderHome(){
   $('#h-cover').style.background=COVERS[t.id]; $('#h-cover').innerHTML=ART[t.id]||'';
   $('#h-theme').textContent=t.name;
   $('#h-eyebrow').textContent=`Séance du jour · Level ${S.level}`;
-  $('#h-meta').textContent='5 mots · 1 texte · 1 oral · 3 phrases — 14 min';
+  $('#h-meta').textContent='5 mots · 1 texte · 5 phrases orales · 3 à écrire';
   $('#home-themes').innerHTML=S.themes.map(id=>themeChip(THEMES[id],id===S.week)).join('');
   $$('#home-themes .theme-chip').forEach(b=>b.onclick=()=>{ S.week=b.dataset.t; save(); renderHome(); });
 }
