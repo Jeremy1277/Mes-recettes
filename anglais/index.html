@@ -836,9 +836,9 @@ function load(n){
     try{ const r=JSON.parse(localStorage.getItem(stateKey(n))); if(r) base=Object.assign(base,r); }catch(e){}
     if(!base.name) base.name = n;
   }
-  base.proxy   = cfg.proxy   || base.proxy   || '';
-  base.mailUrl = cfg.mailUrl || base.mailUrl || '';
-  base.voice   = cfg.voice   || base.voice   || '';
+  base.proxy   = cfg.proxy   || '';
+  base.mailUrl = cfg.mailUrl || '';
+  base.voice   = cfg.voice   || '';
   return base;
 }
 
@@ -852,9 +852,15 @@ function save(){
       const u = listUsers();
       if(u.indexOf(S.name) < 0){ u.push(S.name); setUsers(u); }
     }
-    localStorage.setItem(CFG_KEY, JSON.stringify({proxy:S.proxy,mailUrl:S.mailUrl,voice:S.voice}));
+    setCfg({proxy:S.proxy,mailUrl:S.mailUrl,voice:S.voice});
   }catch(e){}
   cloudSave();
+}
+function setCfg(c){
+  const cur=getCfg();
+  const merged={proxy:c.proxy||cur.proxy||'',mailUrl:c.mailUrl||cur.mailUrl||'',voice:c.voice||cur.voice||''};
+  try{ localStorage.setItem(CFG_KEY,JSON.stringify(merged)); }catch(e){}
+  return merged;
 }
 
 function ouvrirProfil(n){
@@ -865,6 +871,7 @@ function ouvrirProfil(n){
 }
 function nouveauProfil(){
   S = load('');
+  const c=getCfg(); S.proxy=c.proxy||''; S.mailUrl=c.mailUrl||''; S.voice=c.voice||'';
   const f=$('#in-name'); if(f) f.value='';
   renderUsers(); show('s-welcome');
 }
@@ -1562,9 +1569,9 @@ function renderSettings(){
     ${last.map(r=>`<div class="recap-line"><span>${r.date} · ${r.theme}</span><span>${r.minutes} min · ${r.comprehension}</span></div>`).join('')}`
     : '<p class="small">Aucune séance enregistrée pour l\'instant.</p>';
 }
-$('#set-proxy').oninput=e=>{ S.proxy=e.target.value.trim(); save(); renderSettings(); };
-$('#set-mail').oninput=e=>{ S.mailUrl=e.target.value.trim(); save(); };
-$('#set-voice').onchange=e=>{ S.voice=e.target.value; save(); };
+$('#set-proxy').oninput=e=>{ S.proxy=e.target.value.trim(); setCfg({proxy:S.proxy}); save(); const b=$('#proxy-badge'); if(b){ b.className='badge '+(S.proxy?'ok':'off'); b.textContent=S.proxy?'Configuré':'Non configuré'; } };
+$('#set-mail').oninput=e=>{ S.mailUrl=e.target.value.trim(); setCfg({mailUrl:S.mailUrl}); save(); };
+$('#set-voice').onchange=e=>{ S.voice=e.target.value; setCfg({voice:S.voice}); save(); };
 $('#test-voice').onclick=()=>speak('Good evening. Shall we begin?');
 $('#test-state').onclick=async()=>{
   const out=$('#sync-info');
