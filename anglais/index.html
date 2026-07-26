@@ -285,6 +285,14 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
 .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:var(--gilt);
   border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Révision (SRS) */
+.review-card{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;text-align:left}
+.review-card .badge{font-size:15px;padding:8px 14px;flex:none}
+.rv-card{text-align:center;padding:28px 20px}
+.rv-word{font-family:var(--display);font-size:40px;line-height:1.1;margin:8px 0 16px;color:var(--cream)}
+.rv-fr{font-family:var(--display);font-size:27px;color:var(--wisteria);margin:0}
 </style>
 </head>
 <body>
@@ -362,6 +370,14 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
       </div>
     </button>
 
+    <button class="card review-card" id="h-review" style="display:none">
+      <div>
+        <p class="eyebrow" style="margin:0 0 3px">Révision du jour</p>
+        <p class="meta small" id="h-review-meta" style="margin:0;color:var(--muted)">—</p>
+      </div>
+      <span class="badge ok" id="h-review-count">0</span>
+    </button>
+
     <div class="rule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3c2 4 6 5 6 8a6 6 0 0 1-12 0c0-3 4-4 6-8z"/></svg></div>
 
     <h3>Ton univers de la semaine</h3>
@@ -381,7 +397,17 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
     <div class="dock"><button class="btn" id="p-next">Continuer</button></div>
   </section>
 
-  <!-- ============ 6. RÉGLAGES ============ -->
+  <!-- ============ 6. RÉVISION (SRS) ============ -->
+  <section class="screen" id="s-review">
+    <div class="topbar">
+      <span class="eyebrow" id="rv-name">Révision</span>
+      <button class="btn quiet" id="rv-quit" style="width:auto">Fermer</button>
+    </div>
+    <p class="small" id="rv-count" style="margin:2px 0 12px">—</p>
+    <div id="rv-body"></div>
+  </section>
+
+  <!-- ============ 7. RÉGLAGES ============ -->
   <section class="screen" id="s-settings">
     <div class="topbar">
       <div class="brand">Réglages</div>
@@ -391,9 +417,9 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
 
     <div class="set-group">
       <h3>Moteur de cours</h3>
-      <p class="small">L'adresse du proxy Cloudflare qui détient la clé Anthropic. Sans elle, l'app tourne sur le contenu embarqué.</p>
-      <label class="field"><span>URL du proxy</span>
-        <input type="url" id="set-proxy" placeholder="https://xxx.workers.dev/claude"></label>
+      <p class="small">Le proxy Cloudflare (qui détient la clé Anthropic) est déjà pré-configuré dans l'application. Ne remplis ce champ que pour utiliser un autre proxy.</p>
+      <label class="field"><span>URL du proxy (facultatif)</span>
+        <input type="url" id="set-proxy" placeholder="Proxy par défaut actif"></label>
       <div class="btn-row">
         <button class="btn ghost small" id="test-proxy">Tester la connexion</button>
         <span class="badge" id="proxy-badge">Non configuré</span>
@@ -415,6 +441,7 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
       <label class="field"><span>Accent</span>
         <select id="set-voice"></select></label>
       <button class="btn ghost small" id="test-voice">Écouter</button>
+      <p class="small">« Automatique » choisit la voix anglaise la plus naturelle du téléphone. Pour la meilleure qualité sur iPhone, installe une voix « Améliorée » une fois : Réglages → Accessibilité → Contenu énoncé → Voix → Anglais (Royaume-Uni), puis reviens ici.</p>
     </div>
 
     <div class="set-group">
@@ -427,6 +454,16 @@ textarea{min-height:96px;resize:vertical;line-height:1.5}
     <div class="set-group">
       <h3>Suivi parents</h3>
       <div id="parent-view"></div>
+    </div>
+
+    <div class="set-group">
+      <h3>Sauvegarde</h3>
+      <p class="small">Exporte la progression de ce profil (mots appris, séances, série) dans un fichier, ou restaure-la sur un autre appareil.</p>
+      <div class="btn-row">
+        <button class="btn ghost small" id="export-data">Exporter</button>
+        <button class="btn ghost small" id="import-btn">Importer</button>
+      </div>
+      <input type="file" id="import-file" accept="application/json,.json" style="display:none">
     </div>
 
     <div class="set-group">
@@ -808,7 +845,7 @@ function listUsers(){ try{ return JSON.parse(localStorage.getItem(USERS_KEY))||[
 function setUsers(a){ try{ localStorage.setItem(USERS_KEY,JSON.stringify(a)); }catch(e){} }
 function getCfg(){ try{ return JSON.parse(localStorage.getItem(CFG_KEY))||{}; }catch(e){ return {}; } }
 function vierge(){ return {name:'',level:2,cefr:'A1+',themes:['bridgerton','beauty','fashion'],
-  week:'bridgerton',streak:0,lastDay:null,sessions:[],errors:[],proxy:'',mailUrl:'',voice:''}; }
+  week:'bridgerton',streak:0,lastDay:null,sessions:[],errors:[],bank:{},proxy:'',mailUrl:'',voice:''}; }
 
 /* Reprise de l'ancien stockage mono-utilisateur. */
 (function migration(){
@@ -839,6 +876,7 @@ function load(n){
   base.proxy   = cfg.proxy   || '';
   base.mailUrl = cfg.mailUrl || '';
   base.voice   = cfg.voice   || '';
+  if(!base.bank || typeof base.bank!=='object') base.bank={};   // profils anciens : banque vide
   return base;
 }
 
@@ -878,7 +916,7 @@ function nouveauProfil(){
 /* Supprime un profil ici ET sur le serveur : on ecrase l'entree distante
    par un profil vierge, sinon elle serait restauree au prochain lancement. */
 async function effacerDistant(nom){
-  if(!S.proxy || !nom) return false;
+  if(!proxyURL() || !nom) return false;
   try{
     const r = await fetch(stateURL(),{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({user:nom.toLowerCase(), state:vierge()})});
@@ -895,7 +933,7 @@ async function supprimerProfil(nom){
     setUsers(listUsers().filter(function(x){ return slug(x)!==slug(nom); }));
     if(slug(nom)===slug(S.name)) localStorage.removeItem(CUR_KEY);
   }catch(e){}
-  if(!dist && S.proxy){
+  if(!dist && proxyURL()){
     alert('Profil supprimé sur cet appareil, mais le serveur n\'a pas répondu. Vérifie la connexion, puis recommence — sinon la progression reviendra.');
   }
   location.reload();
@@ -928,7 +966,7 @@ function stateURL(){ return proxyURL().replace(/\/+$/,'') + '/state'; }
 let syncT=null;
 let lastSync='jamais';
 function cloudSave(){
-  if(!S.proxy || !S.name){ lastSync = !S.proxy ? 'proxy absent' : 'prénom absent'; return; }
+  if(!proxyURL() || !S.name){ lastSync = !S.name ? 'prénom absent' : 'proxy absent'; return; }
   clearTimeout(syncT);
   syncT=setTimeout(async function(){
     try{
@@ -939,7 +977,7 @@ function cloudSave(){
   },1500);
 }
 async function cloudLoad(){
-  if(!S.proxy || !S.name) return false;
+  if(!proxyURL() || !S.name) return false;
   try{
     const r=await fetch(stateURL()+'?u='+encodeURIComponent(S.name.toLowerCase()));
     if(!r.ok) return false;
@@ -971,31 +1009,78 @@ function sealSVG(letter,filled){
    VOIX — synthèse (fiable sur iOS) 
    ============================================================================ */
 let VOICES=[];
+/* Voix anglaises classées de la plus naturelle à la moins bonne. Sur iPhone,
+   getVoices() renvoie les locales en vrac (en-AU, en-CA, en-GB, en-US…) : sans
+   tri, l'app tombait sur une voix « compacte » canadienne robotique (VOICES[0]).
+   On force un choix par NOM — britannique d'abord (thème Bridgerton + anglais
+   scolaire FR), puis américain — en préférant les versions naturelles (non
+   compactes) et en n'utilisant JAMAIS le canadien tant qu'une autre voix existe. */
+const VOICE_PREFS=[
+  'Serena','Kate','Daniel','Arthur','Martha','Jamie','Oliver',   // britanniques
+  'Google UK English Female','Google UK English Male',
+  'Samantha','Ava','Allison','Susan','Zoe','Nicky','Aaron',      // américaines
+  'Google US English',
+  'Karen','Catherine','Moira'                                    // repli AU/IE
+];
+function normLang(l){ return (l||'').toLowerCase().replace('_','-'); }
+function isCompact(v){ return /compact/i.test(v.voiceURI||'') || /compact/i.test(v.name||''); }
+function enVoices(){ return speechSynthesis.getVoices().filter(v=>/^en(-|_|$)/i.test(v.lang)); }
+function findPref(pool){
+  for(const n of VOICE_PREFS){
+    const m=pool.filter(v=> v.name===n || v.name.indexOf(n+' ')===0 || v.name.indexOf(n+' (')===0);
+    if(m.length) return m[0];
+  }
+  return null;
+}
+function pickVoice(){
+  const en=enVoices(); if(!en.length) return null;
+  if(S.voice){ const m=en.find(v=>v.name===S.voice); if(m) return m; }   // surcharge manuelle
+  const good=en.filter(v=>!isCompact(v));
+  return findPref(good) || findPref(en)                                   // voix connues, naturelles d'abord
+      || good.find(v=>normLang(v.lang)==='en-gb') || good.find(v=>normLang(v.lang)==='en-us')
+      || en.find(v=>normLang(v.lang)==='en-gb')   || en.find(v=>normLang(v.lang)!=='en-ca') || en[0];
+}
+function accentLabel(lang){
+  return ({'en-gb':'britannique','en-us':'américaine','en-au':'australienne','en-ie':'irlandaise',
+           'en-ca':'canadienne','en-in':'indienne','en-za':'sud-africaine','en-scotland':'écossaise'})[normLang(lang)] || normLang(lang);
+}
 function loadVoices(){
-  VOICES=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  VOICES=enVoices();
   const sel=$('#set-voice'); if(!sel) return;
-  sel.innerHTML = VOICES.map(v=>`<option value="${v.name}" ${S.voice===v.name?'selected':''}>${v.name} — ${v.lang}</option>`).join('')
-    || '<option>Voix par défaut du système</option>';
+  const rank=v=>{ const i=VOICE_PREFS.findIndex(n=>v.name===n||v.name.indexOf(n+' ')===0); return i<0?999:i; };
+  const sorted=VOICES.slice().sort((a,b)=> rank(a)-rank(b) || normLang(a.lang).localeCompare(normLang(b.lang)) || a.name.localeCompare(b.name));
+  const opts=['<option value="">Automatique (recommandée)</option>'].concat(
+    sorted.map(v=>`<option value="${v.name}" ${S.voice===v.name?'selected':''}>${v.name} — ${accentLabel(v.lang)}${isCompact(v)?' · basique':''}</option>`)
+  );
+  sel.innerHTML = opts.join('');
 }
 speechSynthesis.onvoiceschanged=loadVoices; loadVoices();
 function speak(text,rate=0.92){
-  speechSynthesis.cancel();
+  try{ speechSynthesis.cancel(); }catch(e){}
   const u=new SpeechSynthesisUtterance(text);
-  const v=VOICES.find(x=>x.name===S.voice) || VOICES.find(x=>x.lang==='en-GB') || VOICES[0];
-  if(v) u.voice=v;
-  u.lang = v? v.lang : 'en-GB'; u.rate=rate;
+  const v=pickVoice();
+  if(v){ u.voice=v; u.lang=v.lang; } else { u.lang='en-GB'; }
+  u.rate=rate; u.pitch=1;
   speechSynthesis.speak(u);
 }
 
 /* ============================================================================
    MOTEUR CLAUDE — via le proxy Cloudflare (la clé ne sort jamais du serveur)
    ============================================================================ */
+/* URL du proxy CÂBLÉE EN DUR : elle survit à une purge du localStorage (iOS
+   efface le stockage d'une PWA après ~7 j sans ouverture). Sans danger dans un
+   dépôt public : la route est protégée par le secret APP_CODE — l'URL seule ne
+   permet aucun abus de la clé Anthropic. Le champ Réglages reste prioritaire s'il
+   est rempli (surcharge manuelle). Le script Google du soir, lui, reste EN
+   RÉGLAGE (identifiant plus sensible : on ne le grave pas dans un dépôt public). */
+const PROXY_URL_DEFAUT = 'https://studio-42-api.jeremycamilleducrot.workers.dev/040420242405198702121977';
 function proxyURL(){
   const u=(S.proxy||'').trim();
+  if(!u) return PROXY_URL_DEFAUT;
   return /^https?:\/\//i.test(u) ? u : 'https://'+u;
 }
 async function claude(system,user,maxTokens=1200){
-  if(!S.proxy) throw new Error('no-proxy');
+  if(!proxyURL()) throw new Error('no-proxy');
   const r = await fetch(proxyURL(),{
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:maxTokens,
@@ -1014,7 +1099,7 @@ function parseJSON(txt){
 /* Génère la séance du jour. Échoue proprement sur la banque embarquée. */
 async function buildLesson(themeId){
   const base = THEMES[themeId];
-  if(!S.proxy) return base;
+  if(!proxyURL()) return base;
   const sys = `Tu es professeur d'anglais pour une adolescente francophone de 14 ans, niveau ${S.cefr}.
 Tu écris des micro-leçons courtes, modernes, jamais scolaires, sur un thème qu'elle adore.
 L'anglais doit être authentique mais calibré ${S.cefr} : phrases courtes, vocabulaire concret.
@@ -1032,7 +1117,7 @@ Réponds UNIQUEMENT en JSON, sans texte autour, au format exact :
 
 /* Corrige une production écrite */
 async function correct(prompt,answer,model){
-  if(!S.proxy){
+  if(!proxyURL()){
     return {ok:null, fixed:null, note:"Moteur non connecté — compare avec la phrase modèle ci-dessous.", model};
   }
   const sys=`Tu corriges l'anglais d'une élève francophone de 14 ans, niveau ${S.cefr}.
@@ -1045,6 +1130,111 @@ S'il n'y a pas d'erreur, "fixed" reprend sa phrase telle quelle.`;
     return {...out, model};
   }catch(e){ return {fixed:null, note:"Correction indisponible. Compare avec la phrase modèle.", model}; }
 }
+
+/* ============================================================================
+   BANQUE DE MOTS + RÉVISION ESPACÉE (SRS — boîtes de Leitner)
+   Chaque mot vu en échauffement entre dans la banque du profil (S.bank). La
+   banque étant un champ de S, elle voyage avec le profil et se synchronise sur
+   le serveur (KV) exactement comme le reste de la progression.
+   5 boîtes, intervalles croissants : on revoit un mot juste avant de l'oublier.
+   ============================================================================ */
+const SRS_JOURS = {1:1, 2:2, 3:4, 4:8, 5:16};   // boîte → jours jusqu'à la prochaine révision
+function addJours(dstr, n){          // arithmétique en date UTC, cohérente avec today()
+  const t=new Date(dstr+'T00:00:00Z'); t.setUTCDate(t.getUTCDate()+n);
+  return t.toISOString().slice(0,10);
+}
+function bankKey(en){ return String(en||'').trim().toLowerCase(); }
+function bankArray(){ const b=S.bank||{}; return Object.keys(b).map(function(k){ return b[k]; }); }
+function dueList(){ const t=today(); return bankArray().filter(function(x){ return (x.due||t) <= t; }); }
+function dueCount(){ return dueList().length; }
+
+/* Fin de séance : verse les mots d'échauffement dans la banque. Nouveaux mots en
+   boîte 1, révisables dès aujourd'hui. Les mots déjà connus ne sont pas rétrogradés. */
+function bankAdd(words, theme){
+  if(!S.bank) S.bank={};
+  const t=today();
+  (words||[]).forEach(function(w){
+    if(!w || !w.en) return;
+    const k=bankKey(w.en); if(!k) return;
+    const b=S.bank[k];
+    if(b){ if(!b.fr && w.fr) b.fr=w.fr; if(!b.ex && w.ex) b.ex=w.ex; b.vu=(b.vu||0)+1; }
+    else { S.bank[k]={en:w.en, fr:w.fr||'', ex:w.ex||'', theme:theme||S.week,
+             box:1, due:t, vu:1, ok:0, ko:0, ajout:t}; }
+  });
+}
+
+/* ── Moteur de révision ─────────────────────────────────────────────────── */
+let RV=null;
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; } return a; }
+
+function startReview(){
+  const due=dueList();
+  if(!due.length){ toast('Rien à réviser aujourd\'hui — reviens demain.'); return; }
+  RV={queue:shuffle(due).slice(0,20), i:0, ok:0, again:0, revus:0, requeue:new Set()};
+  RV.total=RV.queue.length;
+  show('s-review'); window.scrollTo(0,0);
+  renderReviewCard();
+}
+function renderReviewCard(){
+  if(RV.i>=RV.queue.length) return reviewFini();
+  const c=RV.queue[RV.i];
+  $('#rv-count').textContent='Mot '+(RV.i+1)+' / '+RV.queue.length;
+  $('#rv-body').innerHTML =
+    '<div class="card rv-card">'+
+      '<p class="eyebrow">'+(THEMES[c.theme]? THEMES[c.theme].name : 'Vocabulaire')+'</p>'+
+      '<p class="rv-word">'+c.en+'</p>'+
+      '<button class="btn ghost small" id="rv-hear" style="width:auto;margin:0 auto">▸ Écouter</button>'+
+      '<div id="rv-answer" style="margin-top:20px">'+
+        '<button class="btn ghost" id="rv-show">Afficher la traduction</button>'+
+      '</div>'+
+    '</div>';
+  $('#rv-hear').onclick=function(){ speak(c.ex||c.en, 0.9); };
+  $('#rv-show').onclick=function(){ revealReview(c); };
+}
+function revealReview(c){
+  $('#rv-answer').innerHTML =
+    '<p class="rv-fr">'+(c.fr||'—')+'</p>'+
+    (c.ex?'<p class="small" style="font-style:italic;margin-top:6px">'+c.ex+'</p>':'')+
+    '<p class="small" style="margin-top:16px">Tu te souvenais ?</p>'+
+    '<div class="rate">'+
+      '<button data-g="again"><b>↺</b>Pas vraiment</button>'+
+      '<button data-g="hard"><b>~</b>Presque</button>'+
+      '<button data-g="good"><b>✓</b>Oui</button>'+
+    '</div>';
+  $$('#rv-answer .rate button').forEach(function(b){ b.onclick=function(){ gradeReview(c,b.dataset.g); }; });
+}
+function gradeReview(c, g){
+  const t=today();
+  c.vu=(c.vu||0)+1;
+  if(g==='good'){
+    c.box=Math.min(5,(c.box||1)+1); c.due=addJours(t,SRS_JOURS[c.box]); c.ok=(c.ok||0)+1; RV.ok++;
+  } else if(g==='hard'){
+    c.due=addJours(t,SRS_JOURS[c.box||1]);              // même boîte, repoussé de l'intervalle courant
+  } else {                                               // "again" : retour boîte 1, revu en fin de file
+    c.box=1; c.due=addJours(t,1); c.ko=(c.ko||0)+1; RV.again++;
+    const k=bankKey(c.en); if(!RV.requeue.has(k)){ RV.requeue.add(k); RV.queue.push(c); }
+  }
+  S.bank[bankKey(c.en)]=c; RV.revus++; save();
+  RV.i++; renderReviewCard();
+}
+function reviewFini(){
+  const reste=dueCount();
+  $('#rv-count').textContent='Terminé';
+  $('#rv-body').innerHTML=
+    '<div class="finale" style="padding-top:20px">'+
+      '<div style="--s:96px;margin:0 auto 18px" id="rv-seal"></div>'+
+      '<p class="eyebrow">Révision terminée</p>'+
+      '<h1 style="font-size:44px;margin:.1em 0"><em>'+RV.ok+'</em><span style="font-size:20px;opacity:.55"> / '+RV.revus+'</span></h1>'+
+      '<p class="lead">'+(RV.again? RV.again+' mot(s) à revoir bientôt.' : 'Tout est resté frais. Joli.')+'</p>'+
+      '<p class="small" style="margin-top:8px">'+(reste? 'Encore '+reste+' mot(s) prêt(s) pour aujourd\'hui.' : 'Plus rien à réviser aujourd\'hui.')+'</p>'+
+      '<div class="dock"><button class="btn" id="rv-done">Revenir à l\'accueil</button></div>'+
+    '</div>';
+  const sl=$('#rv-seal');
+  if(sl){ sl.innerHTML=sealSVG((S.name[0]||'A').toUpperCase(),true);
+    requestAnimationFrame(function(){ const s=sl.querySelector('.seal'); if(s) s.classList.add('stamp'); }); }
+  $('#rv-done').onclick=function(){ renderHome(); show('s-home'); };
+}
+const rvq=$('#rv-quit'); if(rvq) rvq.onclick=function(){ renderHome(); show('s-home'); };
 
 /* ============================================================================
    ÉCRAN 1 — BIENVENUE
@@ -1149,6 +1339,22 @@ function renderHome(){
   $('#h-meta').textContent='5 mots · 1 texte · 5 phrases orales · 3 à écrire';
   $('#home-themes').innerHTML=S.themes.map(id=>themeChip(THEMES[id],id===S.week)).join('');
   $$('#home-themes .theme-chip').forEach(b=>b.onclick=()=>{ S.week=b.dataset.t; save(); renderHome(); });
+  renderReviewInvite();
+}
+/* Carte de révision sur l'accueil — visible dès qu'il y a des mots en banque. */
+function renderReviewInvite(){
+  const rv=$('#h-review'); if(!rv) return;
+  const tot=bankArray().length, due=dueCount();
+  if(!tot){ rv.style.display='none'; return; }
+  rv.style.display='block';
+  const cnt=$('#h-review-count'), meta=$('#h-review-meta');
+  cnt.textContent=due; cnt.className='badge '+(due?'ok':'');
+  meta.textContent = due
+    ? (due>1? due+' mots prêts à réviser' : '1 mot prêt à réviser')
+    : (tot+' mots en banque · à jour ✓');
+  rv.onclick = due
+    ? function(){ startReview(); }
+    : function(){ toast(tot+' mots en banque. Rien à réviser aujourd\'hui.'); };
 }
 $('#h-invite').onclick=()=>startSession();
 $('#start-session').onclick=()=>startSession();
@@ -1502,6 +1708,7 @@ function phaseFinale(){
     words:SESS.lesson.words.map(w=>w.en),comprehension:`${SESS.qcmScore}/${SESS.lesson.qcm.length}`,
     oral:SESS.oralMode==='shadow'?`Shadow, auto-évaluation ${SESS.selfRate||'—'}/3`:'Reconnaissance vocale',
     written:SESS.written, streak:S.streak, note:N.total};
+  bankAdd(SESS.lesson.words, SESS.theme);           // les 5 mots du jour entrent dans la banque SRS
   S.sessions.push(rec); S.sessions=S.sessions.slice(-60); save();
 
   $('#p-body').innerHTML=`<div class="finale">
@@ -1561,7 +1768,8 @@ function renderSettings(){
   loadVoices();
   const si=$('#sync-info'); if(si) si.textContent = (lastSync==='jamais') ? '' : ('Dernière sauvegarde : '+lastSync);
   const b=$('#proxy-badge');
-  b.className='badge '+(S.proxy?'ok':'off'); b.textContent=S.proxy?'Configuré':'Non configuré';
+  const custom = !!(S.proxy && S.proxy.trim());
+  b.className='badge ok'; b.textContent = custom ? 'Configuré' : 'Par défaut';
   const last=S.sessions.slice(-7).reverse();
   $('#parent-view').innerHTML = last.length? `
     <p class="small">Niveau estimé : <b style="color:var(--cream)">${S.cefr}</b> · ${S.sessions.length} séances · série de ${S.streak}</p>
@@ -1569,7 +1777,7 @@ function renderSettings(){
     ${last.map(r=>`<div class="recap-line"><span>${r.date} · ${r.theme}</span><span>${r.minutes} min · ${r.comprehension}</span></div>`).join('')}`
     : '<p class="small">Aucune séance enregistrée pour l\'instant.</p>';
 }
-$('#set-proxy').oninput=e=>{ S.proxy=e.target.value.trim(); setCfg({proxy:S.proxy}); save(); const b=$('#proxy-badge'); if(b){ b.className='badge '+(S.proxy?'ok':'off'); b.textContent=S.proxy?'Configuré':'Non configuré'; } };
+$('#set-proxy').oninput=e=>{ S.proxy=e.target.value.trim(); setCfg({proxy:S.proxy}); save(); const b=$('#proxy-badge'); if(b){ const custom=!!S.proxy; b.className='badge ok'; b.textContent=custom?'Configuré':'Par défaut'; } };
 $('#set-mail').oninput=e=>{ S.mailUrl=e.target.value.trim(); setCfg({mailUrl:S.mailUrl}); save(); };
 $('#set-voice').onchange=e=>{ S.voice=e.target.value; setCfg({voice:S.voice}); save(); };
 $('#test-voice').onclick=()=>speak('Good evening. Shall we begin?');
@@ -1602,6 +1810,43 @@ $('#test-mail').onclick=()=>{
   toast('Récap de test envoyé au script.');
 };
 $('#set-add-user').onclick=()=>nouveauProfil();
+/* ── Export / Import d'un profil (sauvegarde locale, en plus du KV) ───────── */
+$('#export-data').onclick=()=>{
+  if(!S.name){ toast('Aucun profil à exporter'); return; }
+  // On exporte la progression de l'élève, jamais la config technique/appareil
+  // (proxy, URL du script mail, voix) : un fichier partagé ne doit rien divulguer.
+  const out=Object.assign({}, S); delete out.proxy; delete out.mailUrl; delete out.voice;
+  const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='alessia-in-english-'+slug(S.name)+'-'+today()+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast('Sauvegarde exportée.');
+};
+$('#import-btn').onclick=()=>$('#import-file').click();
+$('#import-file').onchange=e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f){ return; }
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const d=JSON.parse(rd.result);
+      if(!d || typeof d!=='object' || !d.name){ toast('Fichier invalide.'); return; }
+      const nom=d.name;
+      if(listUsers().some(x=>slug(x)===slug(nom)) && !confirm('Un profil « '+nom+' » existe déjà. Le remplacer par cette sauvegarde ?')){ return; }
+      const merged=Object.assign(vierge(), d);
+      if(!merged.bank || typeof merged.bank!=='object') merged.bank={};
+      const cfg=getCfg();                       // réglages techniques : on garde ceux de l'appareil
+      merged.proxy=cfg.proxy||''; merged.mailUrl=cfg.mailUrl||''; merged.voice=cfg.voice||'';
+      try{ localStorage.setItem(stateKey(nom),JSON.stringify(merged)); }catch(err){}
+      const u=listUsers(); if(!u.some(x=>slug(x)===slug(nom))){ u.push(nom); setUsers(u); }
+      try{ localStorage.setItem(CUR_KEY,nom); }catch(err){}
+      toast('Profil « '+nom+' » importé.');
+      setTimeout(()=>location.reload(),800);
+    }catch(err){ toast('Lecture impossible : '+err.message); }
+  };
+  rd.readAsText(f); e.target.value='';
+};
 $('#reset-all').onclick=()=>{ if(S.name) supprimerProfil(S.name); else location.reload(); };
 
 /* ============================================================================
