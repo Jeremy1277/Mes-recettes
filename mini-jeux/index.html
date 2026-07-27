@@ -59,15 +59,64 @@
   .menu-card .desc{color:var(--muted);font-size:.82rem;margin-top:6px;}
 
   .game-view{display:none;}
-  .game-view.active{display:block;}
-  .game-panel{
-    background:var(--panel);border:1px solid #334155;border-radius:18px;
-    padding:20px;min-height:420px;
+  /* En jeu : plein écran, pensé pour le paysage sur mobile. Le bandeau du haut
+     (HUD) reste toujours visible avec le score/temps ; les commandes (nouvelle
+     partie, difficulté, choix d'équipe...) sont déplacées dans un tiroir
+     accessible via le bouton ⚙️, pour ne jamais rogner la zone de jeu. */
+  .game-view.active{
+    display:flex;flex-direction:column;
+    position:fixed;inset:0;z-index:200;
+    background:var(--bg);
+  }
+  .game-hud{
+    flex:0 0 auto;display:flex;align-items:center;gap:8px;
+    padding:8px 10px;background:var(--panel2);border-bottom:1px solid #334155;
+  }
+  .game-hud .hud-back, .game-hud .hud-settings{
+    flex:0 0 auto;background:var(--panel);color:var(--text);border:1px solid #334155;
+    border-radius:10px;padding:8px 12px;font-size:1rem;cursor:pointer;
+  }
+  .game-hud .hud-stats{
+    flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  }
+  .game-hud .hud-stats::-webkit-scrollbar{display:none;}
+  .game-hud .hud-stats .stat{white-space:nowrap;font-size:.82rem;padding:5px 10px;}
+  .game-hud .hud-settings[hidden]{display:none;}
+  .game-view.active .game-panel{
+    flex:1;min-height:0;overflow:auto;
+    border-radius:0;border:none;padding:14px;
+    display:flex;flex-direction:column;align-items:stretch;
+  }
+  .game-drawer-scrim{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:290;
+  }
+  .game-drawer-scrim.open{display:block;}
+  .game-drawer{
+    position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);
+    background:var(--panel);border-left:1px solid #334155;
+    transform:translateX(100%);transition:transform .22s ease;
+    z-index:300;overflow:auto;padding:16px;
+  }
+  .game-drawer.open{transform:translateX(0);}
+  .game-drawer .game-topbar{
+    display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:0;
+  }
+  .game-drawer .drawer-title{font-weight:700;margin-bottom:6px;color:var(--muted);
+    text-transform:uppercase;font-size:.75rem;letter-spacing:.05em;}
+  .rotate-guard{
+    display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);color:var(--text);
+    flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    gap:14px;padding:30px;font-size:1.15rem;
+  }
+  .rotate-guard .icon{font-size:3rem;animation:rotatePulse 1.6s ease-in-out infinite;}
+  @keyframes rotatePulse{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-90deg);}}
+  @media (orientation:portrait){
+    body.in-game .rotate-guard{display:flex;}
   }
   .game-topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
   .stat{background:var(--panel2);padding:6px 14px;border-radius:10px;font-size:.9rem;}
   .stat b{color:var(--accent2);}
-  .center-msg{text-align:center;padding:40px 10px;}
+  .center-msg{text-align:center;padding:40px 10px;margin:auto;}
   .center-msg h2{margin:0 0 10px;}
   .center-msg p{color:var(--muted);margin-bottom:20px;}
 
@@ -192,8 +241,13 @@
   }
   .pen-wall-btn:hover{background:#334155;}
   .pen-wall-btn.selected{background:var(--pen-accent,#e30613);border-color:var(--pen-accent,#e30613);}
+  .pen-canvas-wrap{
+    flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+    overflow:hidden;width:100%;
+  }
   #pen-canvas{
-    display:block;margin:12px auto 0;border-radius:16px;max-width:100%;height:auto;
+    display:block;margin:0 auto;border-radius:16px;
+    max-width:100%;max-height:100%;width:auto;height:auto;
     box-shadow:0 12px 34px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);
     cursor:crosshair;touch-action:none;user-select:none;background:#04081a;
   }
@@ -439,19 +493,107 @@
   </div>
 
   <div id="games">
-    <div class="game-view" id="view-stroop"><div class="game-panel" id="panel-stroop"></div></div>
-    <div class="game-view" id="view-simon"><div class="game-panel" id="panel-simon"></div></div>
-    <div class="game-view" id="view-math"><div class="game-panel" id="panel-math"></div></div>
-    <div class="game-view" id="view-uno"><div class="game-panel" id="panel-uno"></div></div>
-    <div class="game-view" id="view-solitaire"><div class="game-panel" id="panel-solitaire"></div></div>
-    <div class="game-view" id="view-mahjong"><div class="game-panel" id="panel-mahjong"></div></div>
-    <div class="game-view" id="view-ortho"><div class="game-panel" id="panel-ortho"></div></div>
-    <div class="game-view" id="view-reaction"><div class="game-panel" id="panel-reaction"></div></div>
-    <div class="game-view" id="view-whack"><div class="game-panel" id="panel-whack"></div></div>
-    <div class="game-view" id="view-penalty"><div class="game-panel" id="panel-penalty"></div></div>
+    <div class="game-view" id="view-stroop">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-stroop"></div>
+        <button class="hud-settings" id="settingsbtn-stroop" onclick="App.toggleDrawer('stroop')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-stroop"></div>
+    </div>
+    <div class="game-view" id="view-simon">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-simon"></div>
+        <button class="hud-settings" id="settingsbtn-simon" onclick="App.toggleDrawer('simon')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-simon"></div>
+    </div>
+    <div class="game-view" id="view-math">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-math"></div>
+        <button class="hud-settings" id="settingsbtn-math" onclick="App.toggleDrawer('math')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-math"></div>
+    </div>
+    <div class="game-view" id="view-uno">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-uno"></div>
+        <button class="hud-settings" id="settingsbtn-uno" onclick="App.toggleDrawer('uno')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-uno"></div>
+    </div>
+    <div class="game-view" id="view-solitaire">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-solitaire"></div>
+        <button class="hud-settings" id="settingsbtn-solitaire" onclick="App.toggleDrawer('solitaire')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-solitaire"></div>
+    </div>
+    <div class="game-view" id="view-mahjong">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-mahjong"></div>
+        <button class="hud-settings" id="settingsbtn-mahjong" onclick="App.toggleDrawer('mahjong')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-mahjong"></div>
+    </div>
+    <div class="game-view" id="view-ortho">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-ortho"></div>
+        <button class="hud-settings" id="settingsbtn-ortho" onclick="App.toggleDrawer('ortho')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-ortho"></div>
+    </div>
+    <div class="game-view" id="view-reaction">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-reaction"></div>
+        <button class="hud-settings" id="settingsbtn-reaction" onclick="App.toggleDrawer('reaction')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-reaction"></div>
+    </div>
+    <div class="game-view" id="view-whack">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-whack"></div>
+        <button class="hud-settings" id="settingsbtn-whack" onclick="App.toggleDrawer('whack')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-whack"></div>
+    </div>
+    <div class="game-view" id="view-penalty">
+      <div class="game-hud">
+        <button class="hud-back" onclick="App.showMenu()" aria-label="Menu">←</button>
+        <div class="hud-stats" id="hud-penalty"></div>
+        <button class="hud-settings" id="settingsbtn-penalty" onclick="App.toggleDrawer('penalty')" aria-label="Réglages" hidden>⚙️</button>
+      </div>
+      <div class="game-panel" id="panel-penalty"></div>
+    </div>
   </div>
 
   <footer class="small">Les scores sont gardés en mémoire pour cette session de jeu.</footer>
+</div>
+
+<div id="gameDrawers">
+  <div class="game-drawer" id="drawer-stroop"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-simon"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-math"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-uno"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-solitaire"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-mahjong"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-ortho"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-reaction"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-whack"><div class="drawer-title">Commandes</div></div>
+  <div class="game-drawer" id="drawer-penalty"><div class="drawer-title">Commandes</div></div>
+</div>
+<div class="game-drawer-scrim" id="drawerScrim" onclick="App.closeDrawer()"></div>
+<div class="rotate-guard" id="rotateGuard">
+  <div class="icon">🔄</div>
+  <div>Tourne ton téléphone en mode paysage<br>pour jouer dans de bonnes conditions.</div>
 </div>
 
 <script>
@@ -507,6 +649,8 @@ const App = {
     document.getElementById('menu').style.display = 'grid';
     document.getElementById('backBtn').style.display = 'none';
     document.querySelectorAll('.game-view').forEach(v=>v.classList.remove('active'));
+    document.body.classList.remove('in-game');
+    this.closeDrawer();
     this.current = null;
   },
   showGame(name){
@@ -514,10 +658,54 @@ const App = {
     document.getElementById('backBtn').style.display = 'inline-block';
     document.querySelectorAll('.game-view').forEach(v=>v.classList.remove('active'));
     document.getElementById('view-'+name).classList.add('active');
+    document.body.classList.add('in-game');
     this.current = name;
     Games[name].init();
+  },
+  toggleDrawer(name){
+    const drawer = document.getElementById('drawer-'+name);
+    const scrim = document.getElementById('drawerScrim');
+    if(!drawer) return;
+    const open = !drawer.classList.contains('open');
+    drawer.classList.toggle('open', open);
+    if(scrim) scrim.classList.toggle('open', open);
+  },
+  closeDrawer(){
+    document.querySelectorAll('.game-drawer.open').forEach(d=>d.classList.remove('open'));
+    const scrim = document.getElementById('drawerScrim');
+    if(scrim) scrim.classList.remove('open');
   }
 };
+
+/* Déplace le bandeau .game-topbar généré par chaque jeu (stats + boutons)
+   dans le tiroir de réglages dédié, et copie les stats (pas les boutons) dans
+   le bandeau compact toujours visible en haut de l'écran. Appelée à la fin de
+   chaque rendu d'écran de jeu — le jeu garde son code inchangé, seule la
+   position du bandeau dans la page change. */
+function syncGameChrome(name){
+  const hud = document.getElementById('hud-'+name);
+  const drawer = document.getElementById('drawer-'+name);
+  const settingsBtn = document.getElementById('settingsbtn-'+name);
+  const panelEl = document.getElementById('panel-'+name);
+  if(!hud || !drawer || !panelEl) return;
+  const topbar = panelEl.querySelector('.game-topbar');
+  drawer.innerHTML = '<div class="drawer-title">Commandes</div>';
+  drawer.classList.remove('open');
+  const scrim = document.getElementById('drawerScrim');
+  if(scrim) scrim.classList.remove('open');
+  hud.innerHTML = '';
+  if(topbar){
+    drawer.appendChild(topbar);
+    topbar.querySelectorAll('.stat, .pen-diff-badge').forEach(s=>{
+      const clone = s.cloneNode(true);
+      clone.removeAttribute('id');
+      hud.appendChild(clone);
+    });
+    if(settingsBtn) settingsBtn.hidden = false;
+  } else if(settingsBtn){
+    settingsBtn.hidden = true;
+  }
+}
 
 const Games = {};
 
@@ -546,6 +734,7 @@ Games.stroop = (function(){
       <div id="stroop-word"></div>
       <div class="stroop-choices" id="stroop-choices"></div>
     `;
+    syncGameChrome('stroop');
   }
 
   function pickWord(){
@@ -600,6 +789,7 @@ Games.stroop = (function(){
         <p>Score final : <b>${score}</b> ${score>=best && score>0 ? '— nouveau record ! 🎉' : ''}</p>
         <button class="btn primary" onclick="Games.stroop.init()">Rejouer</button>
       </div>`;
+    syncGameChrome('stroop');
   }
 
   return {
@@ -637,6 +827,7 @@ Games.simon = (function(){
         <button class="btn primary" id="simon-start">Démarrer</button>
       </div>
     `;
+    syncGameChrome('simon');
     document.getElementById('simon-start').onclick = start;
     panel().querySelectorAll('.simon-pad').forEach(p=>{
       p.disabled = true;
@@ -734,6 +925,7 @@ Games.math = (function(){
       <div id="math-question"></div>
       <div class="math-choices" id="math-choices"></div>
     `;
+    syncGameChrome('math');
   }
 
   function genQuestion(){
@@ -789,6 +981,7 @@ Games.math = (function(){
         <p>Score final : <b>${score}</b> ${score>=best && score>0 ? '— nouveau record ! 🎉' : ''}</p>
         <button class="btn primary" onclick="Games.math.init()">Rejouer</button>
       </div>`;
+    syncGameChrome('math');
   }
 
   return {
@@ -895,6 +1088,7 @@ Games.uno = (function(){
         <button class="btn" id="uno-drawbtn">Piocher</button>
       </div>
     `;
+    syncGameChrome('uno');
     for(let i=0;i<Math.min(hands[1].length,7);i++) document.getElementById('bot1stack').appendChild(el('div','uno-card back'));
     for(let i=0;i<Math.min(hands[2].length,7);i++) document.getElementById('bot2stack').appendChild(el('div','uno-card back'));
     const deckStack = document.getElementById('uno-deck');
@@ -1134,6 +1328,7 @@ Games.solitaire = (function(){
         <div id="sol-tableau"></div>
       </div>
     `;
+    syncGameChrome('solitaire');
     const sw = document.getElementById('sol-stockwaste');
     const stockEl = stock.length>0 ? renderCardEl({faceUp:false},{onclick:drawStock}) : el('div','pcard placeholder','↺');
     stockEl.onclick = drawStock;
@@ -1437,6 +1632,7 @@ Games.mahjong = (function(){
       <div id="mj-wrap"><div id="mj-board" style="width:${boardW}px;height:${boardH}px;"></div></div>
       <div id="mj-msg" style="text-align:center;color:var(--muted);margin-top:8px"></div>
     `;
+    syncGameChrome('mahjong');
     document.getElementById('mj-shuffle').onclick = reshuffleRemaining;
     const board = document.getElementById('mj-board');
     const remainingSet = new Set(tiles.filter(t=>!t.removed).map(key));
@@ -1621,6 +1817,7 @@ Games.ortho = (function(){
       <div id="ortho-question"></div>
       <div class="ortho-choices" id="ortho-choices"></div>
     `;
+    syncGameChrome('ortho');
   }
 
   function nextQuestion(){
@@ -1663,6 +1860,7 @@ Games.ortho = (function(){
         <p>Score final : <b>${score}</b> ${score>=best && score>0 ? '— nouveau record ! 🎉' : ''}</p>
         <button class="btn primary" onclick="Games.ortho.init()">Rejouer</button>
       </div>`;
+    syncGameChrome('ortho');
   }
 
   return {
@@ -1702,6 +1900,7 @@ Games.reaction = (function(){
       </div>
       <div class="reaction-rounds" id="reaction-chips"></div>
     `;
+    syncGameChrome('reaction');
     document.getElementById('reaction-box').onclick = onBoxClick;
     const chipsEl = document.getElementById('reaction-chips');
     times.forEach((t,i)=>{
@@ -1805,6 +2004,7 @@ Games.reaction = (function(){
           <button class="btn primary" onclick="Games.reaction.init()">Rejouer</button>
         </div>
       </div>`;
+    syncGameChrome('reaction');
   }
 
   return {
@@ -1834,6 +2034,7 @@ Games.whack = (function(){
       <p style="text-align:center;color:var(--muted)">Clique les taupes dès qu'elles sortent du trou !</p>
       <div id="whack-grid"></div>
     `;
+    syncGameChrome('whack');
     const grid = document.getElementById('whack-grid');
     for(let i=0;i<SIZE;i++){
       const hole = el('div','whack-hole','<div class="mole">🐹</div>');
@@ -1898,6 +2099,7 @@ Games.whack = (function(){
         <p>Score final : <b>${score}</b> ${score>=best && score>0 ? '— nouveau record ! 🎉' : ''}</p>
         <button class="btn primary" onclick="Games.whack.init()">Rejouer</button>
       </div>`;
+    syncGameChrome('whack');
   }
 
   return {
@@ -2824,6 +3026,7 @@ Games.penalty = (function(){
             </div>`).join('')}
         </div>`).join('')}
     `;
+    syncGameChrome('penalty');
     panel().querySelectorAll('.pen-team-card').forEach(card=>{
       card.onclick = ()=>{
         team = TEAMS.find(x=>x.key===card.dataset.key);
@@ -2861,6 +3064,7 @@ Games.penalty = (function(){
         </div>
       </div>
     `;
+    syncGameChrome('penalty');
     document.getElementById('pen-back-teams').onclick = ()=>{ stage='teamselect'; render(); };
     panel().querySelectorAll('.pen-wall-btn').forEach(btn=>{
       btn.onclick = (e)=>{
@@ -2897,19 +3101,19 @@ Games.penalty = (function(){
         <button class="btn" id="pen-switch-btn">🔄 Adversaire</button>
       </div>
       <div id="pen-status"></div>
-      <canvas id="pen-canvas" width="${W}" height="${H}"></canvas>
+      <div class="pen-canvas-wrap"><canvas id="pen-canvas" width="${W}" height="${H}"></canvas></div>
       <div id="pen-comment"></div>
       <div id="pen-hint">${mode==='freekick'
         ? "Règle le point de frappe (widget à gauche) pour l'effet et le lob, puis glisse depuis le ballon pour tirer par-dessus ou autour du mur !"
         : "Glisse depuis le ballon vers le but : la distance donne la puissance, la direction vise le coin. Jauge dans le rouge = au-dessus de la barre !"}</div>
     `;
+    syncGameChrome('penalty');
     document.getElementById('pen-settings-btn').onclick = openSettings;
     document.getElementById('pen-mode-btn').onclick = ()=>{ stage='modeselect'; render(); };
     document.getElementById('pen-switch-btn').onclick = ()=>{ stage='teamselect'; render(); };
     canvas = document.getElementById('pen-canvas');
     DPR = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = W*DPR; canvas.height = H*DPR;
-    canvas.style.width = '640px';
     g = canvas.getContext('2d');
     canvas.addEventListener('pointerdown', onDown);
     if(!crowd || crowd.teamKey !== team.key){ buildCrowd(); crowd.teamKey = team.key; }
@@ -2945,6 +3149,7 @@ Games.penalty = (function(){
           <button class="btn" id="pen-switch-btn-2">🔄 Changer d'adversaire</button>
         </div>
       </div>`;
+    syncGameChrome('penalty');
     document.getElementById('pen-settings-btn-2').onclick = openSettings;
     document.getElementById('pen-mode-btn-2').onclick = ()=>{ stage='modeselect'; render(); };
     document.getElementById('pen-switch-btn-2').onclick = ()=>{ stage='teamselect'; render(); };
