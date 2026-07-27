@@ -810,6 +810,9 @@ var CBg={poulet:"#deeefb",dinde:"#e6efff",bœuf:"#fde8e6",agneau:"#fdf0ee",veau:
 var CTc={poulet:"#14538f",dinde:"#2457a6",bœuf:"#7a1010",agneau:"#7a3025",veau:"#73362d",porc:"#7a4800",lapin:"#4c3b7a",poisson:"#0b5e41",végétarien:"#2e5c0e"};
 
 // ─── ÉTAT GLOBAL (init explicite pour robustesse navigateur) ─────────────────
+var cartUpdatedAt=(function(){
+  try{return parseInt(localStorage.getItem("panier_courses_updated"),10)||0;}catch(e){return 0;}
+})();
 var cart=(function(){
   try{
     var s=localStorage.getItem("panier_courses");
@@ -818,7 +821,12 @@ var cart=(function(){
   return [];
 })();
 function saveCart(){
-  try{localStorage.setItem("panier_courses",JSON.stringify(cart));}catch(e){}
+  cartUpdatedAt=Date.now();
+  try{
+    localStorage.setItem("panier_courses",JSON.stringify(cart));
+    localStorage.setItem("panier_courses_updated",String(cartUpdatedAt));
+  }catch(e){}
+  cloudSaveCart();
 }
 var checked=new Set();
 var filt=[];
@@ -6501,6 +6509,44 @@ function openImport(){
    public : la route est protégée par le secret dans le chemin de l'URL — l'URL
    seule ne permet aucun abus de la clé Anthropic (même proxy que l'appli anglais). */
 const RECETTES_PROXY_URL = 'https://studio-42-api.jeremycamilleducrot.workers.dev/040420242405198702121977';
+
+// ─── SYNCHRO DE LA LISTE DE COURSES ENTRE APPAREILS ──────────────────────────
+/* Le panier (panier_courses) vit en localStorage, propre à chaque appareil —
+   c'est pour ça qu'un ajout sur un PC n'apparaît pas sur l'iPhone. On le
+   synchronise en plus via le même proxy que l'IA (endpoint /state générique,
+   déjà utilisé par l'appli anglais pour la progression). Une seule clé
+   partagée pour toute la famille : le dernier appareil qui a sauvegardé fait
+   foi (comparaison d'horodatage), pas de fusion ligne à ligne. */
+var CART_SYNC_KEY="recettes-panier-famille";
+function cartStateURL(){ return RECETTES_PROXY_URL.replace(/\/+$/,"")+"/state"; }
+var cartSyncTimer=null;
+function cloudSaveCart(){
+  clearTimeout(cartSyncTimer);
+  cartSyncTimer=setTimeout(function(){
+    fetch(cartStateURL(),{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user:CART_SYNC_KEY,state:{cart:cart,updatedAt:cartUpdatedAt}})
+    }).catch(function(){});
+  },1200);
+}
+function cloudLoadCart(){
+  fetch(cartStateURL()+"?u="+encodeURIComponent(CART_SYNC_KEY)).then(function(r){
+    return r.ok?r.json():null;
+  }).then(function(d){
+    var dist=d&&d.state;
+    if(dist&&typeof dist.updatedAt==="number"&&dist.updatedAt>cartUpdatedAt){
+      cart=dist.cart||[];
+      cartUpdatedAt=dist.updatedAt;
+      try{
+        localStorage.setItem("panier_courses",JSON.stringify(cart));
+        localStorage.setItem("panier_courses_updated",String(cartUpdatedAt));
+      }catch(e){}
+      if(typeof VIEW!=="undefined"&&VIEW==="cart"&&typeof render==="function")render();
+    }
+  }).catch(function(){});
+}
+cloudLoadCart();
 
 var AI_RECIPE_SYSTEM_PROMPT=[
   "Tu es un assistant qui génère des fiches recettes au format JSON, dans le style HelloFresh, en français.",
