@@ -119,6 +119,25 @@
             calc(14px + env(safe-area-inset-left,0px));
     display:flex;flex-direction:column;align-items:stretch;
   }
+  /* Tir au but : le terrain occupe littéralement tout l'espace, sans marge
+     intérieure (hors zones sûres de l'iPhone). */
+  .game-view.active #panel-penalty.pen-fullbleed{
+    padding:0 env(safe-area-inset-right,0px)
+            env(safe-area-inset-bottom,0px)
+            env(safe-area-inset-left,0px);
+  }
+  /* Quand le jeu affiche déjà ses scores lui-même, le bandeau ne prend plus
+     de hauteur : les deux boutons flottent par-dessus l'image. */
+  .game-view.active.hud-overlay .game-hud{
+    position:absolute;top:0;left:0;right:0;z-index:5;
+    background:transparent;border-bottom:none;pointer-events:none;
+  }
+  .game-view.active.hud-overlay .game-hud > *{pointer-events:auto;}
+  .game-view.active.hud-overlay .game-hud .hud-back,
+  .game-view.active.hud-overlay .game-hud .hud-settings{
+    background:rgba(6,11,24,.6);border-color:rgba(255,255,255,.2);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  }
   .game-drawer-scrim{
     display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:290;
   }
@@ -257,8 +276,6 @@
   .psg-panel .btn.primary{background:var(--pen-accent);border-color:var(--pen-accent);}
   .psg-panel .btn.primary:hover{background:var(--pen-accent-dark);}
   .pen-diff-badge{background:var(--pen-accent);color:#fff;padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:700;letter-spacing:.02em;}
-  #pen-status{text-align:center;font-size:1.05rem;margin:4px 0 6px;}
-  #pen-status .keeper-name{color:rgba(255,255,255,.6);font-weight:400;}
 
   .pen-league-title{color:rgba(255,255,255,.55);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin:16px 4px 6px;}
   .pen-team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
@@ -286,17 +303,35 @@
   .pen-wall-btn:hover{background:#334155;}
   .pen-wall-btn.selected{background:var(--pen-accent,#e30613);border-color:var(--pen-accent,#e30613);}
   .pen-canvas-wrap{
-    flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
-    overflow:hidden;width:100%;
+    flex:1;min-height:0;position:relative;
+    overflow:hidden;width:100%;background:#04081a;
   }
   #pen-canvas{
-    display:block;margin:0 auto;border-radius:16px;
-    max-width:100%;max-height:100%;width:auto;height:auto;
-    box-shadow:0 12px 34px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06);
+    display:block;width:100%;height:100%;
     cursor:crosshair;touch-action:none;user-select:none;background:#04081a;
   }
-  #pen-comment{text-align:center;font-size:.95rem;color:#ffd166;font-weight:600;min-height:1.35em;margin-top:9px;font-style:italic;}
-  #pen-hint{text-align:center;color:var(--muted);font-size:.85rem;margin-top:6px;}
+  /* Nom du tireur : surimpression de 2 s, n'occupe aucune place dans la mise
+     en page (le terrain garde toute la hauteur). */
+  .pen-toast{
+    position:absolute;left:50%;top:14%;transform:translate(-50%,-6px);
+    background:rgba(6,11,24,.88);border:1px solid rgba(255,255,255,.22);
+    border-radius:999px;padding:7px 18px;text-align:center;
+    font-size:.95rem;line-height:1.35;color:#fff;white-space:nowrap;
+    opacity:0;pointer-events:none;transition:opacity .3s ease, transform .3s ease;
+  }
+  .pen-toast.show{opacity:1;transform:translate(-50%,0);}
+  .pen-toast b{color:#fff;font-size:1.05rem;}
+  .pen-toast span{display:block;font-size:.74rem;color:rgba(255,255,255,.65);}
+  #pen-comment{
+    position:absolute;left:0;right:0;bottom:8px;pointer-events:none;
+    text-align:center;font-size:.95rem;color:#ffd166;font-weight:600;
+    font-style:italic;text-shadow:0 2px 6px rgba(0,0,0,.85);
+  }
+  .drawer-help{
+    font-size:.78rem;line-height:1.5;color:var(--muted);
+    border-top:1px solid #334155;padding-top:12px;margin-top:2px;
+  }
+  .game-panel .drawer-help{display:none;}
   .pen-settings-modal .box{max-width:440px;width:92%;text-align:left;max-height:82vh;overflow:auto;}
   .pen-settings-modal label{display:block;font-size:.8rem;color:var(--muted);margin:12px 0 4px;}
   .pen-settings-modal input[type=text]{
@@ -491,9 +526,8 @@
   @media (orientation:landscape) and (max-height:500px){
     .game-view.active .game-panel{padding-top:8px;padding-bottom:8px;}
     .game-view.active .game-panel > p{font-size:.78rem;margin:2px 0 6px;}
-    #pen-status{font-size:.85rem;margin:0 0 2px;}
-    #pen-comment{font-size:.8rem;min-height:1.1em;margin-top:3px;}
-    #pen-hint{font-size:.7rem;margin-top:3px;line-height:1.3;}
+    .pen-toast{font-size:.85rem;padding:5px 14px;}
+    #pen-comment{font-size:.85rem;}
     #stroop-word{font-size:2.4rem;margin:10px 0 14px;}
     #math-question{font-size:1.9rem;margin:8px 0 14px;}
     #ortho-question{font-size:1.35rem;margin:6px 0 14px;}
@@ -771,6 +805,8 @@ function syncGameChrome(name){
   const panelEl = document.getElementById('panel-'+name);
   if(!hud || !drawer || !panelEl) return;
   const topbar = panelEl.querySelector('.game-topbar');
+  const view = document.getElementById('view-'+name);
+  if(view) view.classList.toggle('hud-overlay', !!(topbar && topbar.dataset.hud === 'off'));
   drawer.innerHTML = '<div class="drawer-title">Commandes</div>';
   drawer.classList.remove('open');
   const scrim = document.getElementById('drawerScrim');
@@ -778,11 +814,15 @@ function syncGameChrome(name){
   hud.innerHTML = '';
   if(topbar){
     drawer.appendChild(topbar);
-    topbar.querySelectorAll('.stat, .pen-diff-badge').forEach(s=>{
-      const clone = s.cloneNode(true);
-      clone.removeAttribute('id');
-      hud.appendChild(clone);
-    });
+    /* data-hud="off" : le jeu affiche déjà ses scores dans sa propre zone
+       (le panneau d'affichage du stade), inutile de les répéter en haut. */
+    if(topbar.dataset.hud !== 'off'){
+      topbar.querySelectorAll('.stat, .pen-diff-badge').forEach(s=>{
+        const clone = s.cloneNode(true);
+        clone.removeAttribute('id');
+        hud.appendChild(clone);
+      });
+    }
     if(settingsBtn) settingsBtn.hidden = false;
   } else if(settingsBtn){
     settingsBtn.hidden = true;
@@ -2216,10 +2256,22 @@ Games.penalty = (function(){
   const PSG = { c1:'#0a1a4f', c2:'#e30613' };
   const SKINS = ['#d9a066','#c68642','#8d5524','#e8c39e','#b07b4f'];
 
-  /* ---- géométrie (unités scène 640x480) ---- */
-  const W=640, H=480;
-  const GOAL = { x1:150, x2:490, yBar:150, yGround:263, bx1:180, bx2:460, backBarY:172, backGroundY:253 };
-  const SPOT = { x:320, y:428 };
+  /* ---- géométrie (unités scène : hauteur fixe 480, largeur variable) ----
+     La hauteur de la scène reste 480 ; la largeur s'adapte au format réel de
+     l'écran pour que le jeu occupe TOUT l'espace disponible sans déformation
+     ni bandes noires. On voit simplement plus de stade sur les côtés.
+     Tout ce qui est centré sur le terrain se réfère à CX (et non plus à 320). */
+  const H=480;
+  let W=640, CX=320;
+  let GOAL = { x1:150, x2:490, yBar:150, yGround:263, bx1:180, bx2:460, backBarY:172, backGroundY:253 };
+  let SPOT = { x:320, y:428 };
+  function layoutScene(sceneW){
+    W = Math.max(640, Math.min(1500, Math.round(sceneW)));
+    CX = W/2;
+    GOAL = { x1:CX-170, x2:CX+170, yBar:150, yGround:263,
+             bx1:CX-140, bx2:CX+140, backBarY:172, backGroundY:253 };
+    SPOT = { x:CX, y:428 };
+  }
   const RUNUP_MS=520, OUTCOME_MS=1500;
   const MAX_PULL=150, MAX_AIM_X=170;
   const WALL_T = 0.44, WALL_FEET_Y = 330;
@@ -2236,11 +2288,25 @@ Games.penalty = (function(){
   let shot=null;
   let ball={x:SPOT.x,y:SPOT.y,s:1,a:1,vx:0,vy:0,grav:0,rot:0};
   let trail=[];
-  let fkSpot={x:SPOT.x,y:SPOT.y}, fkWallCX=320;
+  let fkSpot={x:SPOT.x,y:SPOT.y}, fkWallCX=CX;
   let netImpact=null, confetti=[], crowd=null, flags=[], celebrateUntil=0;
-  let cam={z:1,cx:320,cy:240}, shake=0;
+  let cam={z:1,cx:CX,cy:240}, shake=0;
 
   function panel(){ return document.getElementById('panel-penalty'); }
+  /* Adapte la scène à la place réellement disponible : la largeur de scène est
+     déduite du format du conteneur, si bien que le canvas le remplit
+     entièrement (aucune bande noire, aucune déformation). */
+  function sizeCanvas(){
+    if(!canvas) return;
+    const wrap = canvas.parentElement;
+    const availW = Math.max(1, wrap.clientWidth);
+    const availH = Math.max(1, wrap.clientHeight);
+    layoutScene(H * (availW/availH));
+    canvas.width = Math.round(W*DPR);
+    canvas.height = Math.round(H*DPR);
+    canvas.style.width = availW+'px';
+    canvas.style.height = availH+'px';
+  }
   function diffObj(){ return DIFFS.find(d=>d.key===diffKey) || DIFFS[1]; }
   function now(){ return performance.now(); }
   function curSpot(){ return mode==='freekick' ? fkSpot : SPOT; }
@@ -2328,22 +2394,22 @@ Games.penalty = (function(){
     const neutral = ['#cbd5e1','#94a3b8','#64748b','#475569','#e2e8f0','#334155'];
     for(let y=66; y<=238; y+=11){
       const f = (y-66)/(238-66);
-      const xMin = 40 - f*32, xMax = 600 + f*32;
+      const xMin = 40 - f*32, xMax = (W-40) + f*32;
       for(let x=xMin; x<=xMax; x+=9){
         if(y < 56 && x>238 && x<402) continue;
         const jx = x + Math.random()*4-2;
         let c;
         const r = Math.random();
-        if(x < 213)      c = r<0.55 ? (r<0.28?PSG.c1:PSG.c2) : pick(neutral);
-        else if(x > 427) c = r<0.55 ? (r<0.28?team.c1:team.c2) : pick(neutral);
+        if(x < W*0.333)      c = r<0.55 ? (r<0.28?PSG.c1:PSG.c2) : pick(neutral);
+        else if(x > W*0.667) c = r<0.55 ? (r<0.28?team.c1:team.c2) : pick(neutral);
         else             c = r<0.3 ? (r<0.15?PSG.c2:team.c1) : pick(neutral);
         crowd.push({ x:jx, y, c, ph:Math.random()*6.28, jump:Math.random()<0.4 });
       }
     }
     crowd.sort((a,b)=> a.c<b.c?-1:(a.c>b.c?1:0));   // regroupé par couleur => moins de changements de fillStyle
     flags = [];
-    for(let i=0;i<5;i++) flags.push({ x:60+i*28+randInt(-6,6), y:randInt(90,200), c:i%2?PSG.c2:'#fff', ph:Math.random()*6.28 });
-    for(let i=0;i<4;i++) flags.push({ x:520+i*26+randInt(-6,6), y:randInt(90,200), c:i%2?team.c1:team.c2, ph:Math.random()*6.28 });
+    for(let i=0;i<5;i++) flags.push({ x:W*0.094+i*28+randInt(-6,6), y:randInt(90,200), c:i%2?PSG.c2:'#fff', ph:Math.random()*6.28 });
+    for(let i=0;i<4;i++) flags.push({ x:W*0.8125+i*26+randInt(-6,6), y:randInt(90,200), c:i%2?team.c1:team.c2, ph:Math.random()*6.28 });
   }
 
   function buildBackground(){
@@ -2357,19 +2423,19 @@ Games.penalty = (function(){
     b.fillStyle = grad; b.fillRect(0,0,W,64);
     /* structure de tribune */
     b.fillStyle = '#121a2e';
-    b.beginPath(); b.moveTo(30,54); b.lineTo(610,54); b.lineTo(640,250); b.lineTo(0,250); b.closePath(); b.fill();
+    b.beginPath(); b.moveTo(30,54); b.lineTo(W-30,54); b.lineTo(W,250); b.lineTo(0,250); b.closePath(); b.fill();
     grad = b.createLinearGradient(0,54,0,250);
     grad.addColorStop(0,'rgba(0,0,0,.35)'); grad.addColorStop(0.5,'rgba(0,0,0,0)'); grad.addColorStop(1,'rgba(0,0,0,.22)');
     b.fillStyle = grad;
-    b.beginPath(); b.moveTo(30,54); b.lineTo(610,54); b.lineTo(640,250); b.lineTo(0,250); b.closePath(); b.fill();
+    b.beginPath(); b.moveTo(30,54); b.lineTo(W-30,54); b.lineTo(W,250); b.lineTo(0,250); b.closePath(); b.fill();
     /* toit */
-    b.fillStyle = '#232f47'; b.fillRect(22,48,596,7);
+    b.fillStyle = '#232f47'; b.fillRect(22,48,W-44,7);
     b.save(); b.shadowColor='rgba(255,244,200,.65)'; b.shadowBlur=9;
-    b.fillStyle='rgba(255,250,220,.55)'; b.fillRect(24,54,592,1.6); b.restore();
+    b.fillStyle='rgba(255,250,220,.55)'; b.fillRect(24,54,W-48,1.6); b.restore();
     b.strokeStyle='rgba(0,0,0,.42)'; b.lineWidth=3;
-    [120,178].forEach(y=>{ b.beginPath(); b.moveTo(14,y); b.lineTo(626,y); b.stroke(); });
+    [120,178].forEach(y=>{ b.beginPath(); b.moveTo(14,y); b.lineTo(W-14,y); b.stroke(); });
     /* projecteurs */
-    [[92,26],[548,26]].forEach(([fx,fy])=>{
+    [[92,26],[W-92,26]].forEach(([fx,fy])=>{
       b.fillStyle='#1e293b'; b.fillRect(fx-2,fy+8,4,20);
       b.save(); b.shadowColor='#fffbe6'; b.shadowBlur=15;
       b.fillStyle='#fff8dc';
@@ -2395,10 +2461,11 @@ Games.penalty = (function(){
     b.fillStyle = grad; b.fillRect(0,265,W,H-265);
     /* bandes verticales en perspective */
     b.fillStyle = 'rgba(255,255,255,.055)';
-    for(let k=-4;k<4;k++){
+    const kMax = Math.ceil(W/2/95)+2;
+    for(let k=-kMax;k<kMax;k++){
       if((k+40)%2===0) continue;
-      const b1 = 320 + k*95, b2 = 320 + (k+1)*95;
-      const t1 = 320 + k*30, t2 = 320 + (k+1)*30;
+      const b1 = CX + k*95, b2 = CX + (k+1)*95;
+      const t1 = CX + k*30, t2 = CX + (k+1)*30;
       b.beginPath(); b.moveTo(t1,265); b.lineTo(t2,265); b.lineTo(b2,H); b.lineTo(b1,H); b.closePath(); b.fill();
     }
     /* bandes horizontales (damier) */
@@ -2407,18 +2474,18 @@ Games.penalty = (function(){
     /* lignes de surface */
     b.strokeStyle='rgba(255,255,255,.8)'; b.lineWidth=2.5; b.lineJoin='round';
     b.beginPath();
-    b.moveTo(208,266); b.lineTo(176,320); b.lineTo(464,320); b.lineTo(432,266);
+    b.moveTo(CX-112,266); b.lineTo(CX-144,320); b.lineTo(CX+144,320); b.lineTo(CX+112,266);
     b.stroke();
     b.beginPath();
-    b.moveTo(120,266); b.lineTo(60,394); b.lineTo(580,394); b.lineTo(520,266);
+    b.moveTo(CX-200,266); b.lineTo(CX-260,394); b.lineTo(CX+260,394); b.lineTo(CX+200,266);
     b.stroke();
     /* arc de cercle de la surface */
-    b.beginPath(); b.ellipse(320,396,74,20,0,0.15,Math.PI-0.15); b.stroke();
+    b.beginPath(); b.ellipse(CX,396,74,20,0,0.15,Math.PI-0.15); b.stroke();
     /* point de penalty */
     b.fillStyle='rgba(255,255,255,.9)';
     b.beginPath(); b.ellipse(SPOT.x, SPOT.y+8, 5, 2, 0, 0, 6.283); b.fill();
     /* halo lumineux central + vignette */
-    grad = b.createRadialGradient(320,240,120,320,240,420);
+    grad = b.createRadialGradient(CX,240,120,CX,240,Math.max(420,W*0.52));
     grad.addColorStop(0,'rgba(255,255,240,.05)'); grad.addColorStop(0.55,'rgba(0,0,0,0)'); grad.addColorStop(1,'rgba(0,0,10,.34)');
     b.fillStyle = grad; b.fillRect(0,0,W,H);
   }
@@ -2456,14 +2523,14 @@ Games.penalty = (function(){
 
   function drawScoreboard(){
     g.fillStyle='#060b18'; g.strokeStyle=team.accent; g.lineWidth=2;
-    g.beginPath(); g.roundRect(242,4,156,48,6); g.fill(); g.stroke();
+    g.beginPath(); g.roundRect(CX-78,4,156,48,6); g.fill(); g.stroke();
     g.fillStyle='#fff'; g.font='bold 14px system-ui'; g.textAlign='center';
-    g.fillText(`PSG ${score} — ${team.short}`, 320, 20);
+    g.fillText(`PSG ${score} — ${team.short}`, CX, 20);
     g.fillStyle='rgba(255,255,255,.55)'; g.font='bold 8px system-ui';
-    g.fillText(mode==='freekick' ? 'COUPS FRANCS' : 'TIRS AU BUT', 320, 30);
+    g.fillText(mode==='freekick' ? 'COUPS FRANCS' : 'TIRS AU BUT', CX, 30);
     for(let i=0;i<shooters.length;i++){
       const r = results[i];
-      g.beginPath(); g.arc(320-(shooters.length-1)*9+i*18, 41, 5.5, 0, 6.283);
+      g.beginPath(); g.arc(CX-(shooters.length-1)*9+i*18, 41, 5.5, 0, 6.283);
       g.fillStyle = !r ? 'rgba(255,255,255,.18)' : (r.outcome==='goal' ? '#22c55e' : (r.outcome==='saved' ? '#ef4444' : '#94a3b8'));
       g.fill();
       if(i===shooterIdx && !r && phase!=='outcome'){ g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke(); }
@@ -2591,7 +2658,7 @@ Games.penalty = (function(){
 
   function drawKeeper(ts){
     const zone = shot ? shot.diveZone : null;
-    let x = 320 + Math.sin(ts/850)*7, y = GOAL.yGround, angle = 0;
+    let x = CX + Math.sin(ts/850)*7, y = GOAL.yGround, angle = 0;
     let armL = -2.2, armR = -0.9, crouch = Math.sin(ts/850)*1.5;
     if(phase==='flight' || phase==='outcome'){
       let t = phase==='flight' ? Math.min(1,(now()-phaseStart-100)/380) : 1;
@@ -2599,9 +2666,9 @@ Games.penalty = (function(){
       const e = 1-Math.pow(1-t,2.4);
       if(zone !== null){
         const col = zone%3, row = zone<3 ? 0 : 1;
-        const zx = [207,320,433][col];
-        x = 320 + (zx-320)*0.82*e + Math.sin(ts/850)*(1-e)*7;
-        if(col !== 1) angle = (zx>320 ? 1 : -1) * 1.2 * e;
+        const zx = [CX-113,CX,CX+113][col];
+        x = CX + (zx-CX)*0.82*e + Math.sin(ts/850)*(1-e)*7;
+        if(col !== 1) angle = (zx>CX ? 1 : -1) * 1.2 * e;
         if(row === 0){ y = GOAL.yGround - 27*e; armL = -1.85; armR = -1.3; }
         else { y = GOAL.yGround - 4*e; armL = -2.65; armR = -0.55; }
         if(col===1 && row===0){ y = GOAL.yGround - 35*e; armL=-2.1; armR=-1.05; }
@@ -2741,7 +2808,7 @@ Games.penalty = (function(){
 
   function drawPowerGauge(){
     if(phase!=='aim' || !drag) return;
-    const bx=608, by=90, bh=210, bw=17;
+    const bx=W-48, by=90, bh=210, bw=17;
     g.fillStyle='rgba(0,0,0,.45)';
     g.beginPath(); g.roundRect(bx,by,bw,bh,8); g.fill();
     const fh = bh*drag.powerPct;
@@ -2804,7 +2871,7 @@ Games.penalty = (function(){
       blocked:{ txt:'CONTRÉ !', bg:'rgba(249,115,22,.95)' },
     }[shot.outcome];
     g.save();
-    g.translate(320, 205); g.scale(pop*t, pop*t);
+    g.translate(CX, 205); g.scale(pop*t, pop*t);
     g.font='bold 34px system-ui'; g.textAlign='center';
     const w = g.measureText(conf.txt).width + 44;
     g.fillStyle = conf.bg;
@@ -2833,7 +2900,7 @@ Games.penalty = (function(){
     const cols = [PSG.c1, PSG.c2, '#ffffff', '#ffd166'];
     for(let i=0;i<70;i++){
       confetti.push({
-        x: randInt(30,610), y: randInt(56,120),
+        x: randInt(30,Math.round(W-30)), y: randInt(56,120),
         vx: (Math.random()-0.5)*1.6, vy: Math.random()*1.2+0.4,
         rot: Math.random()*6.28, vr:(Math.random()-0.5)*0.3,
         c: cols[randInt(0,cols.length-1)], life: randInt(80,150),
@@ -2897,7 +2964,7 @@ Games.penalty = (function(){
     setComment(comm);
     /* physique du ballon pour la phase outcome */
     if(o==='saved'){
-      const kx = 320 + ([207,320,433][shot.diveZone%3]-320)*0.82;
+      const kx = CX + ([CX-113,CX,CX+113][shot.diveZone%3]-CX)*0.82;
       ball.vx = (shot.tx>=kx ? 1 : -1) * (1.6+Math.random()*0.8); ball.vy=-1.6; ball.grav=0.14;
     }else if(o==='bar'){
       ball.vx = (Math.random()-0.5)*1.4; ball.vy = 2.0; ball.grav = 0.2;
@@ -2928,8 +2995,8 @@ Games.penalty = (function(){
 
   function placeFreeKick(){
     const side = Math.random()<0.5 ? -1 : 1;
-    fkSpot = { x: 320 + side*randInt(55,95), y: 438 };
-    fkWallCX = fkSpot.x + (320-fkSpot.x)*0.5;
+    fkSpot = { x: CX + side*randInt(55,95), y: 438 };
+    fkWallCX = fkSpot.x + (CX-fkSpot.x)*0.5;
   }
 
   /* ============ BOUCLE ============ */
@@ -2978,10 +3045,10 @@ Games.penalty = (function(){
     }
 
     /* caméra */
-    let tz=1, tcx=320, tcy=240;
+    let tz=1, tcx=CX, tcy=240;
     if(phase==='outcome' && shot){
       tz=1.13;
-      tcx = shot.outcome==='blocked' ? fkWallCX : (320+(shot.tx-320)*0.5);
+      tcx = shot.outcome==='blocked' ? fkWallCX : (CX+(shot.tx-CX)*0.5);
       tcy = shot.outcome==='blocked' ? 285 : 208;
     }
     cam.z += (tz-cam.z)*0.09*dtF;
@@ -3079,11 +3146,21 @@ Games.penalty = (function(){
     const c = document.getElementById('pen-comment');
     if(c) c.textContent = txt;
   }
+  /* Le nom du tireur n'occupe plus une ligne en permanence : il apparaît en
+     surimpression sur le terrain pendant 2 secondes au début de chaque tir. */
+  let penToastId = null;
+  function penToast(html, ms){
+    const t = document.getElementById('pen-toast');
+    if(!t) return;
+    t.innerHTML = html;
+    t.classList.add('show');
+    clearTimeout(penToastId);
+    penToastId = setTimeout(function(){ t.classList.remove('show'); }, ms || 2000);
+    registerTimeout(penToastId);
+  }
   function updateStatus(){
-    const s = document.getElementById('pen-status');
     const what = mode==='freekick' ? 'coup franc' : 'tir';
-    if(s) s.innerHTML = `Au tour de <b>${shooters[shooterIdx]}</b> — ${what} ${shooterIdx+1}/${shooters.length}
-      <span class="keeper-name"> · vs ${team.name} (${keeperName})</span>`;
+    penToast(`<b>${shooters[shooterIdx]}</b><span>${what} ${shooterIdx+1}/${shooters.length}</span>`);
   }
 
   function renderTeamSelect(){
@@ -3164,15 +3241,19 @@ Games.penalty = (function(){
   }
 
   function render(){
+    panel().classList.remove('pen-fullbleed');
     if(stage === 'teamselect'){ renderTeamSelect(); return; }
     if(stage === 'modeselect'){ renderModeSelect(); return; }
     panel().classList.add('psg-panel');
     panel().style.setProperty('--pen-accent', team.accent);
     if(finished){ renderRecap(); return; }
     stopLoop();
+    panel().classList.add('pen-fullbleed');
     const modeLabel = mode==='freekick' ? `🎯 Coups francs · mur de ${wallCount}` : '🥅 Tirs au but';
+    /* Le score est déjà affiché sur le panneau au centre du terrain :
+       data-hud="off" évite de le répéter dans le bandeau du haut. */
     panel().innerHTML = `
-      <div class="game-topbar">
+      <div class="game-topbar" data-hud="off">
         <div class="stat">⚽ Buts : <b id="pen-score">${score}</b></div>
         <div class="stat">🧤 Arrêts : <b id="pen-saves">${saves}</b></div>
         <div class="stat">💨 Ratés : <b id="pen-misses">${misses}</b></div>
@@ -3181,13 +3262,15 @@ Games.penalty = (function(){
         <button class="btn" id="pen-settings-btn">⚙️ Réglages</button>
         <button class="btn" id="pen-mode-btn">🎮 Mode</button>
         <button class="btn" id="pen-switch-btn">🔄 Adversaire</button>
+        <div class="drawer-help">${mode==='freekick'
+          ? "Règle le point de frappe (widget à gauche) pour l'effet et le lob, puis glisse depuis le ballon pour tirer par-dessus ou autour du mur."
+          : "Glisse depuis le ballon vers le but : la distance donne la puissance, la direction vise le coin. Jauge dans le rouge = au-dessus de la barre."}</div>
       </div>
-      <div id="pen-status"></div>
-      <div class="pen-canvas-wrap"><canvas id="pen-canvas" width="${W}" height="${H}"></canvas></div>
-      <div id="pen-comment"></div>
-      <div id="pen-hint">${mode==='freekick'
-        ? "Règle le point de frappe (widget à gauche) pour l'effet et le lob, puis glisse depuis le ballon pour tirer par-dessus ou autour du mur !"
-        : "Glisse depuis le ballon vers le but : la distance donne la puissance, la direction vise le coin. Jauge dans le rouge = au-dessus de la barre !"}</div>
+      <div class="pen-canvas-wrap">
+        <canvas id="pen-canvas"></canvas>
+        <div class="pen-toast" id="pen-toast"></div>
+        <div id="pen-comment"></div>
+      </div>
     `;
     syncGameChrome('penalty');
     document.getElementById('pen-settings-btn').onclick = openSettings;
@@ -3195,16 +3278,16 @@ Games.penalty = (function(){
     document.getElementById('pen-switch-btn').onclick = ()=>{ stage='teamselect'; render(); };
     canvas = document.getElementById('pen-canvas');
     DPR = Math.min(2, window.devicePixelRatio || 1);
-    canvas.width = W*DPR; canvas.height = H*DPR;
+    sizeCanvas();
     g = canvas.getContext('2d');
     canvas.addEventListener('pointerdown', onDown);
-    if(!crowd || crowd.teamKey !== team.key){ buildCrowd(); crowd.teamKey = team.key; }
+    buildCrowd(); crowd.teamKey = team.key;
     buildBackground();
     if(mode==='freekick') placeFreeKick();
     const sp = curSpot();
     shot=null; drag=null; strikeDrag=false; netImpact=null; confetti=[]; trail=[]; celebrateUntil=0;
     ball={x:sp.x,y:sp.y,s:1,a:1,vx:0,vy:0,grav:0,rot:0};
-    cam={z:1,cx:320,cy:240}; shake=0;
+    cam={z:1,cx:CX,cy:240}; shake=0;
     phase='aim'; phaseStart=now(); lastTs=0;
     updateStatus();
     whistle();
@@ -3304,8 +3387,23 @@ Games.penalty = (function(){
       stage = 'match';
       render();
     },
+    /* Rotation de l'écran : la scène est recalculée pour le nouveau format.
+       Le tir en cours est remis en position (on ne perd que la visée). */
+    relayout(){ if(stage) render(); },
     _spot(){ return curSpot(); }
   };
+})();
+
+/* Rotation / redimensionnement : on redessine le jeu en cours pour qu'il
+   occupe exactement le nouvel écran. */
+(function(){
+  var t = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(t);
+    t = setTimeout(function(){
+      if(App.current === 'penalty' && Games.penalty.relayout) Games.penalty.relayout();
+    }, 220);
+  });
 })();
 
 /* Rappel « ajouter à l'écran d'accueil » : uniquement sur iPhone/iPad et
