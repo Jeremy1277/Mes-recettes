@@ -2,8 +2,21 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<!-- viewport-fit=cover : l'appli occupe tout l'écran, encoche comprise. Les
+     zones sûres sont ensuite compensées en CSS via env(safe-area-inset-*). -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <title>Mini Jeux</title>
+<!-- Mode "application" : une fois ajoutée à l'écran d'accueil de l'iPhone,
+     l'appli s'ouvre sans la barre d'adresse ni les onglets de Safari. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mini Jeux">
+<meta name="theme-color" content="#0f172a">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
 <style>
   :root{
     --bg:#0f172a;
@@ -27,8 +40,19 @@
     background:radial-gradient(1200px 800px at 50% -10%, #1e2a4a 0%, var(--bg) 60%);
     color:var(--text);
     min-height:100vh;
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior:none;
   }
-  #app{max-width:1000px;margin:0 auto;padding:16px 16px 60px;}
+  /* Lancée depuis l'écran d'accueil, l'appli occupe tout l'écran : on décale le
+     contenu des zones occupées par l'encoche, la barre d'état et la barre
+     d'accueil (valeurs à 0 dans un navigateur classique). */
+  #app{
+    max-width:1000px;margin:0 auto;
+    padding:calc(16px + env(safe-area-inset-top,0px))
+            calc(16px + env(safe-area-inset-right,0px))
+            calc(60px + env(safe-area-inset-bottom,0px))
+            calc(16px + env(safe-area-inset-left,0px));
+  }
   header{
     display:flex;align-items:center;justify-content:space-between;
     padding:10px 6px 20px;
@@ -70,7 +94,11 @@
   }
   .game-hud{
     flex:0 0 auto;display:flex;align-items:center;gap:8px;
-    padding:8px 10px;background:var(--panel2);border-bottom:1px solid #334155;
+    padding:calc(8px + env(safe-area-inset-top,0px))
+            calc(10px + env(safe-area-inset-right,0px))
+            8px
+            calc(10px + env(safe-area-inset-left,0px));
+    background:var(--panel2);border-bottom:1px solid #334155;
   }
   .game-hud .hud-back, .game-hud .hud-settings{
     flex:0 0 auto;background:var(--panel);color:var(--text);border:1px solid #334155;
@@ -84,7 +112,11 @@
   .game-hud .hud-settings[hidden]{display:none;}
   .game-view.active .game-panel{
     flex:1;min-height:0;overflow:auto;
-    border-radius:0;border:none;padding:14px;
+    border-radius:0;border:none;
+    padding:14px
+            calc(14px + env(safe-area-inset-right,0px))
+            calc(14px + env(safe-area-inset-bottom,0px))
+            calc(14px + env(safe-area-inset-left,0px));
     display:flex;flex-direction:column;align-items:stretch;
   }
   .game-drawer-scrim{
@@ -92,10 +124,15 @@
   }
   .game-drawer-scrim.open{display:block;}
   .game-drawer{
-    position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);
+    position:fixed;top:0;right:0;bottom:0;
+    width:calc(min(320px,84vw) + env(safe-area-inset-right,0px));
     background:var(--panel);border-left:1px solid #334155;
     transform:translateX(100%);transition:transform .22s ease;
-    z-index:300;overflow:auto;padding:16px;
+    z-index:300;overflow:auto;
+    padding:calc(16px + env(safe-area-inset-top,0px))
+            calc(16px + env(safe-area-inset-right,0px))
+            calc(16px + env(safe-area-inset-bottom,0px))
+            16px;
   }
   .game-drawer.open{transform:translateX(0);}
   .game-drawer .game-topbar{
@@ -106,7 +143,11 @@
   .rotate-guard{
     display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);color:var(--text);
     flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    gap:14px;padding:30px;font-size:1.15rem;
+    gap:14px;font-size:1.15rem;
+    padding:calc(30px + env(safe-area-inset-top,0px))
+            calc(30px + env(safe-area-inset-right,0px))
+            calc(30px + env(safe-area-inset-bottom,0px))
+            calc(30px + env(safe-area-inset-left,0px));
   }
   .rotate-guard .icon{font-size:3rem;animation:rotatePulse 1.6s ease-in-out infinite;}
   @keyframes rotatePulse{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-90deg);}}
@@ -135,6 +176,9 @@
 
   /* SIMON */
   #simon-board{
+    /* flex:none — sans ça le plateau est écrasé en ellipse dans la colonne
+       flex du mode plein écran. */
+    flex:none;
     width:280px;height:280px;margin:20px auto;border-radius:50%;
     display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;
     background:#0b1120;padding:8px;
@@ -429,7 +473,35 @@
   @keyframes mjPulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.12);}}
   @keyframes mjMatch{to{transform:scale(.2) rotate(12deg);opacity:0;}}
 
+  /* Rappel d'installation : affiché uniquement dans Safari, jamais une fois
+     l'appli lancée depuis l'écran d'accueil (voir le script en bas de page). */
+  .install-tip{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    background:linear-gradient(160deg,var(--panel),var(--panel2));
+    border:1px solid var(--accent);border-radius:16px;
+    padding:16px 18px;margin:4px 0 18px;
+  }
+  .install-tip[hidden]{display:none;}
+  .install-tip-text{flex:1;min-width:220px;font-size:.88rem;line-height:1.55;color:var(--text);}
+  .install-tip-text b{color:var(--accent2);}
   footer.small{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px;}
+
+  /* Paysage sur téléphone : l'écran est très bas, on comprime les textes
+     d'accompagnement pour laisser le maximum de hauteur à la zone de jeu. */
+  @media (orientation:landscape) and (max-height:500px){
+    .game-view.active .game-panel{padding-top:8px;padding-bottom:8px;}
+    .game-view.active .game-panel > p{font-size:.78rem;margin:2px 0 6px;}
+    #pen-status{font-size:.85rem;margin:0 0 2px;}
+    #pen-comment{font-size:.8rem;min-height:1.1em;margin-top:3px;}
+    #pen-hint{font-size:.7rem;margin-top:3px;line-height:1.3;}
+    #stroop-word{font-size:2.4rem;margin:10px 0 14px;}
+    #math-question{font-size:1.9rem;margin:8px 0 14px;}
+    #ortho-question{font-size:1.35rem;margin:6px 0 14px;}
+    #simon-board{width:min(210px,52vh);height:min(210px,52vh);margin:8px auto;}
+    #whack-grid{max-width:min(300px,72vh);margin:8px auto;gap:10px;}
+    .center-msg{padding:14px 10px;}
+  }
+
 </style>
 </head>
 <body>
@@ -438,6 +510,16 @@
     <h1>🎮 <span>Mini Jeux</span></h1>
     <button class="btn" id="backBtn" style="display:none" onclick="App.showMenu()">← Menu</button>
   </header>
+
+  <div class="install-tip" id="installTip" hidden>
+    <div class="install-tip-text">
+      <b>Installe Mini Jeux sur ton iPhone</b><br>
+      Appuie sur le bouton <b>Partager</b> en bas de Safari (le carré avec une flèche vers le haut),
+      puis sur <b>« Sur l'écran d'accueil »</b>. L'appli s'ouvrira ensuite en plein écran,
+      sans la barre d'adresse ni les onglets.
+    </div>
+    <button class="btn" onclick="document.getElementById('installTip').hidden=true">OK</button>
+  </div>
 
   <div id="menu">
     <div class="menu-card" onclick="App.showGame('stroop')">
@@ -3224,6 +3306,20 @@ Games.penalty = (function(){
     },
     _spot(){ return curSpot(); }
   };
+})();
+
+/* Rappel « ajouter à l'écran d'accueil » : uniquement sur iPhone/iPad et
+   uniquement tant que l'appli tourne dans Safari. Une fois installée,
+   navigator.standalone passe à true et le rappel ne s'affiche plus. */
+(function(){
+  var enStandalone = window.navigator.standalone === true ||
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  var estIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if(estIOS && !enStandalone){
+    var tip = document.getElementById('installTip');
+    if(tip) tip.hidden = false;
+  }
 })();
 </script>
 </body>
