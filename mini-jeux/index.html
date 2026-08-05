@@ -1033,16 +1033,32 @@ Games.simon = (function(){
 
 /* =============================== GAME 3: CALCUL MENTAL =============================== */
 Games.math = (function(){
-  let score=0, timeLeft=60, timer=null, correctAnswer=null, best=0, playing=false;
+  let score=0, timeLeft=60, timer=null, correctAnswer=null, playing=false;
+  let level = null; // 'amaury' | 'all'
+  const bestByLevel = { amaury:0, all:0 };
+  const LEVEL_LABEL = { amaury:'Amaury', all:'Tout le monde' };
 
   function panel(){ return document.getElementById('panel-math'); }
+
+  function renderLevelSelect(){
+    panel().innerHTML = `
+      <div class="center-msg">
+        <h2>🧮 Calcul Mental</h2>
+        <p>Choisis ton niveau</p>
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:280px;margin:0 auto;">
+          <button class="btn primary" onclick="Games.math.start('amaury')">👦 Amaury<br><small style="font-weight:normal;opacity:.8">Additions et soustractions faciles</small></button>
+          <button class="btn" onclick="Games.math.start('all')">🧑‍🤝‍🧑 Tout le monde<br><small style="font-weight:normal;opacity:.8">Tous les types de calculs</small></button>
+        </div>
+      </div>`;
+    syncGameChrome('math');
+  }
 
   function render(){
     panel().innerHTML = `
       <div class="game-topbar">
         <div class="stat">⏱ <b id="math-time">${fmtTime(timeLeft)}</b></div>
         <div class="stat">Score : <b id="math-score">${score}</b></div>
-        <div class="stat">Record : <b>${best}</b></div>
+        <div class="stat">Record : <b>${bestByLevel[level]}</b></div>
       </div>
       <div id="math-question"></div>
       <div class="math-choices" id="math-choices"></div>
@@ -1051,20 +1067,29 @@ Games.math = (function(){
   }
 
   function genQuestion(){
-    const ops = ['+','-','×'];
-    const op = ops[randInt(0,2)];
-    let a,b,answer;
-    if(op==='+'){ a=randInt(2,50); b=randInt(2,50); answer=a+b; }
-    else if(op==='-'){ a=randInt(10,60); b=randInt(1,a); answer=a-b; }
-    else { a=randInt(2,12); b=randInt(2,12); answer=a*b; }
+    let a,b,answer,op,maxDelta;
+    if(level==='amaury'){
+      // Niveau enfant (CP/CE1) : uniquement + et -, nombres <= 10.
+      op = ['+','-'][randInt(0,1)];
+      if(op==='+'){ a=randInt(1,9); b=randInt(1,9); answer=a+b; }
+      else { a=randInt(1,10); b=randInt(0,a); answer=a-b; }
+      maxDelta = 5;
+    } else {
+      const ops = ['+','-','×'];
+      op = ops[randInt(0,2)];
+      if(op==='+'){ a=randInt(2,50); b=randInt(2,50); answer=a+b; }
+      else if(op==='-'){ a=randInt(10,60); b=randInt(1,a); answer=a-b; }
+      else { a=randInt(2,12); b=randInt(2,12); answer=a*b; }
+      maxDelta = 10;
+    }
     correctAnswer = answer;
     document.getElementById('math-question').textContent = `${a} ${op} ${b} = ?`;
 
     const opts = new Set([answer]);
     while(opts.size<4){
-      const delta = randInt(-10,10) || 1;
+      const delta = randInt(-maxDelta,maxDelta) || 1;
       const fake = answer+delta;
-      if(fake!==answer) opts.add(fake);
+      if(fake!==answer && fake>=0) opts.add(fake);
     }
     const arr = shuffle([...opts]);
     const choicesEl = document.getElementById('math-choices');
@@ -1096,19 +1121,26 @@ Games.math = (function(){
 
   function endGame(){
     playing=false;
-    if(score>best) best=score;
+    if(score>bestByLevel[level]) bestByLevel[level]=score;
     panel().innerHTML = `
       <div class="center-msg">
         <h2>⏰ Temps écoulé !</h2>
-        <p>Score final : <b>${score}</b> ${score>=best && score>0 ? '— nouveau record ! 🎉' : ''}</p>
-        <button class="btn primary" onclick="Games.math.init()">Rejouer</button>
+        <p>Niveau <b>${LEVEL_LABEL[level]}</b> — Score final : <b>${score}</b> ${score>=bestByLevel[level] && score>0 ? '— nouveau record ! 🎉' : ''}</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn primary" onclick="Games.math.start('${level}')">Rejouer</button>
+          <button class="btn" onclick="Games.math.init()">Changer de niveau</button>
+        </div>
       </div>`;
     syncGameChrome('math');
   }
 
   return {
     init(){
-      score=0; timeLeft=60; playing=true;
+      level=null; playing=false;
+      renderLevelSelect();
+    },
+    start(lvl){
+      level=lvl; score=0; timeLeft=60; playing=true;
       render(); genQuestion(); startCountdown();
     }
   };
