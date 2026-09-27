@@ -606,6 +606,8 @@ const MATIERES = {
     nom:'Mathématiques', couleur:'#3D6BE5', soft:'#EAF0FE',
     ico:'<path d="M5 7h6M8 4v6M4 17h6M14 5.5l5 5M19 5.5l-5 5M14 17h6M17 14v6"/>',
     exemples:['je comprends pas les fonctions affines','résoudre une inéquation','le coefficient directeur','les vecteurs','un calcul de pourcentage'],
+    saisie:"Ex. : j'ai f(x) = 3x − 5 et g(x) = −x + 7, je dois trouver quand f(x) est plus grand que g(x)…",
+    reponse:"Écris ton calcul étape par étape, pas seulement le résultat — c'est là que je vois où ça coince.",
     consignes:`Programme de seconde : fonctions (affine, carré, inverse), équations et inéquations, intervalles, géométrie repérée, vecteurs, trigonométrie, probabilités, statistiques, pourcentages et évolutions, algorithmique en Python.
 Exige le raisonnement, pas seulement le résultat : si elle donne un nombre sans expliquer, demande-lui comment elle l'a obtenu avant de te prononcer.
 Rappelle l'unité quand il y en a une, et fais-lui vérifier la vraisemblance du résultat.`
@@ -614,6 +616,8 @@ Rappelle l'unité quand il y en a une, et fais-lui vérifier la vraisemblance du
     nom:'Physique-Chimie', couleur:'#7A4FD6', soft:'#F0EAFC',
     ico:'<path d="M9 3h6M10 3v5.5L5.5 18a2 2 0 001.8 3h9.4a2 2 0 001.8-3L14 8.5V3"/><path d="M7.5 14h9"/>',
     exemples:['la quantité de matière, les moles','une concentration','les conversions d\'unités','les forces','une équation de réaction'],
+    saisie:"Ex. : je dois calculer une concentration avec 5 g de sel dans 250 mL, et je confonds toujours avec les moles…",
+    reponse:"Donne la formule, ton calcul, et n'oublie pas l'unité.",
     consignes:`Programme de seconde : constitution de la matière, atomes et ions, quantité de matière et mole, solutions et concentration, transformations chimiques et équations de réaction, mouvement et vitesse, forces, signaux, ondes et lentilles.
 Fais-lui systématiquement écrire les unités et convertir AVANT de calculer : c'est là que ça casse le plus souvent.
 La démarche compte autant que le nombre : formule, remplacement, calcul, unité, vraisemblance.`
@@ -622,6 +626,8 @@ La démarche compte autant que le nombre : formule, remplacement, calcul, unité
     nom:'SVT', couleur:'#1F9D6B', soft:'#E6F5EE',
     ico:'<path d="M12 21c0-7 3.5-12 9-13-1 7.5-4.5 11.5-9 13z"/><path d="M12 21C12 14 8.5 9 3 8c1 7.5 4.5 11.5 9 13z"/><path d="M12 21v-6"/>',
     exemples:['l\'ADN et les protéines','la cellule','la photosynthèse','un exercice sur les documents','les écosystèmes'],
+    saisie:"Ex. : l'exercice dit d'exploiter le document 2 et je vois pas ce qu'il faut en tirer…",
+    reponse:"Dis d'abord ce que tu observes dans le document, puis ce que tu en déduis.",
     consignes:`Programme de seconde : organisation fonctionnelle du vivant, cellule, ADN et information génétique, microbiote, biodiversité et écosystèmes, agrosystèmes, érosion et sédimentation, la Terre dans l'Univers, corps humain et effort.
 En SVT on ne récite pas : on répond EN S'APPUYANT sur les documents. Fais-lui citer ce qu'elle voit dans le document avant d'interpréter.
 Fais-lui distinguer clairement une observation, une hypothèse et une conclusion.`
@@ -630,6 +636,8 @@ Fais-lui distinguer clairement une observation, une hypothèse et une conclusion
     nom:'Français', couleur:'#C4503C', soft:'#FBEBE7',
     ico:'<path d="M4 5.5A1.5 1.5 0 015.5 4H12v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M12 4h6.5A1.5 1.5 0 0120 5.5v13a1.5 1.5 0 01-1.5 1.5H12"/>',
     exemples:['un commentaire de texte','les figures de style','une dissertation','analyser une phrase','la contraction de texte'],
+    saisie:"Ex. : je dois faire un paragraphe de commentaire sur un poème de Baudelaire et je sais pas quoi écrire…",
+    reponse:"Rédige ton paragraphe. Cite le texte entre guillemets et nomme les procédés.",
     consignes:`Programme de seconde, quatre objets d'étude : la poésie (XIXe-XXIe), la littérature d'idées et la presse (XIXe-XXIe), le roman et le récit (XVIIIe-XXIe), le théâtre (XVIIe-XXIe). Méthodes : commentaire, dissertation, contraction de texte, essai. Aussi : figures de style, registres, énonciation, grammaire (analyse de phrase, propositions, valeurs des temps).
 Ne rédige JAMAIS son paragraphe, sa phrase d'introduction ou sa conclusion à sa place : donne la structure attendue, et laisse-la écrire.
 Exige qu'elle cite le texte entre guillemets et qu'elle nomme le procédé avant d'en donner l'effet.`
@@ -638,6 +646,8 @@ Exige qu'elle cite le texte entre guillemets et qu'elle nomme le procédé avant
     nom:'Histoire-Géo', couleur:'#B07A2B', soft:'#F9F0DE',
     ico:'<path d="M3 9.5L12 4l9 5.5M4.5 20h15M6.5 20V11M10 20V11M14 20V11M17.5 20V11"/>',
     exemples:['analyser un document','la Révolution française','la transition démographique','un croquis de géo','une réponse argumentée'],
+    saisie:"Ex. : je dois analyser un document sur la Révolution et je sais pas par quoi commencer…",
+    reponse:"Rédige ta réponse. Appuie chaque idée sur un fait précis : une date, un nom, un chiffre.",
     consignes:`Programme de seconde. Histoire : le monde méditerranéen antique, XVe-XVIe siècles (ouverture atlantique, Renaissance, Réformes), l'État à l'époque moderne et la Révolution française, le XIXe siècle (révolution industrielle, nations, colonisation). Géographie : transition démographique et inégalités de développement, territoires et ressources (eau, énergie, alimentation), sociétés face aux risques, étude de cas.
 Devant un document, fais-lui d'abord identifier nature, auteur, date, destinataire et contexte — avant toute interprétation.
 Pour une réponse argumentée : une idée par paragraphe, chaque idée appuyée sur un fait précis (date, nom, chiffre).`
@@ -646,6 +656,8 @@ Pour une réponse argumentée : une idée par paragraphe, chaque idée appuyée 
     nom:'EMC', couleur:'#5B7C99', soft:'#EBF1F6',
     ico:'<path d="M12 3l8 3.5v5.5c0 5-3.4 8.3-8 9.5-4.6-1.2-8-4.5-8-9.5V6.5z"/><path d="M9.5 12.2l1.9 1.9 3.6-3.9"/>',
     exemples:['la laïcité','l\'État de droit','les libertés fondamentales','un débat argumenté'],
+    saisie:"Ex. : je dois argumenter sur la laïcité à l'école et je sais pas comment structurer…",
+    reponse:"Rédige ta réponse argumentée, avec un exemple concret.",
     consignes:`Programme de seconde : la liberté et les libertés, l'État de droit, la laïcité, les droits fondamentaux, la sécurité, les institutions de la République.
 On attend un raisonnement argumenté et nuancé, appuyé sur le droit et sur des exemples précis — pas une opinion personnelle brute. Fais-lui distinguer ce qu'elle pense de ce que dit la loi.`
   },
@@ -653,6 +665,8 @@ On attend un raisonnement argumenté et nuancé, appuyé sur le droit et sur des
     nom:'SES', couleur:'#1F8A9D', soft:'#E4F4F6',
     ico:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     exemples:['un taux de variation','l\'offre et la demande','lire un graphique','la socialisation','un coefficient multiplicateur'],
+    saisie:"Ex. : je comprends pas la différence entre un taux de variation et un coefficient multiplicateur…",
+    reponse:"Donne ton calcul, puis une phrase qui dit ce que le résultat signifie.",
     consignes:`Programme de seconde : comment les économistes raisonnent, la consommation, la production et l'entreprise, la formation des prix sur un marché, la monnaie et le financement, la socialisation, les liens sociaux, groupes et réseaux, l'opinion publique.
 Sois exigeant sur le vocabulaire : revenu ≠ patrimoine, prix ≠ valeur, croissance ≠ niveau.
 Sois exigeant sur la lecture des données : taux de variation, coefficient multiplicateur, indice base 100, différence entre % et points de %. Fais-lui toujours formuler une phrase qui donne la source, la date, l'unité et le champ.`
@@ -661,6 +675,8 @@ Sois exigeant sur la lecture des données : taux de variation, coefficient multi
     nom:'SNT', couleur:'#4A5568', soft:'#EDEFF2',
     ico:'<rect x="3" y="4" width="18" height="12.5" rx="2"/><path d="M8 20.5h8M12 16.5v4"/><path d="M8.5 8.5L10.5 10.5 8.5 12.5M13 12.5h3"/>',
     exemples:['un programme Python','les réseaux sociaux','comment marche internet','les données structurées','la photo numérique'],
+    saisie:"Ex. : mon programme Python affiche pas ce que je veux et je vois pas pourquoi…",
+    reponse:"Colle ton code, ou explique ligne par ligne ce que tu crois qu'il fait.",
     consignes:`Programme de seconde : internet, le web, les réseaux sociaux, les données structurées et leur traitement, localisation et cartographie, la photographie numérique, l'informatique embarquée. Programmation en Python.
 Si c'est du code : fais-lui lire SON code ligne à ligne et prédire ce qui s'affiche, avant de chercher l'erreur. Ne réécris pas son programme — désigne la ligne suspecte et demande-lui ce qu'elle croit qu'elle fait.`
   },
@@ -668,6 +684,8 @@ Si c'est du code : fais-lui lire SON code ligne à ligne et prédire ce qui s'af
     nom:'Anglais', couleur:'#C43D6B', soft:'#FBE9EF',
     ico:'<circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3c-2.2 2.6-3.4 5.7-3.4 9s1.2 6.4 3.4 9c2.2-2.6 3.4-5.7 3.4-9S14.2 5.6 12 3z"/>',
     exemples:['le present perfect','une phrase à corriger','la compréhension d\'un texte','les verbes irréguliers','une expression écrite'],
+    saisie:"Ex. : je dois mettre les verbes au present perfect et je sais jamais quand l'utiliser…",
+    reponse:"Écris ta phrase en anglais.",
     consignes:`Anglais LVB en seconde. C'est sa langue la plus fragile : va doucement, valorise ce qui marche.
 Ne traduis JAMAIS sa phrase entière à sa place. Nomme la règle en jeu (temps, auxiliaire, accord, ordre des mots, faux-ami, préposition) et laisse-la corriger elle-même.
 Si c'est de la compréhension écrite, renvoie-la à la ligne ou au paragraphe exact du texte plutôt que de résumer à sa place.`
@@ -676,6 +694,8 @@ Si c'est de la compréhension écrite, renvoie-la à la ligne ou au paragraphe e
     nom:'Allemand', couleur:'#8A6D3B', soft:'#F5F0E4',
     ico:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9.7h18M3 14.3h18"/>',
     exemples:['les cas et les déclinaisons','la place du verbe','le parfait','les prépositions','une phrase à corriger'],
+    saisie:"Ex. : je sais jamais quel cas mettre après « mit » et après « für »…",
+    reponse:"Écris ta phrase en allemand.",
     consignes:`Allemand LVA en seconde : c'est sa première langue vivante, elle y est plus solide qu'en anglais — tu peux être un peu plus exigeant.
 Points sensibles à viser : les quatre cas (nominatif, accusatif, datif, génitif), les déclinaisons de l'article et de l'adjectif, la place du verbe (principale, subordonnée en fin, inversion), les verbes de modalité, les prépositions et le cas qu'elles commandent, parfait contre prétérit.
 Ne traduis pas sa phrase à sa place : nomme la règle, montre-la sur un autre exemple, et laisse-la corriger.`
@@ -684,6 +704,8 @@ Ne traduis pas sa phrase à sa place : nomme la règle, montre-la sur un autre e
     nom:'Autre matière', couleur:'#6B6478', soft:'#F0EEF3',
     ico:'<circle cx="12" cy="12" r="9"/><path d="M9.3 9.2a2.8 2.8 0 015.4 1c0 1.9-2.7 2.3-2.7 4"/><path d="M12 17.6v.1"/>',
     exemples:['une option','un exposé','de la méthode de travail','autre chose'],
+    saisie:"Raconte ce que tu dois faire et ce qui te bloque, avec tes mots…",
+    reponse:"Écris ta réponse.",
     consignes:`La matière n'est pas précisée : option, spécialité, ou autre. Identifie d'abord de quoi il s'agit d'après ce qu'elle écrit, dis-le-lui dans "demande", puis adapte ta méthode à cette matière.`
   }
 };
@@ -1039,6 +1061,9 @@ function ouvrirAsk(mat){
   accent(mat);
   const m=MATIERES[mat];
   $('#a-matiere-nom').textContent=m.nom;
+  /* L'invite du champ parle la langue de la matiere : devant un champ vide,
+     un exemple concret de SA matiere vaut mieux qu'une consigne generique. */
+  $('#a-text').placeholder = m.saisie || "Explique ce qui bloque, avec tes mots\u2026";
   $('#a-exemples').innerHTML=(m.exemples||[]).map(x=>
     '<button class="chip" data-ex="'+esc(x)+'">'+esc(x)+'</button>').join('');
   $$('#a-exemples [data-ex]').forEach(b=>b.onclick=()=>{
@@ -1097,6 +1122,8 @@ function renderPlan(){
   $('#w-atoi').innerHTML  = md(p.a_toi);
   $('#w-format').textContent = p.format ? 'Attendu : '+p.format : '';
   $('#w-answer-lbl').textContent='Ta réponse';
+  const mm = MATIERES[W.mat] || MATIERES.autre;
+  $('#w-answer').placeholder = mm.reponse || "\u00c9cris ta r\u00e9ponse.";
 }
 
 function renderHist(){
@@ -1202,6 +1229,7 @@ async function montrerCorrection(){
       $('#w-atoi').innerHTML=md(c.nouvel_exercice.question);
       $('#w-format').textContent=c.nouvel_exercice.format?'Attendu : '+c.nouvel_exercice.format:'';
       $('#w-answer-lbl').textContent='À toi, même type d\'exercice';
+      $('#w-answer').placeholder=(MATIERES[W.mat]||MATIERES.autre).reponse||"\u00c9cris ta r\u00e9ponse.";
       $('#w-answer').value='';
       toast('À toi maintenant, sur le même modèle.',4200);
     }
