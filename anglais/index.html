@@ -806,9 +806,15 @@ async function claude(system, contenu, maxTokens=1600){
     body: JSON.stringify({ model:MODELE, max_tokens:maxTokens, system,
       messages:[{role:'user', content:contenu}] })
   });
-  if(!r.ok) throw new Error('http-'+r.status);
-  const d = await r.json();
-  if(d.error) throw new Error(d.error.message||'erreur moteur');
+  /* On lit le corps AVANT de renoncer : l'API repond en 400 avec un message
+     explicite quand le compte n'a plus de credit. Sans ca on afficherait
+     "verifie ta connexion", ce qui est faux et fait porter le probleme a
+     l'eleve. */
+  const d = await r.json().catch(()=>null);
+  const msg = d && d.error && d.error.message || '';
+  if(/credit balance|quota|billing/i.test(msg)) throw new Error('sans-credit');
+  if(!r.ok) throw new Error(msg ? 'moteur: '+msg : 'http-'+r.status);
+  if(d.error) throw new Error(msg||'erreur moteur');
   compte(d.usage);
   return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
 }
@@ -1094,8 +1100,11 @@ async function lancer(mat, enonce, img, revId){
     $('#w-load').style.display='none';
     $('#w-notion').textContent='Ça n\'a pas marché';
     $('#w-body').style.display='block';
-    $('#w-demande').textContent = e.message==='http-401'||e.message==='http-403'
-      ? "Le moteur a refusé la connexion. Va voir dans Réglages → Technique."
+    $('#w-demande').innerHTML =
+      e.message==='sans-credit'
+        ? "Ce n'est pas toi : le moteur n'a plus de crédit. Préviens Jeremy, il faut recharger le compte — ça se règle en deux minutes et tout revient."
+      : (e.message==='http-401'||e.message==='http-403')
+        ? "Le moteur a refusé la connexion. Va voir dans Réglages → Technique."
       : "Je n'ai pas réussi à analyser ta question. Vérifie ta connexion et réessaie — ou reformule un peu.";
     $('#w-rappel').innerHTML=''; $('#w-etapes').innerHTML='';
     $('#w-atoi').textContent=''; $('#w-format').textContent='';
@@ -1150,8 +1159,10 @@ async function envoyer(){
     W.repImg=null; $('#w-photo-prev').classList.remove('on');
     if(W.essais.length>=2) $('#w-help-box').style.display='block';
   }catch(e){
-    $('#w-verdict').innerHTML='<div class="verdict v-near"><h3>Je n\'ai pas pu vérifier</h3>'+
-      '<p>Vérifie ta connexion et appuie encore sur Vérifie. Ta réponse est toujours là.</p></div>';
+    $('#w-verdict').innerHTML='<div class="verdict v-near"><h3>Je n\'ai pas pu vérifier</h3><p>'+
+      (e.message==='sans-credit'
+        ? "Ce n'est pas toi : le moteur n'a plus de crédit. Préviens Jeremy. Ta réponse est gardée."
+        : "Vérifie ta connexion et appuie encore sur Vérifie. Ta réponse est toujours là.")+'</p></div>';
   }finally{ btn.disabled=false; btn.innerHTML=av; }
 }
 
@@ -1450,8 +1461,11 @@ $('#test-proxy').onclick=async()=>{
     await claude('Réponds exactement : OK','Test de connexion',10);
     b.className='badge ok'; b.textContent='Connexion établie';
   }catch(e){
-    b.className='badge off'; b.textContent='Échec';
-    toast('Connexion refusée ('+e.message+'). Vérifie l\'URL du proxy.');
+    b.className='badge off';
+    b.textContent = e.message==='sans-credit' ? 'Plus de crédit' : 'Échec';
+    toast(e.message==='sans-credit'
+      ? 'Le proxy répond, mais le compte Anthropic n\'a plus de crédit. Recharge-le sur console.anthropic.com.'
+      : 'Connexion refusée ('+e.message+'). Vérifie l\'URL du proxy.', 6000);
   }
 };
 
