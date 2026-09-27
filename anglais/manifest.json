@@ -1,12 +1,13 @@
 {
-  "name": "Alessia in English",
-  "short_name": "Alessia in English",
+  "name": "Déclic",
+  "short_name": "Déclic",
+  "description": "Tu expliques ce qui bloque, on démonte la question ensemble, et c'est toi qui réponds.",
   "start_url": "/anglais/",
   "scope": "/anglais/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#241228",
-  "theme_color": "#241228",
+  "background_color": "#FBF8F3",
+  "theme_color": "#FBF8F3",
   "lang": "fr",
   "icons": [
     {
