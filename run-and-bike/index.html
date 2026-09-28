@@ -412,8 +412,34 @@ function videPour(titre, texte) {
   els.emptyState.innerHTML = `<h2>${titre}</h2><p>${texte}</p>`;
 }
 
+/* Retour de connexion Strava. Le backend renvoie sur FRONTEND_URL avec
+   ?connected=true ou ?strava_error=... — via la redirection de l'ancienne
+   adresse tant que cette variable n'a pas ete changee sur Render. Sans ce
+   traitement, une connexion refusee laissait l'utilisateur devant une page
+   qui dit simplement "non connecte", sans expliquer pourquoi. */
+function retourStrava() {
+  const q = new URLSearchParams(location.search);
+  const err = q.get('strava_error');
+  const ok = q.get('connected');
+  if (!err && !ok) return;
+  // on nettoie l'adresse pour qu'un rechargement ne rejoue pas le message
+  history.replaceState(null, '', location.pathname);
+  if (err) {
+    els.fraicheur.innerHTML = `<div class="frais pb">
+      <span class="pouls" style="background:var(--amber);animation:none"></span>
+      Strava a refusé la connexion (${RBT.escapeHtml(err)}). Réessaie avec « Se connecter à Strava ».</div>`;
+  } else {
+    els.fraicheur.innerHTML = `<div class="frais">
+      <span class="pouls" style="background:var(--moss);animation:none"></span>
+      Compte Strava connecté. Les sorties arrivent.</div>`;
+    setTimeout(() => { if (els.fraicheur.querySelector('.frais')) els.fraicheur.innerHTML = ''; }, 6000);
+  }
+}
+
 // --- Démarrage -------------------------------------------------------------
 async function init() {
+  const messageStrava = new URLSearchParams(location.search).has('strava_error');
+  retourStrava();
   // 1. le cache, tout de suite : la page n'est jamais vide à l'ouverture
   const cache = lireCache();
   if (cache && cache.sorties && cache.sorties.length) {
@@ -421,7 +447,7 @@ async function init() {
     ATHLETE = cache.athlete;
     tout();
     if (ATHLETE) els.statusText.textContent = `${ATHLETE.firstname} ${ATHLETE.lastname}`;
-    bandeau('charge', cache.calcule);
+    if (!messageStrava) bandeau('charge', cache.calcule);
   } else {
     els.content.innerHTML = '<div class="loading-msg">Premier chargement — le serveur se réveille, ça peut prendre 30 secondes.</div>';
   }
@@ -430,7 +456,7 @@ async function init() {
   try {
     const connecte = await RBT.loadAll();
     if (!connecte) {
-      bandeau('aucun');
+      if (!messageStrava) bandeau('aucun');
       els.statusText.textContent = 'Non connecté';
       els.connectBtn.style.display = 'inline-block';
       videPour('Pas encore connecté', 'Connecte ton compte Strava pour voir tes données.');
