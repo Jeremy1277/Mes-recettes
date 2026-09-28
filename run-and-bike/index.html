@@ -139,7 +139,7 @@
 
 <script src="shared.js"></script>
 <script>
-document.getElementById('nav').outerHTML = RBT.renderNav('home');
+document.getElementById('nav').outerHTML = RBT.renderNav();
 document.getElementById('relief-svg-container').outerHTML = RBT.renderReliefSvg();
 
 const els = {
@@ -356,7 +356,7 @@ function blocSport(titre, accent, t, estCourse) {
     ])}
     ${t.fcN
       ? `<p class="note-grille">Fréquence cardiaque relevée sur ${t.fcN} sortie${t.fcN > 1 ? 's' : ''} sur ${t.n} — la moyenne ne porte que sur celles-là.</p>`
-      : `<p class="note-grille">Aucune fréquence cardiaque sur cette période : le capteur n'était pas associé.</p>`}
+      : `<p class="note-grille">Aucune sortie de cette période ne porte de fréquence cardiaque — elle apparaîtra ici dès qu'une sortie en rapportera.</p>`}
   </section>`;
 }
 

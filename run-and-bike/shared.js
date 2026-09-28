@@ -145,26 +145,16 @@ const RBT = {
       .sort((a, b) => new Date(RBT.effectiveDate(b)) - new Date(RBT.effectiveDate(a)));
   },
 
-  // --- Navigation commune ---
-  renderNav(active) {
-    const items = [
-      { key: 'home', href: 'index.html', label: 'Accueil', icon: 'M3 11l9-8 9 8M5 10v9a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1v-9' },
-      { key: 'velo', href: 'velo.html', label: 'Vélo', icon: 'M5 18a3 3 0 100-6 3 3 0 000 6zM19 18a3 3 0 100-6 3 3 0 000 6zM8 18l3-9h3l4 9M9 9h5l-1-3' },
-      { key: 'course', href: 'course.html', label: 'Course', icon: 'M13 4l-2 5 3 2-1 7M9 6a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM6 21l3-6 3 1 2-4M5 13l3-2' },
-    ];
+  /* --- Bandeau de marque ---
+     L'application tenait sur trois pages ; tout est desormais sur l'accueil,
+     il ne reste donc aucun lien a proposer. On garde le bandeau pour le
+     cadrage visuel, sans menu. */
+  renderNav() {
     return `
       <nav class="rbt-nav">
         <div class="rbt-nav-brand">
           <span class="rbt-nav-mark"></span>
           <span>R&amp;B Trainer</span>
-        </div>
-        <div class="rbt-nav-links">
-          ${items.map(i => `
-            <a href="${i.href}" class="rbt-nav-link ${active === i.key ? 'active' : ''}">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="${i.icon}" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>${i.label}</span>
-            </a>
-          `).join('')}
         </div>
       </nav>`;
   },
