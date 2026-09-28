@@ -54,14 +54,42 @@
 }
 @media (max-width: 380px) { .ch { padding: 12px 11px; } }
 .ch .v .u { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-soft); white-space: nowrap; }
+/* la fréquence cardiaque n'est relevée que sur une partie des sorties :
+   on la distingue visuellement pour qu'on ne la lise pas comme le reste */
+.ch.fc { background: var(--bg-raised); }
+.ch.fc .l { color: var(--alert); }
+.note-grille { font-size: 12px; color: var(--ink-faint); margin: 9px 0 0; }
 
 /* le total : même grammaire, mais c'est la somme, donc ça pèse plus lourd */
 .bloc.total { margin-top: 34px; }
 .bloc.total .bloc-tete { border-bottom-width: 3px; }
 .bloc.total .chiffres { background: var(--line-bright); border-color: var(--line-bright); }
 .bloc.total .ch { background: var(--bg-raised); padding: 18px 16px; }
+.bloc.total .ch.fc { background: var(--bg-card); }
 .bloc.total .ch .v { font-size: clamp(21px, 6.5vw, 29px); }
 .periode { font-size: 12.5px; color: var(--ink-faint); margin: 12px 0 0; }
+
+/* choix de la période */
+.filtre {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 12px 14px; margin: 0 0 22px;
+  background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius-sm);
+}
+.filtre label {
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
+}
+.filtre select {
+  font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--ink); background: var(--bg-card);
+  border: 1px solid var(--line-bright); border-radius: var(--radius-sm);
+  padding: 8px 11px; cursor: pointer; min-width: 116px;
+}
+.filtre select:focus-visible { outline: 2px solid var(--signal); outline-offset: 1px; }
+.filtre .resume-periode { margin-left: auto; font-size: 12.5px; color: var(--ink-soft); }
+.filtre .raz {
+  background: none; border: 1px solid var(--line-bright); color: var(--ink-soft);
+  font-size: 12px; padding: 7px 12px;
+}
 
 /* bandeau d'actualisation : les chiffres en cache s'affichent tout de suite,
    ce bandeau dit seulement qu'ils sont en train d'être rafraîchis */
@@ -101,6 +129,7 @@
 
 <main>
   <div id="fraicheur"></div>
+  <div id="filtre"></div>
   <div id="emptyState" class="empty-state" style="display:none;"></div>
   <div id="content"></div>
 </main>
@@ -118,73 +147,164 @@ const els = {
   emptyState: document.getElementById('emptyState'),
   content: document.getElementById('content'),
   fraicheur: document.getElementById('fraicheur'),
+  filtre: document.getElementById('filtre'),
 };
 
 /* ===========================================================
    CACHE — le backend dort sur le free tier Render et met jusqu'à
    30 secondes à se réveiller. Sans cache, la page reste vide tout
-   ce temps. On garde donc le dernier résumé calculé et on l'affiche
-   immédiatement, puis on le remplace quand le serveur répond.
-   Seuls des totaux sont stockés, aucune activité brute.
+   ce temps. On garde donc une projection légère des sorties (une
+   dizaine de nombres chacune, pas les tracés GPS) : la page
+   s'affiche instantanément ET le filtre par mois reste utilisable
+   avant même que le serveur ait répondu.
    =========================================================== */
-const CACHE_KEY = 'rbt_resume_v1';
+const CACHE_KEY = 'rbt_sorties_v1';
 function lireCache() {
   try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
 }
-function ecrireCache(resume) {
-  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ...resume, calcule: Date.now() })); } catch (e) {}
+function ecrireCache(o) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ...o, calcule: Date.now() })); } catch (e) {}
+}
+
+let SORTIES = [];   // projection légère, source de tous les calculs
+let ATHLETE = null;
+
+/* Ne garde d'une activité que ce que cette page affiche. Clés courtes :
+   le tout doit tenir confortablement dans localStorage. */
+function projette() {
+  const exclue = (a) => RBT.state.excludedIds.includes(a.id);
+  const un = (a, sport) => ({
+    d: RBT.effectiveDate(a),
+    s: sport,
+    m: a.distance || 0,
+    t: a.moving_time || 0,
+    dp: a.total_elevation_gain || 0,
+    vm: a.average_speed || 0,
+    vx: a.max_speed || 0,
+    fc: a.average_heartrate || 0,
+    fx: a.max_heartrate || 0,
+  });
+  return [
+    ...RBT.getRides().filter((a) => !exclue(a)).map((a) => un(a, 'velo')),
+    ...RBT.getRuns().filter((a) => !exclue(a)).map((a) => un(a, 'course')),
+  ];
 }
 
 // --- Mise en forme ---------------------------------------------------------
 const nb = (n) => n.toLocaleString('fr-FR');
+const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+/* On arrondit AVANT de découper en heures/minutes : arrondir le reste
+   séparément produit des « 62 h 60 » et des « 5'60" ». */
 function heures(sec) {
-  const h = Math.floor(sec / 3600), m = Math.round((sec % 3600) / 60);
-  return m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`;
+  const min = Math.round(sec / 60);
+  const h = Math.floor(min / 60), m = min % 60;
+  return h ? (m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`) : `${m} min`;
 }
 // En course on raisonne en allure (min/km), jamais en km/h.
-function allure(metres, secondes) {
-  if (!metres || !secondes) return '—';
-  const sParKm = secondes / (metres / 1000);
-  return `${Math.floor(sParKm / 60)}'${String(Math.round(sParKm % 60)).padStart(2, '0')}"`;
+function allureDe(mps) {
+  if (!mps) return '—';
+  const s = Math.round(1000 / mps);
+  return `${Math.floor(s / 60)}'${String(s % 60).padStart(2, '0')}"`;
 }
-function vitesse(metres, secondes) {
-  if (!metres || !secondes) return '—';
-  return ((metres / secondes) * 3.6).toFixed(1);
+function kmh(mps) { return mps ? (mps * 3.6).toFixed(1) : '—'; }
+// Chaque sport dans son unité : km/h à vélo, min/km en course.
+function vit(mps, estCourse) {
+  return estCourse ? { v: allureDe(mps), u: '/km' } : { v: kmh(mps), u: 'km/h' };
 }
 
-/* Additionne un lot d'activités. La vitesse moyenne est calculée sur les
+/* Additionne un lot de sorties. La vitesse moyenne est calculée sur les
    totaux, pas en moyennant les moyennes de chaque sortie : une sortie de
-   5 km ne doit pas peser autant qu'une de 80 km. */
-function cumule(actes) {
-  const t = { n: actes.length, m: 0, sec: 0, dplus: 0, plusLongue: 0, plusHaute: 0, derniere: null, premiere: null };
-  for (const a of actes) {
-    t.m += a.distance || 0;
-    t.sec += a.moving_time || 0;
-    t.dplus += a.total_elevation_gain || 0;
-    if ((a.distance || 0) > t.plusLongue) t.plusLongue = a.distance || 0;
-    if ((a.total_elevation_gain || 0) > t.plusHaute) t.plusHaute = a.total_elevation_gain || 0;
-    const d = RBT.effectiveDate(a);
-    if (!t.derniere || new Date(d) > new Date(t.derniere)) t.derniere = d;
-    if (!t.premiere || new Date(d) < new Date(t.premiere)) t.premiere = d;
+   5 km ne doit pas peser autant qu'une de 80 km.
+   La fréquence cardiaque, elle, n'est relevée que sur une partie des
+   sorties : on la moyenne uniquement sur celles qui en ont, et on compte
+   combien c'en est. */
+function cumule(lot) {
+  const t = {
+    n: lot.length, m: 0, sec: 0, dplus: 0,
+    plusLongue: 0, plusHaute: 0, pointe: 0,
+    rapide: 0, lente: Infinity,
+    fcSomme: 0, fcPoids: 0, fcMax: 0, fcN: 0,
+    derniere: null, premiere: null,
+  };
+  for (const a of lot) {
+    t.m += a.m; t.sec += a.t; t.dplus += a.dp;
+    if (a.m > t.plusLongue) t.plusLongue = a.m;
+    if (a.dp > t.plusHaute) t.plusHaute = a.dp;
+    if (a.vx > t.pointe) t.pointe = a.vx;
+    if (a.vm > t.rapide) t.rapide = a.vm;
+    if (a.vm && a.vm < t.lente) t.lente = a.vm;
+    if (a.fc) { t.fcSomme += a.fc * a.t; t.fcPoids += a.t; t.fcN++; }
+    if (a.fx > t.fcMax) t.fcMax = a.fx;
+    if (!t.derniere || new Date(a.d) > new Date(t.derniere)) t.derniere = a.d;
+    if (!t.premiere || new Date(a.d) < new Date(t.premiere)) t.premiere = a.d;
   }
+  if (t.lente === Infinity) t.lente = 0;
+  t.fcMoy = t.fcPoids ? t.fcSomme / t.fcPoids : 0;
   return t;
 }
 
-function calculeResume() {
-  const vivantes = (list) => list.filter((a) => !RBT.state.excludedIds.includes(a.id));
-  const velos = vivantes(RBT.getRides());
-  const courses = vivantes(RBT.getRuns());
-  return {
-    velo: cumule(velos),
-    course: cumule(courses),
-    tout: cumule([...velos, ...courses]),
-    athlete: RBT.state.athlete,
+// --- Filtre période --------------------------------------------------------
+const periode = { annee: '', mois: '' };   // '' = tout
+
+function filtre(lot) {
+  return lot.filter((a) => {
+    const d = new Date(a.d);
+    if (periode.annee && String(d.getFullYear()) !== periode.annee) return false;
+    if (periode.mois !== '' && d.getMonth() !== Number(periode.mois)) return false;
+    return true;
+  });
+}
+function libellePeriode() {
+  if (!periode.annee && periode.mois === '') return 'Depuis le début';
+  if (periode.annee && periode.mois === '') return `Année ${periode.annee}`;
+  if (!periode.annee) return `Tous les mois de ${MOIS[Number(periode.mois)]}`;
+  return `${MOIS[Number(periode.mois)]} ${periode.annee}`;
+}
+
+function rendFiltre() {
+  const annees = [...new Set(SORTIES.map((a) => new Date(a.d).getFullYear()))].sort((x, y) => y - x);
+  // On ne propose que les mois qui contiennent réellement des sorties :
+  // un menu qui offre des mois vides fait croire à une perte de données.
+  const dispo = new Set(
+    SORTIES.filter((a) => !periode.annee || String(new Date(a.d).getFullYear()) === periode.annee)
+      .map((a) => new Date(a.d).getMonth())
+  );
+  const moisOpts = MOIS.map((nom, i) =>
+    dispo.has(i) ? `<option value="${i}"${String(i) === periode.mois ? ' selected' : ''}>${nom}</option>` : ''
+  ).join('');
+
+  els.filtre.innerHTML = `
+    <div class="filtre">
+      <label for="selAnnee">Année</label>
+      <select id="selAnnee">
+        <option value="">Toutes</option>
+        ${annees.map((a) => `<option value="${a}"${String(a) === periode.annee ? ' selected' : ''}>${a}</option>`).join('')}
+      </select>
+      <label for="selMois">Mois</label>
+      <select id="selMois">
+        <option value="">Tous</option>
+        ${moisOpts}
+      </select>
+      ${(periode.annee || periode.mois !== '') ? '<button class="raz" id="razBtn">Tout voir</button>' : ''}
+      <span class="resume-periode">${libellePeriode()}</span>
+    </div>`;
+
+  document.getElementById('selAnnee').onchange = (e) => {
+    periode.annee = e.target.value;
+    // si le mois choisi n'existe pas dans la nouvelle année, on le relâche
+    const dispo2 = new Set(SORTIES.filter((a) => !periode.annee || String(new Date(a.d).getFullYear()) === periode.annee)
+      .map((a) => new Date(a.d).getMonth()));
+    if (periode.mois !== '' && !dispo2.has(Number(periode.mois))) periode.mois = '';
+    tout();
   };
+  document.getElementById('selMois').onchange = (e) => { periode.mois = e.target.value; tout(); };
+  const raz = document.getElementById('razBtn');
+  if (raz) raz.onclick = () => { periode.annee = ''; periode.mois = ''; tout(); };
 }
 
 // --- Rendu -----------------------------------------------------------------
-function cellule(label, valeur, unite) {
-  return `<div class="ch"><div class="l">${label}</div>
+function cellule(label, valeur, unite, classe) {
+  return `<div class="ch${classe ? ' ' + classe : ''}"><div class="l">${label}</div>
     <div class="v">${valeur}${unite ? ` <span class="u">${unite}</span>` : ''}</div></div>`;
 }
 
@@ -192,9 +312,13 @@ function blocSport(titre, accent, t, estCourse) {
   if (!t.n) {
     return `<section class="bloc" style="--accent:${accent}">
       <div class="bloc-tete"><h2>${titre}</h2></div>
-      <p style="color:var(--ink-soft);font-size:14px">Aucune sortie enregistrée.</p>
+      <p style="color:var(--ink-soft);font-size:14px">Aucune sortie sur cette période.</p>
     </section>`;
   }
+  const moy = vit(t.m / (t.sec || 1), estCourse);
+  const pointe = vit(t.pointe, estCourse);
+  const rapide = vit(t.rapide, estCourse);
+  const lente = vit(t.lente, estCourse);
   return `<section class="bloc" style="--accent:${accent}">
     <div class="bloc-tete">
       <h2>${titre}</h2>
@@ -204,38 +328,53 @@ function blocSport(titre, accent, t, estCourse) {
     <div class="chiffres">
       ${cellule('Dénivelé positif', nb(Math.round(t.dplus)), 'm')}
       ${cellule(estCourse ? 'Temps de course' : 'Temps en selle', heures(t.sec), '')}
-      ${estCourse
-        ? cellule('Allure moyenne', allure(t.m, t.sec), '/km')
-        : cellule('Vitesse moyenne', vitesse(t.m, t.sec), 'km/h')}
+      ${cellule(estCourse ? 'Allure moyenne' : 'Vitesse moyenne', moy.v, moy.u)}
       ${cellule('Sortie moyenne', (t.m / t.n / 1000).toFixed(1), 'km')}
+      ${cellule('Pointe maximale', pointe.v, pointe.u)}
+      ${cellule('Sortie la plus rapide', rapide.v, rapide.u)}
+      ${cellule('Sortie la plus lente', lente.v, lente.u)}
       ${cellule('Plus longue sortie', (t.plusLongue / 1000).toFixed(1), 'km')}
       ${cellule('Plus gros dénivelé', nb(Math.round(t.plusHaute)), 'm')}
-      ${cellule('D+ par kilomètre', Math.round(t.dplus / (t.m / 1000)), 'm/km')}
-      ${cellule('Première sortie', RBT.fmtDate(t.premiere), '')}
+      ${cellule('D+ par kilomètre', t.m ? Math.round(t.dplus / (t.m / 1000)) : '—', 'm/km')}
+      ${t.fcN ? cellule('FC moyenne', Math.round(t.fcMoy), 'bpm', 'fc') : ''}
+      ${t.fcN ? cellule('FC maximale', t.fcMax, 'bpm', 'fc') : ''}
     </div>
+    ${t.fcN
+      ? `<p class="note-grille">Fréquence cardiaque relevée sur ${t.fcN} sortie${t.fcN > 1 ? 's' : ''} sur ${t.n} — la moyenne ne porte que sur celles-là.</p>`
+      : `<p class="note-grille">Aucune fréquence cardiaque sur cette période : le capteur n'était pas associé.</p>`}
   </section>`;
 }
 
-function rendu(r) {
-  const { velo, course, tout } = r;
+function rendu() {
+  const lot = filtre(SORTIES);
+  const velo = cumule(lot.filter((a) => a.s === 'velo'));
+  const course = cumule(lot.filter((a) => a.s === 'course'));
+  const tout_ = cumule(lot);
+
   els.content.innerHTML =
     blocSport('Vélo', 'var(--signal)', velo, false) +
     blocSport('Course à pied', 'var(--moss)', course, true) +
     `<section class="bloc total" style="--accent:var(--ink)">
       <div class="bloc-tete">
         <h2>Total</h2>
-        <div class="compte">vélo + course à pied</div>
+        <div class="compte">vélo + course à pied<br>${libellePeriode().toLowerCase()}</div>
       </div>
-      <div class="phare"><span class="n" style="color:var(--ink)">${nb(Math.round(tout.m / 1000))}</span><span class="u">km au compteur</span></div>
+      <div class="phare"><span class="n" style="color:var(--ink)">${nb(Math.round(tout_.m / 1000))}</span><span class="u">km au compteur</span></div>
       <div class="chiffres">
-        ${cellule('Sorties', nb(tout.n), '')}
-        ${cellule('Dénivelé positif', nb(Math.round(tout.dplus)), 'm')}
-        ${cellule('Temps total', heures(tout.sec), '')}
-        ${cellule('Vitesse moyenne', vitesse(tout.m, tout.sec), 'km/h')}
+        ${cellule('Sorties', nb(tout_.n), '')}
+        ${cellule('Dénivelé positif', nb(Math.round(tout_.dplus)), 'm')}
+        ${cellule('Temps total', heures(tout_.sec), '')}
+        ${cellule('Vitesse moyenne', kmh(tout_.m / (tout_.sec || 1)), 'km/h')}
+        ${tout_.fcN ? cellule('FC moyenne', Math.round(tout_.fcMoy), 'bpm', 'fc') : ''}
+        ${tout_.fcN ? cellule('FC maximale', tout_.fcMax, 'bpm', 'fc') : ''}
+        ${cellule('Pointe maximale', kmh(tout_.pointe), 'km/h')}
+        ${cellule('Plus longue sortie', (tout_.plusLongue / 1000).toFixed(1), 'km')}
       </div>
-      ${tout.premiere ? `<p class="periode">Du ${RBT.fmtDateLong(tout.premiere)} au ${RBT.fmtDateLong(tout.derniere)}.</p>` : ''}
+      ${tout_.premiere ? `<p class="periode">Du ${RBT.fmtDateLong(tout_.premiere)} au ${RBT.fmtDateLong(tout_.derniere)}.</p>` : ''}
     </section>`;
 }
+
+function tout() { rendFiltre(); rendu(); }
 
 function bandeau(etat, quand) {
   if (etat === 'aucun') { els.fraicheur.innerHTML = ''; return; }
@@ -251,13 +390,22 @@ function bandeau(etat, quand) {
   }
 }
 
+function videPour(titre, texte) {
+  els.filtre.innerHTML = '';
+  els.content.innerHTML = '';
+  els.emptyState.style.display = 'block';
+  els.emptyState.innerHTML = `<h2>${titre}</h2><p>${texte}</p>`;
+}
+
 // --- Démarrage -------------------------------------------------------------
 async function init() {
   // 1. le cache, tout de suite : la page n'est jamais vide à l'ouverture
   const cache = lireCache();
-  if (cache) {
-    rendu(cache);
-    if (cache.athlete) els.statusText.textContent = `${cache.athlete.firstname} ${cache.athlete.lastname}`;
+  if (cache && cache.sorties && cache.sorties.length) {
+    SORTIES = cache.sorties;
+    ATHLETE = cache.athlete;
+    tout();
+    if (ATHLETE) els.statusText.textContent = `${ATHLETE.firstname} ${ATHLETE.lastname}`;
     bandeau('charge', cache.calcule);
   } else {
     els.content.innerHTML = '<div class="loading-msg">Premier chargement — le serveur se réveille, ça peut prendre 30 secondes.</div>';
@@ -270,34 +418,30 @@ async function init() {
       bandeau('aucun');
       els.statusText.textContent = 'Non connecté';
       els.connectBtn.style.display = 'inline-block';
-      els.content.innerHTML = '';
-      els.emptyState.style.display = 'block';
-      els.emptyState.innerHTML = '<h2>Pas encore connecté</h2><p>Connecte ton compte Strava pour voir tes données.</p>';
+      videPour('Pas encore connecté', 'Connecte ton compte Strava pour voir tes données.');
       return;
     }
     els.statusDot.classList.remove('off');
     els.statusText.textContent = `Connecté — ${RBT.state.athlete.firstname} ${RBT.state.athlete.lastname}`;
 
-    if (!RBT.state.activities.length) {
+    SORTIES = projette();
+    ATHLETE = RBT.state.athlete;
+    if (!SORTIES.length) {
       bandeau('aucun');
-      els.content.innerHTML = '';
-      els.emptyState.style.display = 'block';
-      els.emptyState.innerHTML = '<h2>Aucune activité</h2><p>Clique sur Sync pour récupérer tes données Strava.</p>';
+      videPour('Aucune activité', 'Clique sur Sync pour récupérer tes données Strava.');
       return;
     }
-    const r = calculeResume();
-    rendu(r);
-    ecrireCache(r);
+    els.emptyState.style.display = 'none';
+    tout();
+    ecrireCache({ sorties: SORTIES, athlete: ATHLETE });
     bandeau('aucun');
   } catch (err) {
     // Le serveur n'a pas répondu : on garde ce qui est affiché, et on le dit.
-    if (cache) {
-      bandeau('vieux', cache.calcule);
+    if (SORTIES.length) {
+      bandeau('vieux', cache && cache.calcule);
     } else {
       bandeau('aucun');
-      els.content.innerHTML = '';
-      els.emptyState.style.display = 'block';
-      els.emptyState.innerHTML = '<h2>Serveur injoignable</h2><p>Il s\'endort après 15 minutes sans visite et met jusqu\'à 30 secondes à revenir. Réessaie avec Sync.</p>';
+      videPour('Serveur injoignable', 'Il s\'endort après 15 minutes sans visite et met jusqu\'à 30 secondes à revenir. Réessaie avec Sync.');
     }
     els.statusText.textContent = 'Serveur injoignable';
   }
@@ -311,11 +455,12 @@ els.syncBtn.addEventListener('click', async () => {
   try {
     await RBT.sync();
     await RBT.loadAll();
-    const r = calculeResume();
-    rendu(r);
-    ecrireCache(r);
-    bandeau('aucun');
+    SORTIES = projette();
+    ATHLETE = RBT.state.athlete;
     els.emptyState.style.display = 'none';
+    tout();
+    ecrireCache({ sorties: SORTIES, athlete: ATHLETE });
+    bandeau('aucun');
   } catch (err) {
     alert('Le serveur n\'a pas répondu. Il met parfois 30 secondes à se réveiller — réessaie.');
   }
