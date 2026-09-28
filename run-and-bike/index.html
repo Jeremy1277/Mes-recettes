@@ -391,7 +391,12 @@ function rendu() {
 
 function tout() { rendFiltre(); rendu(); }
 
+/* Vrai quand un message de retour Strava occupe le bandeau. Il doit survivre
+   au rendu normal : sans ce verrou, le bandeau('aucun') declenche des que le
+   serveur repond effaçait le message d'erreur avant qu'on ait pu le lire. */
+let stravaFige = false;
 function bandeau(etat, quand) {
+  if (stravaFige) return;
   if (etat === 'aucun') { els.fraicheur.innerHTML = ''; return; }
   const maj = quand
     ? `<span class="maj">${new Date(quand).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>`
@@ -424,7 +429,9 @@ function retourStrava() {
   if (!err && !ok) return;
   // on nettoie l'adresse pour qu'un rechargement ne rejoue pas le message
   history.replaceState(null, '', location.pathname);
+  stravaFige = true;
   if (err) {
+    // une erreur reste affichée : elle demande une action
     els.fraicheur.innerHTML = `<div class="frais pb">
       <span class="pouls" style="background:var(--amber);animation:none"></span>
       Strava a refusé la connexion (${RBT.escapeHtml(err)}). Réessaie avec « Se connecter à Strava ».</div>`;
@@ -432,13 +439,12 @@ function retourStrava() {
     els.fraicheur.innerHTML = `<div class="frais">
       <span class="pouls" style="background:var(--moss);animation:none"></span>
       Compte Strava connecté. Les sorties arrivent.</div>`;
-    setTimeout(() => { if (els.fraicheur.querySelector('.frais')) els.fraicheur.innerHTML = ''; }, 6000);
+    setTimeout(() => { stravaFige = false; els.fraicheur.innerHTML = ''; }, 6000);
   }
 }
 
 // --- Démarrage -------------------------------------------------------------
 async function init() {
-  const messageStrava = new URLSearchParams(location.search).has('strava_error');
   retourStrava();
   // 1. le cache, tout de suite : la page n'est jamais vide à l'ouverture
   const cache = lireCache();
@@ -447,7 +453,7 @@ async function init() {
     ATHLETE = cache.athlete;
     tout();
     if (ATHLETE) els.statusText.textContent = `${ATHLETE.firstname} ${ATHLETE.lastname}`;
-    if (!messageStrava) bandeau('charge', cache.calcule);
+    bandeau('charge', cache.calcule);
   } else {
     els.content.innerHTML = '<div class="loading-msg">Premier chargement — le serveur se réveille, ça peut prendre 30 secondes.</div>';
   }
@@ -456,7 +462,7 @@ async function init() {
   try {
     const connecte = await RBT.loadAll();
     if (!connecte) {
-      if (!messageStrava) bandeau('aucun');
+      bandeau('aucun');
       els.statusText.textContent = 'Non connecté';
       els.connectBtn.style.display = 'inline-block';
       videPour('Pas encore connecté', 'Connecte ton compte Strava pour voir tes données.');
