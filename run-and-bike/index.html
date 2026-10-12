@@ -45,7 +45,7 @@
 .ch { background: var(--bg-card); padding: 14px 16px; min-width: 0; }
 .ch .l {
   font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-faint); margin: 0 0 7px;
+  color: var(--ink-label); margin: 0 0 7px;
 }
 .ch .v {
   font-family: 'DM Mono', monospace; font-size: clamp(18px, 5.4vw, 23px);
@@ -74,8 +74,12 @@
 
 /* Deux teintes de plus que la feuille commune : le bleu de l'eau pour la
    natation, et un lilas pour ce qui n'est pas un sport (récupération, repos).
-   Elles sont posées ici pour que la page reste le seul fichier à déposer. */
-:root { --eau: #5aa9ff; --calme: #b9a7f0; }
+   Elles sont posées ici pour que la page reste le seul fichier à déposer.
+   --ink-label : le gris des petits titres en capitales. Le gris d'origine
+   (--ink-faint) ne faisait que 2,5:1 de contraste sur les cartes, illisible
+   dehors sur un téléphone ; celui-ci monte à 9:1 et reste sous le blanc des
+   chiffres. */
+:root { --eau: #5aa9ff; --calme: #b9a7f0; --ink-label: #c3c9d0; }
 
 /* la dernière sortie : un rappel, donc plus ramassé que les blocs de cumul */
 .bloc.derniere { margin-bottom: 30px; }
@@ -101,7 +105,7 @@
 }
 .phases-titre {
   font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-faint); padding: 13px 16px 9px;
+  color: var(--ink-label); padding: 13px 16px 9px;
 }
 .phase {
   display: flex; align-items: baseline; gap: 12px;
@@ -128,7 +132,7 @@
   background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius-sm);
 }
 .filtre label {
-  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-label);
 }
 .filtre select {
   font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600;
