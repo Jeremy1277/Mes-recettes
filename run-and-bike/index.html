@@ -72,6 +72,37 @@
 .bloc.total .ch .v { font-size: clamp(21px, 6.5vw, 29px); }
 .periode { font-size: 12.5px; color: var(--ink-faint); margin: 12px 0 0; }
 
+/* le repos : ni vélo ni course, donc une troisième teinte, froide */
+.bloc.repos { --accent: #8fb8e8; margin-top: 34px; }
+.bloc.repos .phare .u { max-width: 15em; line-height: 1.3; }
+.ch.encours { background: var(--bg-raised); }
+.ch.encours .l { color: var(--accent); }
+.phases {
+  margin: 16px 0 0; border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; background: var(--bg-card);
+}
+.phases-titre {
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); padding: 13px 16px 9px;
+}
+.phase {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 10px 16px; border-top: 1px solid var(--line); font-size: 13.5px;
+}
+.phase .qui { min-width: 0; color: var(--ink); display: flex; flex-wrap: wrap; gap: 3px 0; }
+.phase .cote { white-space: nowrap; }
+/* en étroit les deux côtés ne tiennent pas toujours sur une ligne : on les
+   empile partout plutôt que de laisser une ligne sur six faire exception */
+@media (max-width: 520px) { .phase .cote { flex-basis: 100%; } .phase .fleche { margin-left: 0; } }
+.phase .quand { font-family: 'DM Mono', monospace; font-size: 12.5px; color: var(--ink-soft); }
+.phase .fleche { color: var(--ink-faint); margin: 0 9px; }
+.phase .d {
+  margin-left: auto; white-space: nowrap;
+  font-family: 'DM Mono', monospace; font-weight: 500; font-variant-numeric: tabular-nums;
+}
+.phase .d .u { font-family: 'Space Grotesk', sans-serif; font-size: 12px; color: var(--ink-soft); }
+.pastille { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
+
 /* choix de la période */
 .filtre {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
@@ -181,6 +212,9 @@ function projette() {
     s: sport,
     m: a.distance || 0,
     t: a.moving_time || 0,
+    // durée écoulée, pauses comprises : c'est elle qui donne l'heure de fin
+    // de la sortie, donc le début du repos qui suit
+    e: a.elapsed_time || a.moving_time || 0,
     dp: a.total_elevation_gain || 0,
     vm: a.average_speed || 0,
     vx: a.max_speed || 0,
@@ -246,17 +280,73 @@ function cumule(lot) {
   return t;
 }
 
+// --- Repos entre deux sorties ----------------------------------------------
+/* Une phase de repos va de la fin d'une sortie au départ de la suivante.
+   La fin, c'est le départ + la durée écoulée (pauses comprises) et non le
+   temps en mouvement : un arrêt café fait partie de la sortie, pas du repos. */
+const HEURE = 3600, JOUR = 86400;
+
+/* Une date corrigée à la main peut ne porter aucune heure (« 2026-05-01 »).
+   Lue telle quelle elle vaudrait minuit UTC ; on la place à midi, ce qui
+   borne l'erreur à une demi-journée au lieu d'une journée entière. */
+function debutMs(a) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(a.d) ? new Date(`${a.d}T12:00:00`).getTime() : new Date(a.d).getTime();
+}
+function finMs(a) { return debutMs(a) + (a.e || a.t || 0) * 1000; }
+
+/* Pour chaque sortie d'un historique, le repos qui l'a précédée. On repart de
+   la sortie qui a fini le plus tard, pas simplement de celle qui a démarré
+   juste avant : deux enregistrements qui se chevauchent (doublon montre +
+   compteur) donneraient sinon un repos qui commence au milieu d'une sortie.
+   Un chevauchement vaut zéro repos, jamais un repos négatif. */
+function phasesRepos(historique) {
+  const tri = [...historique].sort((x, y) => debutMs(x) - debutMs(y));
+  const phases = [];
+  let avant = tri[0];
+  for (let i = 1; i < tri.length; i++) {
+    const apres = tri[i];
+    phases.push({ avant, apres, sec: Math.max(0, (debutMs(apres) - finMs(avant)) / 1000) });
+    if (finMs(apres) > finMs(avant)) avant = apres;
+  }
+  return phases;
+}
+
+function cumuleRepos(phases) {
+  const r = { n: phases.length, moy: 0, mediane: 0, long: null, court: null, enchainees: 0, coupures: 0 };
+  if (!r.n) return r;
+  let somme = 0;
+  for (const p of phases) {
+    somme += p.sec;
+    if (!r.long || p.sec > r.long.sec) r.long = p;
+    if (!r.court || p.sec < r.court.sec) r.court = p;
+    if (p.sec < JOUR) r.enchainees++;
+    if (p.sec >= 7 * JOUR) r.coupures++;
+  }
+  r.moy = somme / r.n;
+  const tri = phases.map((p) => p.sec).sort((x, y) => x - y);
+  const m = Math.floor(r.n / 2);
+  r.mediane = r.n % 2 ? tri[m] : (tri[m - 1] + tri[m]) / 2;
+  return r;
+}
+
+/* Un repos se lit en heures tant qu'il est court, en jours au-delà : « 53 h »
+   ne parle à personne, « 0.3 j » non plus. */
+function dureeRepos(sec) {
+  if (sec < HEURE) return { v: String(Math.round(sec / 60)), u: 'min', long: 'minutes' };
+  if (sec < 2 * JOUR) return { v: String(Math.round(sec / HEURE)), u: 'h', long: 'heures' };
+  return { v: (sec / JOUR).toFixed(1), u: 'j', long: 'jours' };
+}
+
 // --- Filtre période --------------------------------------------------------
 const periode = { annee: '', mois: '' };   // '' = tout
 
-function filtre(lot) {
-  return lot.filter((a) => {
-    const d = new Date(a.d);
-    if (periode.annee && String(d.getFullYear()) !== periode.annee) return false;
-    if (periode.mois !== '' && d.getMonth() !== Number(periode.mois)) return false;
-    return true;
-  });
+function dansPeriode(a) {
+  const d = new Date(a.d);
+  if (periode.annee && String(d.getFullYear()) !== periode.annee) return false;
+  if (periode.mois !== '' && d.getMonth() !== Number(periode.mois)) return false;
+  return true;
 }
+function filtre(lot) { return lot.filter(dansPeriode); }
 function libellePeriode() {
   if (!periode.annee && periode.mois === '') return 'Depuis le début';
   if (periode.annee && periode.mois === '') return `Année ${periode.annee}`;
@@ -360,6 +450,66 @@ function blocSport(titre, accent, t, estCourse) {
   </section>`;
 }
 
+/* Le repos se mesure sur l'historique entier, puis on garde les phases qui
+   précèdent une sortie de la période. Calculer sur le lot filtré donnerait,
+   avec « tous les mois de mars », un repos de onze mois entre le dernier mars
+   et le suivant — un trou du filtre, pas un repos. */
+function reposPeriode(historique) {
+  return phasesRepos(historique).filter((p) => dansPeriode(p.apres));
+}
+
+function ligneCote(a) {
+  const velo = a.s === 'velo';
+  return `<span class="pastille" style="background:var(${velo ? '--signal' : '--moss'})"></span>${velo ? 'Vélo' : 'Course'} <span class="quand">${RBT.fmtDate(a.d)}</span>`;
+}
+
+function blocRepos() {
+  const tete = (compte) => `<div class="bloc-tete"><h2>Repos</h2>${compte ? `<div class="compte">${compte}</div>` : ''}</div>`;
+  const phases = reposPeriode(SORTIES);
+  if (!phases.length) {
+    return `<section class="bloc repos">${tete('')}
+      <p style="color:var(--ink-soft);font-size:14px">Il faut au moins deux sorties pour mesurer un repos — aucune phase sur cette période.</p>
+    </section>`;
+  }
+  const r = cumuleRepos(phases);
+  const velo = cumuleRepos(reposPeriode(SORTIES.filter((a) => a.s === 'velo')));
+  const course = cumuleRepos(reposPeriode(SORTIES.filter((a) => a.s === 'course')));
+  /* En tête, le repos habituel (la médiane) et non la moyenne : une seule
+     coupure d'hiver suffit à tirer la moyenne loin de ce qu'on fait vraiment
+     d'une semaine sur l'autre. La moyenne reste affichée juste en dessous. */
+  const habituel = dureeRepos(r.mediane);
+  const cell = (label, sec, classe) => { const d = dureeRepos(sec); return cellule(label, d.v, d.u, classe); };
+
+  // Le repos en cours n'a de sens que si la période va jusqu'à la dernière sortie connue.
+  const derniere = SORTIES.reduce((x, a) => (!x || finMs(a) > finMs(x) ? a : x), null);
+  const enCours = derniere && dansPeriode(derniere) ? Math.max(0, (Date.now() - finMs(derniere)) / 1000) : null;
+
+  const recentes = [...phases].sort((x, y) => debutMs(y.apres) - debutMs(x.apres)).slice(0, 6);
+
+  return `<section class="bloc repos">
+    ${tete(`${nb(r.n)} phase${r.n > 1 ? 's' : ''} de repos<br>vélo et course confondus`)}
+    <div class="phare"><span class="n">${habituel.v}</span><span class="u">${habituel.long} de repos, le plus souvent, entre deux sorties</span></div>
+    ${grille([
+      cell('Repos moyen', r.moy),
+      cell('Plus long repos', r.long.sec),
+      cell('Plus court repos', r.court.sec),
+      enCours !== null ? cell('Repos en cours', enCours, 'encours') : '',
+      velo.n ? cell('Habituel entre deux vélos', velo.mediane) : '',
+      course.n ? cell('Habituel entre deux courses', course.mediane) : '',
+      cellule('Sorties enchaînées', nb(r.enchainees), 'moins de 24 h'),
+      cellule('Coupures', nb(r.coupures), '7 jours et plus'),
+    ])}
+    <p class="note-grille">Un repos va de la fin d'une sortie (pauses comprises) au départ de la suivante. « Habituel » est la médiane : la moitié des repos sont plus courts, l'autre moitié plus longs. Plus long repos : du ${RBT.fmtDate(r.long.avant.d)} au ${RBT.fmtDate(r.long.apres.d)}.</p>
+    <div class="phases">
+      <div class="phases-titre">Dernières phases de repos</div>
+      ${recentes.map((p) => { const d = dureeRepos(p.sec); return `<div class="phase">
+        <span class="qui"><span class="cote">${ligneCote(p.avant)}</span><span class="cote"><span class="fleche">→</span>${ligneCote(p.apres)}</span></span>
+        <span class="d">${d.v} <span class="u">${d.u}</span></span>
+      </div>`; }).join('')}
+    </div>
+  </section>`;
+}
+
 function rendu() {
   const lot = filtre(SORTIES);
   const velo = cumule(lot.filter((a) => a.s === 'velo'));
@@ -386,7 +536,8 @@ function rendu() {
         tout_.fcN ? cellule('FC maximale', tout_.fcMax, 'bpm', 'fc') : '',
       ])}
       ${tout_.premiere ? `<p class="periode">Du ${RBT.fmtDateLong(tout_.premiere)} au ${RBT.fmtDateLong(tout_.derniere)}.</p>` : ''}
-    </section>`;
+    </section>` +
+    blocRepos();
 }
 
 function tout() { rendFiltre(); rendu(); }
