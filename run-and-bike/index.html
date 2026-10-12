@@ -72,6 +72,13 @@
 .bloc.total .ch .v { font-size: clamp(21px, 6.5vw, 29px); }
 .periode { font-size: 12.5px; color: var(--ink-faint); margin: 12px 0 0; }
 
+/* la récupération : la seule partie de la page qui parle de demain, et qui
+   ne dépend pas du filtre — elle passe donc au-dessus de lui */
+.bloc.recup { --accent: #8fb8e8; margin-bottom: 30px; }
+.bloc.recup .phare .u { max-width: 17em; line-height: 1.3; }
+.ch.pret .v { color: var(--moss); }
+.ch.attente .v .u { color: var(--accent); }
+
 /* le repos : ni vélo ni course, donc une troisième teinte, froide */
 .bloc.repos { --accent: #8fb8e8; margin-top: 34px; }
 .bloc.repos .phare .u { max-width: 15em; line-height: 1.3; }
@@ -163,6 +170,7 @@
 
 <main>
   <div id="fraicheur"></div>
+  <div id="recup"></div>
   <div id="filtre"></div>
   <div id="emptyState" class="empty-state" style="display:none;"></div>
   <div id="content"></div>
@@ -182,6 +190,7 @@ const els = {
   content: document.getElementById('content'),
   fraicheur: document.getElementById('fraicheur'),
   filtre: document.getElementById('filtre'),
+  recup: document.getElementById('recup'),
 };
 
 /* ===========================================================
@@ -335,6 +344,97 @@ function dureeRepos(sec) {
   if (sec < HEURE) return { v: String(Math.round(sec / 60)), u: 'min', long: 'minutes' };
   if (sec < 2 * JOUR) return { v: String(Math.round(sec / HEURE)), u: 'h', long: 'heures' };
   return { v: (sec / JOUR).toFixed(1), u: 'j', long: 'jours' };
+}
+
+// --- Récupération conseillée -----------------------------------------------
+/* Combien de temps laisser passer avant la prochaine sortie, d'après les
+   dernières. Deux étages :
+
+   1. La CHARGE d'une sortie = heures × intensité² × 100 (le principe du TSS :
+      une heure à fond vaut 100 points). L'intensité est la vitesse de la
+      sortie rapportée à ta vitesse « seuil », celle que tu tiendrais une
+      heure à fond. Ce seuil n'est pas saisi : il est déduit de ta meilleure
+      sortie des douze derniers mois, ramenée à une heure par la loi de
+      Riegel (la vitesse tenable baisse d'environ 4 % quand la durée double).
+      Le dénivelé est converti en plat équivalent.
+
+   2. Le DÉLAI = charge × un nombre d'heures par point, propre au sport : la
+      course casse plus que le vélo (chocs), elle coûte donc plus cher. Et un
+      effort intense repousse surtout la prochaine séance dure, pas la
+      prochaine sortie tranquille.
+
+   Les constantes ci-dessous sont calées sur les repères d'entraîneur usuels :
+   footing d'une heure -> 24 h ; 10 km à fond -> 2 jours avant de recourir,
+   6 avant une séance dure ; semi à fond -> 4 jours et 12 jours ; marathon ->
+   une semaine et trois semaines ; 2 h de vélo en endurance -> 24 h.
+   C'est une estimation, pas une mesure : on ne connaît ni le sommeil, ni les
+   douleurs, ni la fréquence cardiaque de repos. */
+const RECUP = {
+  riegel: 0.0566,                          // vitesse tenable ∝ durée^-0.0566
+  platParMetreDplus: { course: 10, velo: 15 },   // 100 m de D+ = 1 km de plat à pied, 1,5 km à vélo
+  heuresParPoint: { course: 0.45, velo: 0.24 },  // délai avant une sortie tranquille du même sport
+  autreSport: { course: 0.5, velo: 1 },    // après une course, le vélo (sans chocs) revient deux fois plus vite
+  intensiteFacile: 0.75,                   // en dessous, aucune pénalité pour la séance dure suivante
+  penteIntense: { course: 2, velo: 1 },    // pénalité par tranche de 0,20 d'intensité au-dessus
+  intensiteMin: 0.5, intensiteMax: 1.1,
+  intensiteParDefaut: 0.75,                // sortie sans distance (saisie à la main, home-trainer)
+  seuilSur: { course: { t: 1200, m: 3000 }, velo: { t: 1200, m: 10000 } },  // sorties assez longues pour juger
+  memoire: 365 * JOUR,                     // le seuil se lit sur les douze derniers mois
+  horizon: 45 * JOUR,                      // au-delà, une sortie ne pèse plus sur rien
+};
+
+function vitessePlat(a) { return a.t ? (a.m + RECUP.platParMetreDplus[a.s] * a.dp) / a.t : 0; }
+
+/* Vitesse seuil au moment d'une sortie : la meilleure vitesse « ramenée à une
+   heure » parmi les sorties du même sport des douze mois précédents, elle
+   comprise. */
+function vitesseSeuil(a) {
+  const fin = debutMs(a), mini = RECUP.seuilSur[a.s];
+  let best = 0;
+  for (const b of SORTIES) {
+    if (b.s !== a.s || b.t < mini.t || b.m < mini.m) continue;
+    const quand = debutMs(b);
+    if (quand > fin || quand < fin - RECUP.memoire * 1000) continue;
+    const v = vitessePlat(b) * Math.pow(b.t / HEURE, RECUP.riegel);
+    if (v > best) best = v;
+  }
+  return best;
+}
+
+function intensiteDe(a) {
+  if (!a.m || !a.t) return RECUP.intensiteParDefaut;
+  const seuil = vitesseSeuil(a);
+  // aucune référence : on suppose la sortie courue à fond, c'est le côté prudent
+  const brut = seuil ? vitessePlat(a) / seuil : Math.pow(a.t / HEURE, -RECUP.riegel);
+  return Math.min(RECUP.intensiteMax, Math.max(RECUP.intensiteMin, brut));
+}
+
+/* Ce qu'une sortie impose : sa charge, et trois échéances comptées depuis sa fin. */
+function recupDe(a) {
+  const intensite = intensiteDe(a);
+  const charge = (a.t / HEURE) * intensite * intensite * 100;
+  const base = RECUP.heuresParPoint[a.s] * charge * HEURE;                       // même sport, tranquille
+  const autre = base * RECUP.autreSport[a.s];                                    // l'autre sport, tranquille
+  const surcote = Math.max(0, (intensite - RECUP.intensiteFacile) / 0.2);
+  const fin = finMs(a);
+  return {
+    sortie: a, intensite, charge,
+    velo: fin + (a.s === 'velo' ? base : autre) * 1000,
+    course: fin + (a.s === 'course' ? base : autre) * 1000,
+    intense: fin + base * (1 + RECUP.penteIntense[a.s] * surcote) * 1000,
+  };
+}
+
+/* La fatigue ne vient pas que de la dernière sortie : un vélo tranquille deux
+   jours après un semi n'efface pas le semi. Chaque échéance est donc la plus
+   tardive de celles qu'imposent les sorties récentes. */
+function etatRecup(maintenant) {
+  const recentes = SORTIES.filter((a) => a.t && finMs(a) <= maintenant && finMs(a) > maintenant - RECUP.horizon * 1000);
+  if (!recentes.length) return null;
+  const calculs = recentes.map(recupDe);
+  const pire = (cle) => calculs.reduce((x, c) => (c[cle] > x[cle] ? c : x));
+  const derniere = calculs.reduce((x, c) => (finMs(c.sortie) > finMs(x.sortie) ? c : x));
+  return { derniere, velo: pire('velo'), course: pire('course'), intense: pire('intense') };
 }
 
 // --- Filtre période --------------------------------------------------------
@@ -510,6 +610,67 @@ function blocRepos() {
   </section>`;
 }
 
+function nomSortie(a) {
+  return `${a.s === 'velo' ? 'ton vélo' : 'ta course'} du ${RBT.fmtDate(a.d)}`;
+}
+function resumeSortie(a) {
+  return `${(a.m / 1000).toFixed(1)} km en ${heures(a.t)}`;
+}
+
+function rendRecup() {
+  const maintenant = Date.now();
+  const e = etatRecup(maintenant);
+  if (!e) { els.recup.innerHTML = ''; return; }
+
+  const jour = (ms) => new Date(ms).toLocaleDateString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+  const echeance = (label, c, cle) => {
+    const reste = (c[cle] - maintenant) / 1000;
+    if (reste <= 0) return cellule(label, 'Possible', `depuis ${jour(c[cle])}`, 'pret');
+    const d = dureeRepos(reste);
+    return cellule(label, jour(c[cle]), `dans ${d.v} ${d.u}`, 'attente');
+  };
+
+  // Le chiffre en tête répond à la question qu'on se pose en ouvrant la page :
+  // est-ce que je peux y retourner, et sinon dans combien de temps.
+  const resteCourse = (e.course.course - maintenant) / 1000;
+  const resteVelo = (e.velo.velo - maintenant) / 1000;
+  const resteIntense = (e.intense.intense - maintenant) / 1000;
+  let phare;
+  if (resteCourse > 0) {
+    const d = dureeRepos(resteCourse);
+    phare = `<span class="n">${d.v}</span><span class="u">${d.long} avant de recourir tranquillement${resteVelo <= 0 ? ' — le vélo, lui, est déjà possible' : ''}</span>`;
+  } else if (resteVelo > 0) {
+    const d = dureeRepos(resteVelo);
+    phare = `<span class="n">${d.v}</span><span class="u">${d.long} avant de remonter sur le vélo — la course tranquille est déjà possible</span>`;
+  } else if (resteIntense > 0) {
+    const d = dureeRepos(resteIntense);
+    phare = `<span class="n" style="color:var(--moss)">Prêt</span><span class="u">pour une sortie tranquille — encore ${d.v} ${d.u} avant une séance intense</span>`;
+  } else {
+    phare = `<span class="n" style="color:var(--moss)">Prêt</span><span class="u">pour n'importe quelle séance, à vélo comme à pied</span>`;
+  }
+
+  const d = e.derniere, a = d.sortie;
+  // quand ce n'est pas la dernière sortie qui retarde la séance intense, on dit laquelle
+  const frein = e.intense.sortie !== a && resteIntense > 0
+    ? ` La séance intense reste retardée par ${nomSortie(e.intense.sortie)} (${resumeSortie(e.intense.sortie)}).`
+    : '';
+
+  els.recup.innerHTML = `<section class="bloc recup">
+    <div class="bloc-tete">
+      <h2>Récupération</h2>
+      <div class="compte">après ${nomSortie(a)}<br>${resumeSortie(a)}</div>
+    </div>
+    <div class="phare">${phare}</div>
+    ${grille([
+      echeance('Vélo tranquille', e.velo, 'velo'),
+      echeance('Course tranquille', e.course, 'course'),
+      echeance('Séance intense ou longue', e.intense, 'intense'),
+      cellule('Dernier effort', Math.round(d.intensite * 100), '% de ton seuil'),
+    ])}
+    <p class="note-grille">Estimation tirée de la durée et de l'intensité de tes sorties des 45 derniers jours (charge de la dernière : ${Math.round(d.charge)} points, 100 = une heure à fond).${frein} Des jambes lourdes ou une douleur passent avant ce calendrier.</p>
+  </section>`;
+}
+
 function rendu() {
   const lot = filtre(SORTIES);
   const velo = cumule(lot.filter((a) => a.s === 'velo'));
@@ -540,7 +701,7 @@ function rendu() {
     blocRepos();
 }
 
-function tout() { rendFiltre(); rendu(); }
+function tout() { rendRecup(); rendFiltre(); rendu(); }
 
 /* Vrai quand un message de retour Strava occupe le bandeau. Il doit survivre
    au rendu normal : sans ce verrou, le bandeau('aucun') declenche des que le
@@ -562,6 +723,7 @@ function bandeau(etat, quand) {
 }
 
 function videPour(titre, texte) {
+  els.recup.innerHTML = '';
   els.filtre.innerHTML = '';
   els.content.innerHTML = '';
   els.emptyState.style.display = 'block';
