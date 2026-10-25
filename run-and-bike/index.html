@@ -45,7 +45,7 @@
 .ch { background: var(--bg-card); padding: 14px 16px; min-width: 0; }
 .ch .l {
   font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-faint); margin: 0 0 7px;
+  color: var(--ink-label); margin: 0 0 7px;
 }
 .ch .v {
   font-family: 'DM Mono', monospace; font-size: clamp(18px, 5.4vw, 23px);
@@ -74,8 +74,73 @@
 
 /* Deux teintes de plus que la feuille commune : le bleu de l'eau pour la
    natation, et un lilas pour ce qui n'est pas un sport (récupération, repos).
-   Elles sont posées ici pour que la page reste le seul fichier à déposer. */
-:root { --eau: #5aa9ff; --calme: #b9a7f0; }
+   Elles sont posées ici pour que la page reste le seul fichier à déposer.
+   --ink-label : le gris des petits titres en capitales. Le gris d'origine
+   (--ink-faint) ne faisait que 2,5:1 de contraste sur les cartes, illisible
+   dehors sur un téléphone ; celui-ci monte à 9:1 et reste sous le blanc des
+   chiffres. */
+:root { --eau: #5aa9ff; --calme: #b9a7f0; --ink-label: #c3c9d0; }
+
+/* l'objectif : les trois séances de la semaine, taillées sur ce qui a été fait */
+.bloc.objectif { --accent: var(--amber); margin-bottom: 30px; }
+.bloc.objectif .phare .u { max-width: 22em; line-height: 1.3; }
+.seances { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; }
+@media (max-width: 720px) { .seances { grid-template-columns: 1fr; } }
+.seance {
+  background: var(--bg-card); border: 1px solid var(--line); border-top: 3px solid var(--accent-s);
+  border-radius: var(--radius); padding: 14px 16px; min-width: 0; display: flex; flex-direction: column;
+}
+.seance .sport { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-s); font-weight: 700; }
+.seance .cible {
+  font-family: 'DM Mono', monospace; font-size: 32px; font-weight: 500; line-height: 1.1;
+  margin: 8px 0 8px; font-variant-numeric: tabular-nums;
+}
+.seance .cible .u { font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: var(--ink-soft); }
+.seance .detail { font-size: 13.5px; line-height: 1.5; }
+.seance .motif { font-size: 12px; color: var(--ink-soft); margin: 8px 0 0; line-height: 1.45; flex: 1; }
+.seance .etat {
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line);
+  font-size: 12.5px; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+}
+.seance .etat .fait { color: var(--moss); }
+.points { font-family: 'DM Mono', monospace; letter-spacing: 0.12em; color: var(--ink-faint); white-space: nowrap; }
+.points b { color: var(--accent-s); font-weight: 500; }
+.verdict {
+  font-size: 13.5px; line-height: 1.5; margin: 0 0 16px; padding: 10px 14px;
+  border-radius: var(--radius-sm); background: var(--bg-raised); border-left: 3px solid var(--moss);
+}
+.verdict.retard { border-left-color: var(--alert); }
+.traj { display: flex; align-items: baseline; gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line); font-size: 13px; }
+.traj .qui { white-space: nowrap; color: var(--ink); }
+.traj .quand { font-family: 'DM Mono', monospace; font-size: 12.5px; color: var(--ink-soft); margin-left: 4px; }
+.traj .d { margin-left: auto; text-align: right; color: var(--ink-soft); }
+.traj.retard .d { color: var(--amber); }
+@media (max-width: 520px) { .traj { flex-wrap: wrap; } .traj .d { margin-left: 0; text-align: left; flex-basis: 100%; } }
+.conseils { margin: 14px 0 0; }
+.conseils details { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--bg-card); margin: 8px 0 0; }
+.conseils summary {
+  cursor: pointer; padding: 11px 14px; font-weight: 600; font-size: 14px;
+  list-style: none; display: flex; align-items: center; gap: 10px;
+}
+.conseils summary::-webkit-details-marker { display: none; }
+.conseils summary::after { content: '+'; margin-left: auto; color: var(--ink-faint); font-family: 'DM Mono', monospace; }
+.conseils details[open] summary::after { content: '−'; }
+.conseils .corps { padding: 0 14px 14px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.conseils .corps p { margin: 0 0 8px; }
+.conseils .corps ul { padding-left: 18px; margin: 6px 0 10px; }
+.conseils .corps li { margin: 5px 0; }
+.conseils .corps strong { color: var(--ink); font-weight: 600; }
+.reglages { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 14px; margin: 4px 0 0; }
+@media (max-width: 520px) { .reglages { grid-template-columns: 1fr; } }
+.reglages label {
+  display: flex; flex-direction: column; gap: 5px; min-width: 0;
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-label);
+}
+.reglages input, .reglages select {
+  font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: var(--ink); background: var(--bg-raised);
+  border: 1px solid var(--line-bright); border-radius: var(--radius-sm); padding: 8px 10px; min-width: 0; width: 100%;
+}
+.reglages input:focus-visible, .reglages select:focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
 
 /* la dernière sortie : un rappel, donc plus ramassé que les blocs de cumul */
 .bloc.derniere { margin-bottom: 30px; }
@@ -101,7 +166,7 @@
 }
 .phases-titre {
   font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-faint); padding: 13px 16px 9px;
+  color: var(--ink-label); padding: 13px 16px 9px;
 }
 .phase {
   display: flex; align-items: baseline; gap: 12px;
@@ -128,7 +193,7 @@
   background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius-sm);
 }
 .filtre label {
-  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-label);
 }
 .filtre select {
   font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600;
@@ -182,6 +247,7 @@
 <main>
   <div id="fraicheur"></div>
   <div id="recup"></div>
+  <div id="plan"></div>
   <div id="filtre"></div>
   <div id="emptyState" class="empty-state" style="display:none;"></div>
   <div id="content"></div>
@@ -202,6 +268,7 @@ const els = {
   fraicheur: document.getElementById('fraicheur'),
   filtre: document.getElementById('filtre'),
   recup: document.getElementById('recup'),
+  plan: document.getElementById('plan'),
 };
 
 /* ===========================================================
@@ -212,7 +279,7 @@ const els = {
    s'affiche instantanément ET le filtre par mois reste utilisable
    avant même que le serveur ait répondu.
    =========================================================== */
-const CACHE_KEY = 'rbt_sorties_v1';
+const CACHE_KEY = 'rbt_sorties_v2';   // v2 : distances natation brutes, corrigées à la lecture
 function lireCache() {
   try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
 }
@@ -220,7 +287,8 @@ function ecrireCache(o) {
   try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ...o, calcule: Date.now() })); } catch (e) {}
 }
 
-let SORTIES = [];   // projection légère, source de tous les calculs
+let BRUT = [];      // projection légère, telle que Strava la donne
+let SORTIES = [];   // la même, distances natation corrigées : source de tous les calculs
 let ATHLETE = null;
 
 /* Ne garde d'une activité que ce que cette page affiche. Clés courtes :
@@ -241,6 +309,7 @@ function projette() {
     vx: a.max_speed || 0,
     fc: a.average_heartrate || 0,
     fx: a.max_heartrate || 0,
+    cad: a.average_cadence || 0,
   });
   return [
     ...RBT.getRides().filter((a) => !exclue(a)).map((a) => un(a, 'velo')),
@@ -472,6 +541,374 @@ function etatRecup(maintenant) {
   const pire = (cle) => calculs.reduce((x, c) => (c[cle] > x[cle] ? c : x));
   const derniere = calculs.reduce((x, c) => (finMs(c.sortie) > finMs(x.sortie) ? c : x));
   return { derniere, velo: pire('velo'), course: pire('course'), natation: pire('natation'), intense: pire('intense') };
+}
+
+// --- Objectif 70.3 : plan progressif ----------------------------------------
+/* Le plan n'est pas écrit à l'avance. Chaque semaine, l'objectif de chaque
+   sport part du NIVEAU réel (la plus longue séance récente) et avance d'un
+   PAS qui dépend de la RÉGULARITÉ des quatre dernières semaines : trois
+   séances sur quatre, on progresse ; deux, à moitié ; une, on tient ; aucune,
+   on reprend un cran en dessous. Une semaine sur quatre est allégée.
+   La PHASE, comptée à rebours depuis l'épreuve, plafonne les volumes
+   (fondation, développement, spécifique) puis les réduit (affûtage).
+   Les BESOINS visés à l'entrée de l'affûtage laissent une marge sur l'épreuve
+   elle-même : 1,9 km de natation, 90 km de vélo, 21,1 km de course. */
+const PLAN_CLE = 'rbt_plan_v1';
+const PLAN_DEFAUT = { epreuve: '2028-05-01', nom: '', dplus: 800, naissance: '', bassinFacteur: 0.5, bassinJusquau: '' };
+let PLAN = { ...PLAN_DEFAUT };
+function lirePlan() {
+  try { PLAN = { ...PLAN_DEFAUT, ...(JSON.parse(localStorage.getItem(PLAN_CLE)) || {}) }; } catch (e) {}
+}
+function ecrirePlan() { try { localStorage.setItem(PLAN_CLE, JSON.stringify(PLAN)); } catch (e) {} }
+
+/* Strava peut compter des longueurs de 50 m dans un bassin de 25 m : les
+   distances nagées sont alors à diviser par deux, jusqu'à la date où la
+   montre a été corrigée (vide : toutes). La correction se fait ici, sur la
+   projection, pour que tout le reste de la page (natation, total, dernière
+   séance, plan) voie des mètres justes. */
+function corrige(brut) {
+  const f = Number(PLAN.bassinFacteur) || 1;
+  const limite = PLAN.bassinJusquau ? new Date(`${PLAN.bassinJusquau}T23:59:59`).getTime() : Infinity;
+  return brut.map((a) => (a.s === 'natation' && f !== 1 && debutMs(a) <= limite)
+    ? { ...a, m: a.m * f, vm: a.vm * f, vx: a.vx * f }
+    : a);
+}
+
+const BESOIN = { natation: 2200, velo: 95000, course: 19000 };   // en mètres, à l'entrée de l'affûtage
+const PAS = {
+  natation: { pct: 0.15, min: 50,   max: 300,   depart: 200,   arrondi: 25 },
+  velo:     { pct: 0.08, min: 5000, max: 12000, depart: 30000, arrondi: 5000 },
+  course:   { pct: 0.08, min: 1000, max: 2000,  depart: 5000,  arrondi: 500 },
+};
+const PHASES = [
+  { jusqua: 1,        cle: 'epreuve',       nom: 'Semaine de course', frac: { natation: 0.4, velo: 0.35, course: 0.3 }, dp: 0.3 },
+  { jusqua: 3,        cle: 'affutage',      nom: 'Affûtage',          frac: { natation: 0.7, velo: 0.6, course: 0.55 }, dp: 0.5 },
+  { jusqua: 11,       cle: 'specifique',    nom: 'Spécifique',        plafond: 1,    dp: 1.1 },
+  { jusqua: 23,       cle: 'developpement', nom: 'Développement',     plafond: 0.9,  dp: 0.85 },
+  { jusqua: Infinity, cle: 'fondation',     nom: 'Fondation',         plafond: 0.8,  dp: 0.5 },
+];
+const SEMAINE = 7 * JOUR * 1000;
+
+function debutSemaine(ms) {
+  const d = new Date(ms);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));   // lundi
+  return d.getTime();
+}
+
+function contextePlan(maintenant) {
+  const ep = new Date(`${PLAN.epreuve}T08:00:00`).getTime();
+  if (isNaN(ep)) return null;
+  const lundi = debutSemaine(maintenant);
+  const semaines = Math.ceil((ep - lundi) / SEMAINE);   // semaines avant l'épreuve, celle-ci comprise
+  const phase = PHASES.find((p) => semaines <= p.jusqua);
+  const allegee = !phase.frac && semaines % 4 === 0;
+  const age = PLAN.naissance ? new Date(maintenant).getFullYear() - Number(PLAN.naissance) : null;
+  return { maintenant, ep, lundi, semaines, phase, allegee, age, passe: semaines < 1 };
+}
+
+/* Niveau : la plus longue séance des 3 dernières semaines (4 à vélo, qu'on ne
+   fait pas chaque semaine), bornée à 1,3 fois la médiane des séances de la
+   fenêtre : une course exceptionnelle (un semi au milieu de sorties de 10 km)
+   ne doit pas devenir le point de départ de la semaine suivante. Plus loin
+   dans le temps, on décote : ce qu'on savait faire il y a deux mois n'est plus
+   tout à fait acquis. */
+function niveau(sport, maintenant) {
+  const fen = sport === 'velo' ? 28 : 21;
+  const dans = (jours) => SORTIES.filter((a) => a.s === sport && a.m && debutMs(a) <= maintenant && debutMs(a) > maintenant - jours * JOUR * 1000);
+  let lot = dans(fen), coef = 1;
+  if (!lot.length) { lot = dans(fen * 2); coef = 0.9; }
+  if (!lot.length) { lot = dans(90); coef = 0.75; }
+  if (!lot.length) return null;
+  const best = lot.reduce((x, a) => (a.m > x.m ? a : x));
+  let m = best.m;
+  if (lot.length >= 2) {
+    const tri = lot.map((a) => a.m).sort((x, y) => x - y);
+    m = Math.min(m, 1.3 * tri[Math.floor((tri.length - 1) / 2)]);   // médiane basse
+  }
+  return { m: m * coef, dp: (best.dp || 0) * coef, quand: best.d, estime: coef < 1 };
+}
+
+// Les quatre dernières semaines pleines (la semaine en cours n'est pas finie).
+function regularite(sport, ctx) {
+  const semaines = [4, 3, 2, 1].map((k) =>
+    SORTIES.some((a) => a.s === sport && debutMs(a) >= ctx.lundi - k * SEMAINE && debutMs(a) < ctx.lundi - (k - 1) * SEMAINE));
+  return { semaines, n: semaines.filter(Boolean).length };
+}
+function faitSemaine(sport, ctx) {
+  const l = SORTIES.filter((a) => a.s === sport && debutMs(a) >= ctx.lundi && debutMs(a) <= ctx.maintenant);
+  return l.length ? l.reduce((x, a) => (a.m > x.m ? a : x)) : null;
+}
+const arrondiA = (m, pas) => Math.round(m / pas) * pas;
+
+/* Combien de semaines pour atteindre le besoin au rythme actuel, et est-ce
+   avant l'affûtage. Simulation semaine par semaine, pas réduit selon la
+   régularité, semaine allégée sans progrès. */
+function trajectoire(sport, niv, reg, ctx) {
+  const p = PAS[sport], besoin = BESOIN[sport];
+  let m = niv ? niv.m : p.depart;
+  if (m >= besoin) return { atteint: true };
+  const mult = reg.n >= 3 ? 1 : reg.n === 2 ? 0.5 : 0.25;
+  let n = 0;
+  while (m < besoin && n < 300) { n++; if (n % 4 !== 0) m += Math.min(p.max, Math.max(p.min, m * p.pct)) * mult; }
+  const dispo = ctx.semaines - 3;
+  return { atteint: false, semaines: n, dispo, marge: dispo - n, quand: ctx.lundi + n * SEMAINE };
+}
+
+function allureFacile(maintenant) {
+  const v = SORTIES.filter((a) => a.s === 'course' && a.m >= 3000 && a.vm && debutMs(a) > maintenant - 42 * JOUR * 1000)
+    .map((a) => a.vm).sort((x, y) => x - y);
+  if (!v.length) return null;
+  const med = v[Math.floor(v.length / 2)];
+  return allureDe(med / 1.12);   // 12 % plus lent que l'allure courante
+}
+
+function cibleSport(sport, ctx) {
+  const p = PAS[sport], niv = niveau(sport, ctx.maintenant), reg = regularite(sport, ctx);
+  const besoin = BESOIN[sport], base = niv ? niv.m : p.depart;
+  const pas = Math.min(p.max, Math.max(p.min, base * p.pct));
+  let cible, motif;
+  if (ctx.phase.frac) {
+    cible = besoin * ctx.phase.frac[sport]; motif = 'affutage';
+  } else if (!niv) {
+    cible = p.depart; motif = 'depart';
+  } else if (reg.n === 0) {
+    cible = Math.max(p.depart, base * 0.85); motif = 'reprise';
+  } else if (reg.n === 1) {
+    cible = base; motif = 'tenir';
+  } else {
+    const plafond = Math.max(base, besoin * ctx.phase.plafond);
+    const voulu = base + pas * (reg.n === 2 ? 0.5 : 1);
+    cible = Math.min(plafond, voulu);
+    motif = voulu > plafond ? 'plafond' : 'progresser';
+  }
+  if (ctx.allegee && !ctx.phase.frac) { cible *= 0.7; motif = 'allegee'; }
+  cible = Math.max(p.arrondi, arrondiA(cible, p.arrondi));
+  let dp = 0;
+  if (sport === 'velo') {
+    dp = Math.min(Number(PLAN.dplus) * ctx.phase.dp, (niv ? niv.dp : 0) + 100);
+    if (ctx.allegee) dp *= 0.7;
+    dp = Math.max(0, arrondiA(dp, 50));
+  }
+  return {
+    sport, niv, reg, cible, dp, motif, pas,
+    fait: faitSemaine(sport, ctx),
+    traj: trajectoire(sport, niv, reg, ctx),
+    allureFacile: sport === 'course' ? allureFacile(ctx.maintenant) : null,
+  };
+}
+
+function distPlan(m, sport) { const d = dist(m, sport); return `${d.v} ${d.u}`; }
+
+function seanceTexte(c, ctx) {
+  const ph = ctx.phase.cle, m = c.cible, km = (m / 1000).toFixed(m % 1000 ? 1 : 0);
+  if (c.sport === 'natation') {
+    if (ph === 'epreuve') return { titre: 'Déblocage', detail: `${m} m très souples, avec quelques accélérations de 25 m. Si l'épreuve est en eau libre, va repérer le parcours.` };
+    if (ph === 'affutage') return { titre: 'Entretien', detail: `${m} m en séries de 100 m à l'allure prévue pour l'épreuve, 20 s de récupération.` };
+    if (m <= 600) return { titre: 'Technique', detail: `${m} m en tout, par séries de 25 ou 50 m avec 20 à 30 s de récupération au mur. Une série sur trois en éducatif (planche jambes, bras seuls avec pull-buoy). L'objectif de la séance, c'est la distance totale, pas la vitesse.` };
+    if (m <= 1200) return { titre: 'Technique et endurance', detail: `${m} m : 200 m d'échauffement, puis des séries de 100 m avec 20 s de récupération, 100 m souples pour finir. Cherche à allonger ce que tu nages sans t'arrêter.` };
+    if (ph === 'specifique') return { titre: 'Continu', detail: `${m} m dont un bloc de ${arrondiA(m * 0.6, 100)} m sans t'arrêter à allure d'épreuve. Dès que possible, une séance sur deux en eau libre, en combinaison si l'épreuve l'autorise.` };
+    return { titre: 'Endurance', detail: `${m} m : 300 m d'échauffement, un bloc de ${arrondiA(m * 0.5, 100)} m sans t'arrêter, puis des 100 m à allure soutenue, 100 m souples.` };
+  }
+  if (c.sport === 'velo') {
+    const d = `${km} km, ${c.dp} m de D+`;
+    if (ph === 'epreuve') return { titre: 'Déblocage', detail: `${d} tranquille, avec trois accélérations d'une minute. Vérifie le vélo : freins, pneus, transmission.` };
+    if (ph === 'affutage') return { titre: 'Entretien', detail: `${d} en endurance, avec 2 × 10 min à l'allure prévue pour l'épreuve.` };
+    if (ph === 'specifique') return { titre: 'Sortie longue + enchaînement', detail: `${d}, dont 30 à 40 min à l'allure visée pour l'épreuve. Enchaîne tout de suite 15 à 20 min de course à pied à allure facile : c'est la transition que le corps doit apprendre.` };
+    if (ph === 'developpement') return { titre: 'Sortie longue vallonnée', detail: `${d} en endurance (tu peux parler), cadence 85 à 95. Choisis un parcours avec des bosses : le D+ de l'épreuve se prépare ici, pas la vitesse sur le plat.` };
+    return { titre: 'Sortie endurance', detail: `${d} en endurance, cadence 85 à 95 tours par minute. Mange toutes les 30 à 40 min dès que la sortie dépasse 1 h 30.` };
+  }
+  const d = `${km} km`, al = c.allureFacile ? ` à allure facile (≈ ${c.allureFacile}/km)` : ' à allure facile';
+  if (ph === 'epreuve') return { titre: 'Déblocage', detail: `${d}${al}, avec 4 ou 5 lignes droites de 20 s un peu plus vite. Rien de plus.` };
+  if (ph === 'affutage') return { titre: 'Entretien', detail: `${d}${al}, dont 10 min à l'allure prévue pour l'épreuve.` };
+  if (ph === 'specifique') return { titre: 'Sortie longue', detail: `${d}${al}. Une semaine sur deux, remplace par 8 × 2 min à allure 10 km, 1 min de trot entre. L'enchaînement vélo → course se fait après la sortie vélo.` };
+  if (ph === 'developpement') return { titre: 'Sortie longue', detail: `${d}${al}, les 2 derniers kilomètres un peu plus vite. Travaille la cadence : 170 à 180 pas par minute.` };
+  return { titre: 'Sortie longue', detail: `${d}${al}. L'objectif est de courir plus longtemps, pas plus vite : si tu ne peux plus parler, ralentis.` };
+}
+
+function motifTexte(c) {
+  const niv = c.niv ? distPlan(c.niv.m, c.sport) : '';
+  const est = c.niv && c.niv.estime ? ' (estimée : rien de récent)' : '';
+  switch (c.motif) {
+    case 'progresser': return `+${distPlan(c.pas * (c.reg.n === 2 ? 0.5 : 1), c.sport)} sur ta meilleure séance récente, ${niv}${est}`;
+    case 'plafond': return `volume suffisant pour cette phase : la priorité, c'est la régularité et la qualité`;
+    case 'tenir': return `une seule séance en quatre semaines : on tient le niveau (${niv}) avant d'avancer`;
+    case 'reprise': return `aucune séance en quatre semaines : on reprend un cran sous ton niveau (${niv})`;
+    case 'depart': return `aucune séance connue : on démarre doucement`;
+    case 'allegee': return `semaine allégée : 30 % de moins pour assimiler`;
+    case 'affutage': return `on réduit le volume, pas l'intensité : les jambes doivent arriver fraîches`;
+  }
+  return '';
+}
+
+const SEANCE_JOUR = (a) => new Date(debutMs(a)).toLocaleDateString('fr-FR', { weekday: 'long' });
+
+function carteSeance(c, ctx) {
+  const sp = SPORTS[c.sport], t = seanceTexte(c, ctx), d = dist(c.cible, c.sport);
+  const points = c.reg.semaines.map((ok) => (ok ? '<b>●</b>' : '○')).join('');
+  let etat;
+  if (c.fait) {
+    const ok = c.fait.m >= c.cible * 0.9;
+    etat = `<span class="fait">${ok ? '✓ fait' : '~ en partie'} ${SEANCE_JOUR(c.fait)} : ${distPlan(c.fait.m, c.sport)}</span>`;
+  } else {
+    etat = '<span>à faire cette semaine</span>';
+  }
+  return `<div class="seance" style="--accent-s:${sp.couleur}">
+    <div class="sport">${sp.nom} · ${t.titre}</div>
+    <div class="cible">${d.v} <span class="u">${d.u}</span></div>
+    <div class="detail">${t.detail}</div>
+    <div class="motif">${motifTexte(c)}</div>
+    <div class="etat">${etat}<span class="points" title="séances des 4 dernières semaines">${points}</span></div>
+  </div>`;
+}
+
+function ligneTrajectoire(c, ctx) {
+  const sp = SPORTS[c.sport], t = c.traj;
+  const niv = c.niv ? distPlan(c.niv.m, c.sport) : '—';
+  let texte, ok = true;
+  if (t.atteint) texte = `niveau de préparation atteint, on entretient`;
+  else if (t.marge >= 0) texte = `à ce rythme, ${distPlan(BESOIN[c.sport], c.sport)} vers ${new Date(t.quand).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })} — ${t.marge} semaine${t.marge > 1 ? 's' : ''} de marge`;
+  else { ok = false; texte = `à ce rythme, ${distPlan(BESOIN[c.sport], c.sport)} seulement vers ${new Date(t.quand).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })} — ${-t.marge} semaine${-t.marge > 1 ? 's' : ''} de retard`; }
+  return `<div class="traj${ok ? '' : ' retard'}">
+    <span class="qui"><span class="pastille" style="background:${sp.couleur}"></span>${sp.court} <span class="quand">${niv}</span></span>
+    <span class="d">${texte}</span>
+  </div>`;
+}
+
+function verdict(cibles, ctx) {
+  const retard = cibles.filter((c) => !c.traj.atteint && c.traj.marge < 0);
+  if (ctx.phase.frac) return { ok: true, texte: `Plus rien à construire : l'affûtage sert à arriver reposé. Dors, mange normalement, ne rattrape rien.` };
+  if (!retard.length) return { ok: true, texte: `Dans les temps sur les trois sports. Une séance de chaque par semaine suffit ; la régularité compte plus que la distance.` };
+  const noms = retard.map((c) => SPORTS[c.sport].nom.toLowerCase());
+  const conseil = retard.map((c) => c.reg.n <= 2
+    ? `en ${SPORTS[c.sport].nom.toLowerCase()}, ne saute plus de semaine`
+    : `en ${SPORTS[c.sport].nom.toLowerCase()}, ajoute une deuxième séance une semaine sur deux`).join(' ; ');
+  return { ok: false, texte: `En retard en ${noms.join(' et ')} : ${conseil}. Le calcul se refait chaque semaine, le retard se rattrape.` };
+}
+
+function zonesFc(ctx) {
+  if (!ctx.age) return `<p><strong>Zones cardiaques</strong> : renseigne ton année de naissance dans les réglages pour les obtenir.</p>`;
+  const max = Math.round(208 - 0.7 * ctx.age), z = (a, b) => `${Math.round(max * a)}–${Math.round(max * b)} bpm`;
+  return `<p><strong>Zones cardiaques</strong> (FC max estimée ${max}, formule 208 − 0,7 × âge, à ajuster si ta montre a déjà vu plus haut) : endurance ${z(0.6, 0.7)}, c'est là que se passent 80 % des séances ; tempo ${z(0.7, 0.8)} ; seuil ${z(0.8, 0.9)}, réservé aux fractionnés.</p>`;
+}
+
+function conseils(cibles, ctx) {
+  const par = (s) => cibles.find((c) => c.sport === s);
+  const der = (s, f) => SORTIES.filter((a) => a.s === s && f(a) && debutMs(a) > ctx.maintenant - 90 * JOUR * 1000)
+    .reduce((x, a) => (!x || debutMs(a) > debutMs(x) ? a : x), null);
+  // cadence course : Strava la donne par jambe (85 = 170 pas/min)
+  const rc = der('course', (a) => a.cad), cadC = rc ? Math.round(rc.cad < 120 ? rc.cad * 2 : rc.cad) : null;
+  const rv = der('velo', (a) => a.cad), cadV = rv ? Math.round(rv.cad) : null;
+  const n = par('natation'), nivN = n.niv ? n.niv.m : 0;
+  const dn = der('natation', (a) => a.vm), allN = dn ? allureDe(dn.vm, 100) : null;
+
+  const natation = `
+    <p>${nivN < 800
+      ? `Tu en es à ${nivN ? Math.round(nivN) + ' m' : 'tes premières séances'} par séance${allN ? `, autour de ${allN} aux 100 m` : ''} : la priorité absolue est la <strong>technique</strong>, pas la distance. Un crawl économe fait gagner plus de mètres que n'importe quel entraînement.`
+      : `Tu nages ${Math.round(nivN)} m par séance${allN ? `, autour de ${allN} aux 100 m` : ''} : la base est là, on allonge les blocs nagés sans s'arrêter et on soigne la technique à chaque échauffement.`}</p>
+    <ul>
+      <li><strong>Respiration</strong> : expire en continu dans l'eau, par le nez et la bouche ; l'inspiration est courte, la tête tourne avec l'épaule, une seule lunette sort de l'eau. Respire tous les deux temps pour commencer, puis tous les trois (des deux côtés) quand c'est à l'aise. C'est presque toujours la respiration qui bloque le débutant, pas les bras.</li>
+      <li><strong>Position</strong> : regard vers le fond, nuque dans l'axe, hanches hautes. Les battements sont petits, depuis la hanche, pieds souples — ils servent à l'équilibre, pas à avancer.</li>
+      <li><strong>Traction</strong> : la main entre dans l'eau devant l'épaule, s'allonge, puis le coude reste haut pendant que l'avant-bras pousse l'eau jusqu'à la cuisse. Compte tes mouvements par longueur de 25 m : vise 20 ou moins, c'est le meilleur indicateur de progrès.</li>
+      <li><strong>Éducatifs</strong> (une série sur trois) : planche avec battements, bras seuls avec pull-buoy, « rattrapé » (une main attend l'autre devant), un bras à la fois.</li>
+      <li><strong>Eau libre</strong> : à partir de l'été 2027, nage en lac ou en combinaison ; apprends à relever la tête tous les 6 à 8 mouvements pour te repérer, et à partir au milieu d'un groupe.</li>
+    </ul>`;
+
+  const velo = `
+    <p>Tu tiens 90 km sur le plat : la distance de l'épreuve est acquise. Ce qui manque, c'est le <strong>dénivelé</strong> (${PLAN.dplus} m prévus sur le parcours, contre 400 au plus aujourd'hui) et l'habitude de <strong>courir après</strong>.</p>
+    <ul>
+      <li><strong>Cadence</strong> : 85 à 95 tours par minute${cadV ? ` (dernière sortie mesurée : ${cadV})` : ''}. Mouliner fatigue moins les jambes pour la course qui suit ; dans les bosses, reste assis, passe un pignon plus facile plutôt que de forcer.</li>
+      <li><strong>D+</strong> : une sortie sur deux sur un parcours vallonné, en augmentant de 100 m de D+ par semaine environ. L'objectif n'est pas de monter vite mais de monter longtemps sans se mettre dans le rouge.</li>
+      <li><strong>Position</strong> : fais régler ta hauteur de selle ; dès la phase de développement, des prolongateurs (clip-on) sur le cintre valent 1 à 2 km/h gratuits sur 90 km, à condition de s'y entraîner.</li>
+      <li><strong>Manger et boire</strong> : 60 g de glucides et 500 ml par heure dès que la sortie dépasse 1 h 30, en commençant à la première demi-heure. On teste tout à l'entraînement, jamais le jour J.</li>
+      <li><strong>Enchaînements</strong> : en phase spécifique, 15 à 20 min de course à pied tout de suite après la sortie vélo. Les premières fois les jambes sont en bois pendant 10 min, c'est normal, ça s'apprend.</li>
+    </ul>`;
+
+  const course = `
+    <p>Tu cours 10 km à 6'40"/km et tu as déjà fait un semi : le 21,1 km du 70.3 se court après 90 km de vélo, donc ${par('course').allureFacile ? `à une allure plus proche de ton allure facile (${par('course').allureFacile}/km)` : 'plus lentement que ton 10 km'}, et c'est très bien. Le travail porte sur l'<strong>économie</strong> de la foulée et le <strong>volume</strong>, pas sur la vitesse.</p>
+    <ul>
+      <li><strong>Cadence</strong> : 170 à 180 pas par minute${cadC ? ` (dernière sortie mesurée : ${cadC})` : ''}. Des pas plus courts et plus fréquents, c'est moins de freinage à chaque appui et moins de blessures. Monte de 5 % à la fois, sur une sortie facile, avec un métronome ou une playlist au bon tempo.</li>
+      <li><strong>Foulée</strong> : le pied se pose sous le bassin, pas devant, à plat ou sur l'avant ; le buste légèrement penché depuis les chevilles, pas depuis la taille ; les bras balancent d'avant en arrière, coudes à 90°, sans croiser devant.</li>
+      <li><strong>Allures</strong> : la sortie longue se court en pouvant parler ; une séance sur quatre peut devenir un fractionné court (8 × 2 min à allure 10 km) à partir de la phase de développement. Deux séances dures par semaine n'apportent rien de plus à ce stade.</li>
+      <li><strong>Renforcement</strong> : 10 min deux fois par semaine — mollets sur une marche, fentes, pont fessier, gainage. C'est ce qui permet d'encaisser l'augmentation de volume.</li>
+      <li><strong>Progression</strong> : +8 % par semaine sur la sortie longue, jamais plus de 2 km d'un coup, et une semaine allégée sur quatre, c'est ce que le plan applique.</li>
+    </ul>`;
+
+  return [
+    { id: 'natation', titre: 'Conseils natation', corps: natation },
+    { id: 'velo', titre: 'Conseils vélo', corps: velo },
+    { id: 'course', titre: 'Conseils course à pied', corps: course + zonesFc(ctx) },
+  ];
+}
+
+// Les panneaux dépliés restent dépliés d'un rendu à l'autre.
+const OUVERTS = new Set();
+
+function formReglages() {
+  const v = (x) => RBT.escapeHtml(x == null ? '' : x);
+  return `<div class="reglages">
+    <label>Date de l'épreuve<input type="date" id="plEpreuve" value="${v(PLAN.epreuve)}"></label>
+    <label>Nom de l'épreuve<input type="text" id="plNom" value="${v(PLAN.nom)}" placeholder="70.3 Luxembourg, Tours, Nice…"></label>
+    <label>D+ du parcours vélo (m)<input type="number" id="plDplus" value="${v(PLAN.dplus)}" step="50" min="0"></label>
+    <label>Année de naissance<input type="number" id="plNaissance" value="${v(PLAN.naissance)}" min="1940" max="2015" placeholder="pour les zones cardiaques"></label>
+    <label>Distances natation Strava<select id="plBassin">
+      <option value="0.5"${Number(PLAN.bassinFacteur) === 0.5 ? ' selected' : ''}>à diviser par 2 (bassin de 25 m compté en 50 m)</option>
+      <option value="1"${Number(PLAN.bassinFacteur) === 1 ? ' selected' : ''}>justes</option>
+    </select></label>
+    <label>Correction natation jusqu'au (vide : toutes les séances)<input type="date" id="plJusquau" value="${v(PLAN.bassinJusquau)}"></label>
+  </div>
+  <p class="note-grille">Ces réglages sont gardés dans ce navigateur uniquement.</p>`;
+}
+
+function rendPlan() {
+  const ctx = contextePlan(Date.now());
+  const tete = (compte) => `<div class="bloc-tete"><h2>Objectif 70.3</h2><div class="compte">${compte}</div></div>`;
+  const panneau = (id, titre, corps) => `<details data-panneau="${id}"${OUVERTS.has(id) ? ' open' : ''}><summary>${titre}</summary><div class="corps">${corps}</div></details>`;
+  const reglages = panneau('reglages', 'Réglages de l\'objectif', formReglages());
+  let html;
+  if (!ctx) {
+    html = `<section class="bloc objectif">${tete('')}<p style="color:var(--ink-soft);font-size:14px">Renseigne une date d'épreuve pour obtenir un plan.</p><div class="conseils">${reglages}</div></section>`;
+  } else if (ctx.passe) {
+    html = `<section class="bloc objectif">${tete(`${RBT.escapeHtml(PLAN.nom) || 'Épreuve'} · ${RBT.fmtDateLong(PLAN.epreuve)}`)}<p style="color:var(--ink-soft);font-size:14px">L'épreuve est passée. Mets une nouvelle date dans les réglages pour relancer un plan.</p><div class="conseils">${reglages}</div></section>`;
+  } else {
+    const cibles = ['natation', 'velo', 'course'].map((s) => cibleSport(s, ctx));
+    const v = verdict(cibles, ctx);
+    const dateEp = RBT.fmtDateLong(PLAN.epreuve);
+    html = `<section class="bloc objectif">
+      ${tete(`${RBT.escapeHtml(PLAN.nom) || 'Ironman 70.3'} · ${dateEp}<br>phase ${ctx.phase.nom.toLowerCase()}${ctx.allegee ? ' · semaine allégée' : ''}`)}
+      <div class="phare"><span class="n">${ctx.semaines}</span><span class="u">semaine${ctx.semaines > 1 ? 's' : ''} avant l'épreuve — cette semaine, voici tes trois séances</span></div>
+      <div class="seances">${cibles.map((c) => carteSeance(c, ctx)).join('')}</div>
+      <div class="verdict${v.ok ? '' : ' retard'}">${v.texte}</div>
+      <div class="phases">
+        <div class="phases-titre">Trajectoire — niveau actuel et date d'arrivée au besoin</div>
+        ${cibles.map((c) => ligneTrajectoire(c, ctx)).join('')}
+      </div>
+      <p class="note-grille">Besoin à l'entrée de l'affûtage (3 semaines avant) : 2 200 m nagés d'une traite, 95 km de vélo avec le D+ du parcours, 19 km de course. Le plan repart chaque lundi de tes séances réelles : une semaine sautée baisse l'objectif suivant, deux séances l'augmentent plus vite.</p>
+      <div class="conseils">
+        ${conseils(cibles, ctx).map((p) => panneau(p.id, p.titre, p.corps)).join('')}
+        ${reglages}
+      </div>
+    </section>`;
+  }
+  els.plan.innerHTML = html;
+
+  els.plan.querySelectorAll('details[data-panneau]').forEach((d) => {
+    d.addEventListener('toggle', () => { if (d.open) OUVERTS.add(d.dataset.panneau); else OUVERTS.delete(d.dataset.panneau); });
+  });
+  const lire = () => {
+    PLAN.epreuve = document.getElementById('plEpreuve').value || PLAN_DEFAUT.epreuve;
+    PLAN.nom = document.getElementById('plNom').value.trim();
+    PLAN.dplus = Number(document.getElementById('plDplus').value) || 0;
+    PLAN.naissance = document.getElementById('plNaissance').value;
+    PLAN.bassinFacteur = Number(document.getElementById('plBassin').value) || 1;
+    PLAN.bassinJusquau = document.getElementById('plJusquau').value;
+    ecrirePlan();
+    SORTIES = corrige(BRUT);
+    tout();
+  };
+  ['plEpreuve', 'plNom', 'plDplus', 'plNaissance', 'plBassin', 'plJusquau'].forEach((id) => {
+    document.getElementById(id).addEventListener('change', lire);
+  });
 }
 
 // --- Filtre période --------------------------------------------------------
@@ -799,7 +1236,7 @@ function rendu() {
     blocRepos();
 }
 
-function tout() { rendRecup(); rendFiltre(); rendu(); }
+function tout() { rendRecup(); rendPlan(); rendFiltre(); rendu(); }
 
 /* Vrai quand un message de retour Strava occupe le bandeau. Il doit survivre
    au rendu normal : sans ce verrou, le bandeau('aucun') declenche des que le
@@ -822,6 +1259,7 @@ function bandeau(etat, quand) {
 
 function videPour(titre, texte) {
   els.recup.innerHTML = '';
+  els.plan.innerHTML = '';
   els.filtre.innerHTML = '';
   els.content.innerHTML = '';
   els.emptyState.style.display = 'block';
@@ -856,11 +1294,13 @@ function retourStrava() {
 
 // --- Démarrage -------------------------------------------------------------
 async function init() {
+  lirePlan();
   retourStrava();
   // 1. le cache, tout de suite : la page n'est jamais vide à l'ouverture
   const cache = lireCache();
   if (cache && cache.sorties && cache.sorties.length) {
-    SORTIES = cache.sorties;
+    BRUT = cache.sorties;
+    SORTIES = corrige(BRUT);
     ATHLETE = cache.athlete;
     tout();
     if (ATHLETE) els.statusText.textContent = `${ATHLETE.firstname} ${ATHLETE.lastname}`;
@@ -882,7 +1322,8 @@ async function init() {
     els.statusDot.classList.remove('off');
     els.statusText.textContent = `Connecté — ${RBT.state.athlete.firstname} ${RBT.state.athlete.lastname}`;
 
-    SORTIES = projette();
+    BRUT = projette();
+    SORTIES = corrige(BRUT);
     ATHLETE = RBT.state.athlete;
     if (!SORTIES.length) {
       bandeau('aucun');
@@ -891,7 +1332,7 @@ async function init() {
     }
     els.emptyState.style.display = 'none';
     tout();
-    ecrireCache({ sorties: SORTIES, athlete: ATHLETE });
+    ecrireCache({ sorties: BRUT, athlete: ATHLETE });
     bandeau('aucun');
   } catch (err) {
     // Le serveur n'a pas répondu : on garde ce qui est affiché, et on le dit.
@@ -913,11 +1354,12 @@ els.syncBtn.addEventListener('click', async () => {
   try {
     await RBT.sync();
     await RBT.loadAll();
-    SORTIES = projette();
+    BRUT = projette();
+    SORTIES = corrige(BRUT);
     ATHLETE = RBT.state.athlete;
     els.emptyState.style.display = 'none';
     tout();
-    ecrireCache({ sorties: SORTIES, athlete: ATHLETE });
+    ecrireCache({ sorties: BRUT, athlete: ATHLETE });
     bandeau('aucun');
   } catch (err) {
     alert('Le serveur n\'a pas répondu. Il met parfois 30 secondes à se réveiller — réessaie.');
