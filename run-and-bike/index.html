@@ -115,6 +115,9 @@
 .traj .quand { font-family: 'DM Mono', monospace; font-size: 12.5px; color: var(--ink-soft); margin-left: 4px; }
 .traj .d { margin-left: auto; text-align: right; color: var(--ink-soft); }
 .traj.retard .d { color: var(--amber); }
+.traj .d .ok { color: var(--moss); }
+.traj .d .ko { color: var(--alert); }
+.traj .d .partiel { color: var(--amber); }
 @media (max-width: 520px) { .traj { flex-wrap: wrap; } .traj .d { margin-left: 0; text-align: left; flex-basis: 100%; } }
 .conseils { margin: 14px 0 0; }
 .conseils details { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--bg-card); margin: 8px 0 0; }
@@ -141,6 +144,28 @@
   border: 1px solid var(--line-bright); border-radius: var(--radius-sm); padding: 8px 10px; min-width: 0; width: 100%;
 }
 .reglages input:focus-visible, .reglages select:focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
+
+/* le journal : trois questions après chaque séance, en boutons, pas en formulaire */
+.journal { margin: 14px 0 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-card); }
+.journal-titre { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-label); padding: 13px 16px 4px; }
+.jentree { padding: 10px 16px 12px; border-top: 1px solid var(--line); }
+.jentree:first-of-type { border-top: none; }
+.jentree .qui { font-size: 13.5px; margin: 0 0 8px; }
+.jentree .qui .quand { font-family: 'DM Mono', monospace; font-size: 12.5px; color: var(--ink-soft); }
+.choix { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 6px 0; font-size: 12.5px; color: var(--ink-soft); }
+.choix .l { min-width: 5.5em; }
+.choix button {
+  background: transparent; color: var(--ink-soft); border: 1px solid var(--line-bright);
+  border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-family: inherit; cursor: pointer;
+}
+.choix button.on { background: var(--accent); color: #14171a; border-color: var(--accent); font-weight: 600; }
+.choix input { font-family: inherit; font-size: 13px; color: var(--ink); background: var(--bg-raised); border: 1px solid var(--line-bright); border-radius: var(--radius-sm); padding: 5px 9px; width: 9em; min-width: 0; }
+.choix input.large { width: 14em; }
+.jentree .actions { display: flex; align-items: center; gap: 10px; margin: 8px 0 0; font-size: 12.5px; color: var(--ink-soft); }
+.jentree .bilan { font-size: 13px; color: var(--ink); }
+.jentree .bilan .u { color: var(--ink-soft); }
+.lien { background: none; border: none; color: var(--ink-soft); text-decoration: underline; cursor: pointer; font: inherit; font-size: 12.5px; padding: 0; }
+.lien:hover { color: var(--ink); }
 
 /* la dernière sortie : un rappel, donc plus ramassé que les blocs de cumul */
 .bloc.derniere { margin-bottom: 30px; }
@@ -296,6 +321,7 @@ let ATHLETE = null;
 function projette() {
   const exclue = (a) => RBT.state.excludedIds.includes(a.id);
   const un = (a, sport) => ({
+    id: a.id,
     d: RBT.effectiveDate(a),
     s: sport,
     n: a.name || '',
@@ -574,6 +600,86 @@ function corrige(brut) {
     : a);
 }
 
+/* Ce que le serveur garde pour le plan : réglages (les mêmes sur tous les
+   appareils), objectifs figés chaque lundi, journal de séance. Tant que le
+   serveur n'a pas répondu, on travaille avec les réglages du navigateur et
+   rien n'est figé ni journalisé. */
+let ENTRAINEMENT = { reglages: {}, semaines: {}, journal: {} };
+let SERVEUR_OK = false;
+let REGLAGES_NON_SAUVES = false;
+const isoJour = (ms) => { const d = new Date(ms); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+
+async function chargerEntrainement() {
+  try {
+    const r = await fetch(`${API_BASE}/api/entrainement`);
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    ENTRAINEMENT = { reglages: {}, semaines: {}, journal: {}, ...d };
+    if (Object.keys(ENTRAINEMENT.reglages).length) { PLAN = { ...PLAN_DEFAUT, ...ENTRAINEMENT.reglages }; ecrirePlan(); }
+    SERVEUR_OK = true;
+  } catch (e) {
+    SERVEUR_OK = false;
+  }
+}
+async function envoyer(methode, chemin, corps) {
+  const r = await fetch(`${API_BASE}${chemin}`, { method: methode, headers: { 'Content-Type': 'application/json' }, body: corps ? JSON.stringify(corps) : undefined });
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+}
+async function sauverReglages() {
+  ecrirePlan();
+  if (!SERVEUR_OK) return;
+  try {
+    ENTRAINEMENT.reglages = await envoyer('PUT', '/api/entrainement/reglages', PLAN);
+    REGLAGES_NON_SAUVES = false;
+  } catch (e) {
+    REGLAGES_NON_SAUVES = true;
+  }
+}
+
+/* Les objectifs de la semaine se figent à la première visite de la semaine,
+   calculés comme au lundi matin (sans les séances déjà faites depuis). Si la
+   date d'épreuve change en cours de semaine, on refige. */
+let FIGE_EN_COURS = false;
+let FIGE_TENTE = '';   // « semaine|épreuve » déjà tentée : un échec ne se rejoue pas à chaque rendu
+async function figerSemaine(ctx) {
+  if (!SERVEUR_OK || !ctx || ctx.passe || FIGE_EN_COURS) return;
+  const cle = isoJour(ctx.lundi), fig = ENTRAINEMENT.semaines[cle];
+  if (fig && fig.epreuve === PLAN.epreuve) return;
+  if (FIGE_TENTE === `${cle}|${PLAN.epreuve}`) return;
+  FIGE_TENTE = `${cle}|${PLAN.epreuve}`;
+  FIGE_EN_COURS = true;
+  try {
+    const auLundi = { ...ctx, maintenant: ctx.lundi + 1 };
+    const cibles = {};
+    for (const s of ['natation', 'velo', 'course']) {
+      const c = cibleSport(s, auLundi, true);
+      cibles[s] = { cible: c.cible, dp: c.dp, motif: c.motif, niveau: c.niv ? Math.round(c.niv.m) : null };
+    }
+    const r = await envoyer('PUT', `/api/entrainement/semaines/${cle}${fig ? '?force=1' : ''}`, { epreuve: PLAN.epreuve, phase: ctx.phase.cle, allegee: ctx.allegee, cibles });
+    if (!r || !r.semaine || !r.semaine.cibles) throw new Error('réponse inattendue');
+    ENTRAINEMENT.semaines[cle] = r.semaine;
+    FIGE_EN_COURS = false;
+    rendPlan();
+  } catch (e) { /* la semaine reste non figée pour cette visite */ }
+  FIGE_EN_COURS = false;
+}
+
+// Journal : ce qu'on a dit d'une séance, et ce que ça change.
+function journalDe(a) { return a.id != null ? ENTRAINEMENT.journal[String(a.id)] : null; }
+function journalRecents(maintenant, jours = 14) {
+  return SORTIES.filter((a) => journalDe(a) && finMs(a) > maintenant - jours * JOUR * 1000)
+    .sort((x, y) => finMs(y) - finMs(x)).map((a) => ({ a, j: journalDe(a) }));
+}
+function fatigueJournal(maintenant) {
+  const r = journalRecents(maintenant).slice(0, 2);
+  return r.length === 2 && r.every((x) => x.j.jambes === 'lourdes');
+}
+function douleurJournal(sport, maintenant) {
+  const r = journalRecents(maintenant).find((x) => x.a.s === sport);
+  return r && r.j.douleur ? r.j.douleur : null;
+}
+
 const BESOIN = { natation: 2200, velo: 95000, course: 19000 };   // en mètres, à l'entrée de l'affûtage
 const PAS = {
   natation: { pct: 0.15, min: 50,   max: 300,   depart: 200,   arrondi: 25 },
@@ -604,7 +710,7 @@ function contextePlan(maintenant) {
   const phase = PHASES.find((p) => semaines <= p.jusqua);
   const allegee = !phase.frac && semaines % 4 === 0;
   const age = PLAN.naissance ? new Date(maintenant).getFullYear() - Number(PLAN.naissance) : null;
-  return { maintenant, ep, lundi, semaines, phase, allegee, age, passe: semaines < 1 };
+  return { maintenant, ep, lundi, semaines, phase, allegee, age, passe: semaines < 1, fatigue: fatigueJournal(maintenant) };
 }
 
 /* Niveau : la plus longue séance des 3 dernières semaines (4 à vélo, qu'on ne
@@ -663,10 +769,29 @@ function allureFacile(maintenant) {
   return allureDe(med / 1.12);   // 12 % plus lent que l'allure courante
 }
 
-function cibleSport(sport, ctx) {
+// La meilleure séance d'un sport entre deux instants.
+function meilleureEntre(sport, de, a) {
+  const l = SORTIES.filter((x) => x.s === sport && debutMs(x) >= de && debutMs(x) < a);
+  return l.length ? l.reduce((x, y) => (y.m > x.m ? y : x)) : null;
+}
+// L'objectif figé de la semaine précédente, et s'il a été tenu (90 % suffisent).
+function semaineDerniere(sport, ctx) {
+  const fig = ENTRAINEMENT.semaines[isoJour(ctx.lundi - SEMAINE)];
+  const c = fig && fig.cibles && fig.cibles[sport];
+  if (!c || !c.cible) return null;
+  const fait = meilleureEntre(sport, ctx.lundi - SEMAINE, ctx.lundi);
+  return { cible: c.cible, fait, tenu: !!fait && fait.m >= c.cible * 0.9 };
+}
+
+/* calculSeul : on veut le calcul du lundi, sans reprendre ce qui a été figé.
+   Sinon, une semaine déjà figée garde ses objectifs quoi qu'il arrive dans la
+   semaine ; seuls « fait », la régularité et la trajectoire restent vivants. */
+function cibleSport(sport, ctx, calculSeul = false) {
   const p = PAS[sport], niv = niveau(sport, ctx.maintenant), reg = regularite(sport, ctx);
   const besoin = BESOIN[sport], base = niv ? niv.m : p.depart;
   const pas = Math.min(p.max, Math.max(p.min, base * p.pct));
+  const derniere = semaineDerniere(sport, ctx);
+  const douleur = douleurJournal(sport, ctx.maintenant);
   let cible, motif;
   if (ctx.phase.frac) {
     cible = besoin * ctx.phase.frac[sport]; motif = 'affutage';
@@ -676,22 +801,36 @@ function cibleSport(sport, ctx) {
     cible = Math.max(p.depart, base * 0.85); motif = 'reprise';
   } else if (reg.n === 1) {
     cible = base; motif = 'tenir';
+  } else if (douleur) {
+    cible = Math.min(base, derniere ? derniere.cible : base); motif = 'douleur';
+  } else if (derniere && !derniere.tenu) {
+    cible = derniere.cible; motif = 'manque';
   } else {
     const plafond = Math.max(base, besoin * ctx.phase.plafond);
     const voulu = base + pas * (reg.n === 2 ? 0.5 : 1);
     cible = Math.min(plafond, voulu);
     motif = voulu > plafond ? 'plafond' : 'progresser';
   }
-  if (ctx.allegee && !ctx.phase.frac) { cible *= 0.7; motif = 'allegee'; }
+  const motifs = [motif];
+  if (!ctx.phase.frac) {
+    if (ctx.fatigue) { cible *= 0.85; motifs.push('fatigue'); }
+    if (ctx.allegee) { cible *= 0.7; motifs.push('allegee'); }
+  }
+  motif = motifs.join('+');
   cible = Math.max(p.arrondi, arrondiA(cible, p.arrondi));
   let dp = 0;
   if (sport === 'velo') {
     dp = Math.min(Number(PLAN.dplus) * ctx.phase.dp, (niv ? niv.dp : 0) + 100);
-    if (ctx.allegee) dp *= 0.7;
+    if (ctx.allegee || ctx.fatigue) dp *= 0.7;
     dp = Math.max(0, arrondiA(dp, 50));
   }
+  let fige = false;
+  const fig = !calculSeul && ENTRAINEMENT.semaines[isoJour(ctx.lundi)];
+  if (fig && fig.epreuve === PLAN.epreuve && fig.cibles && fig.cibles[sport] && fig.cibles[sport].cible) {
+    cible = fig.cibles[sport].cible; dp = fig.cibles[sport].dp || 0; motif = fig.cibles[sport].motif || motif; fige = true;
+  }
   return {
-    sport, niv, reg, cible, dp, motif, pas,
+    sport, niv, reg, cible, dp, motif, pas, fige, derniere, douleur,
     fait: faitSemaine(sport, ctx),
     traj: trajectoire(sport, niv, reg, ctx),
     allureFacile: sport === 'course' ? allureFacile(ctx.maintenant) : null,
@@ -727,15 +866,22 @@ function seanceTexte(c, ctx) {
 }
 
 function motifTexte(c) {
+  const t = String(c.motif || '').split('+').map((m) => motifUn(c, m)).filter(Boolean);
+  return t.join(' ; ');
+}
+function motifUn(c, motif) {
   const niv = c.niv ? distPlan(c.niv.m, c.sport) : '';
   const est = c.niv && c.niv.estime ? ' (estimée : rien de récent)' : '';
-  switch (c.motif) {
+  switch (motif) {
     case 'progresser': return `+${distPlan(c.pas * (c.reg.n === 2 ? 0.5 : 1), c.sport)} sur ta meilleure séance récente, ${niv}${est}`;
     case 'plafond': return `volume suffisant pour cette phase : la priorité, c'est la régularité et la qualité`;
     case 'tenir': return `une seule séance en quatre semaines : on tient le niveau (${niv}) avant d'avancer`;
     case 'reprise': return `aucune séance en quatre semaines : on reprend un cran sous ton niveau (${niv})`;
     case 'depart': return `aucune séance connue : on démarre doucement`;
     case 'allegee': return `semaine allégée : 30 % de moins pour assimiler`;
+    case 'manque': return `objectif de la semaine dernière${c.derniere ? ` (${distPlan(c.derniere.cible, c.sport)})` : ''} non atteint : on le remet, sans l'augmenter`;
+    case 'douleur': return `douleur signalée (${RBT.escapeHtml(c.douleur || '')}) : pas de progression tant qu'elle est là`;
+    case 'fatigue': return `deux séances « jambes lourdes » d'affilée : on lève le pied, 15 % de moins`;
     case 'affutage': return `on réduit le volume, pas l'intensité : les jambes doivent arriver fraîches`;
   }
   return '';
@@ -773,6 +919,28 @@ function ligneTrajectoire(c, ctx) {
     <span class="qui"><span class="pastille" style="background:${sp.couleur}"></span>${sp.court} <span class="quand">${niv}</span></span>
     <span class="d">${texte}</span>
   </div>`;
+}
+
+/* Les semaines figées passées : prévu contre réalisé, sport par sport. */
+function historiqueSemaines(ctx) {
+  const cles = Object.keys(ENTRAINEMENT.semaines).filter((k) => k < isoJour(ctx.lundi)).sort().reverse().slice(0, 6);
+  if (!cles.length) return '';
+  const lignes = cles.map((k) => {
+    const fig = ENTRAINEMENT.semaines[k], lundi = new Date(`${k}T00:00:00`).getTime();
+    const parts = ['natation', 'velo', 'course'].map((s) => {
+      const c = fig.cibles && fig.cibles[s]; if (!c || !c.cible) return '';
+      const fait = meilleureEntre(s, lundi, lundi + SEMAINE);
+      const cls = !fait ? 'ko' : fait.m >= c.cible * 0.9 ? 'ok' : 'partiel';
+      const sym = cls === 'ok' ? '✓' : cls === 'partiel' ? '~' : '✗';
+      return `<span class="${cls}">${SPORTS[s].court} ${distPlan(c.cible, s)} → ${fait ? distPlan(fait.m, s) : '—'} ${sym}</span>`;
+    }).filter(Boolean).join(' · ');
+    const tenus = ['natation', 'velo', 'course'].filter((s) => { const c = fig.cibles && fig.cibles[s]; const f = c && c.cible && meilleureEntre(s, lundi, lundi + SEMAINE); return f && f.m >= c.cible * 0.9; }).length;
+    return `<div class="traj${tenus < 2 ? ' retard' : ''}">
+      <span class="qui">Semaine du <span class="quand">${RBT.fmtDate(k)}</span>${fig.allegee ? ' <span class="quand">allégée</span>' : ''}</span>
+      <span class="d">${parts}</span>
+    </div>`;
+  }).join('');
+  return `<div class="phases"><div class="phases-titre">Semaines passées — prévu → réalisé</div>${lignes}</div>`;
 }
 
 function verdict(cibles, ctx) {
@@ -857,7 +1025,7 @@ function formReglages() {
     </select></label>
     <label>Correction natation jusqu'au (vide : toutes les séances)<input type="date" id="plJusquau" value="${v(PLAN.bassinJusquau)}"></label>
   </div>
-  <p class="note-grille">Ces réglages sont gardés dans ce navigateur uniquement.</p>`;
+  <p class="note-grille">${REGLAGES_NON_SAUVES ? 'Le serveur n\'a pas enregistré les derniers réglages : ils ne valent que dans ce navigateur pour l\'instant.' : SERVEUR_OK ? 'Réglages enregistrés sur le serveur : les mêmes sur le téléphone et le PC.' : 'Serveur injoignable : réglages gardés dans ce navigateur en attendant.'}</p>`;
 }
 
 function rendPlan() {
@@ -883,7 +1051,8 @@ function rendPlan() {
         <div class="phases-titre">Trajectoire — niveau actuel et date d'arrivée au besoin</div>
         ${cibles.map((c) => ligneTrajectoire(c, ctx)).join('')}
       </div>
-      <p class="note-grille">Besoin à l'entrée de l'affûtage (3 semaines avant) : 2 200 m nagés d'une traite, 95 km de vélo avec le D+ du parcours, 19 km de course. Le plan repart chaque lundi de tes séances réelles : une semaine sautée baisse l'objectif suivant, deux séances l'augmentent plus vite.</p>
+      ${historiqueSemaines(ctx)}
+      <p class="note-grille">Besoin à l'entrée de l'affûtage (3 semaines avant) : 2 200 m nagés d'une traite, 95 km de vélo avec le D+ du parcours, 19 km de course. Les objectifs se figent le lundi${SERVEUR_OK ? '' : ' (dès que le serveur répond)'} ; un objectif manqué est remis la semaine suivante, une semaine sautée baisse le niveau, le journal de séance (jambes lourdes, douleur) retient le plan.</p>
       <div class="conseils">
         ${conseils(cibles, ctx).map((p) => panneau(p.id, p.titre, p.corps)).join('')}
         ${reglages}
@@ -891,6 +1060,7 @@ function rendPlan() {
     </section>`;
   }
   els.plan.innerHTML = html;
+  figerSemaine(ctx);
 
   els.plan.querySelectorAll('details[data-panneau]').forEach((d) => {
     d.addEventListener('toggle', () => { if (d.open) OUVERTS.add(d.dataset.panneau); else OUVERTS.delete(d.dataset.panneau); });
@@ -902,8 +1072,8 @@ function rendPlan() {
     PLAN.naissance = document.getElementById('plNaissance').value;
     PLAN.bassinFacteur = Number(document.getElementById('plBassin').value) || 1;
     PLAN.bassinJusquau = document.getElementById('plJusquau').value;
-    ecrirePlan();
     SORTIES = corrige(BRUT);
+    sauverReglages().then(tout);
     tout();
   };
   ['plEpreuve', 'plNom', 'plDplus', 'plNaissance', 'plBassin', 'plJusquau'].forEach((id) => {
@@ -1142,14 +1312,69 @@ function blocDerniere(maintenant) {
       cellule('Charge', Math.round(r.charge), 'points'),
     ])}
     <p class="note-grille">Effort : ta vitesse rapportée à celle que tu tiendrais une heure à fond. Charge : durée × effort², 100 points valent une heure à fond.</p>
+    ${blocJournal(maintenant)}
   </section>`;
+}
+
+/* Le journal : les séances des dix derniers jours, renseignées ou non (une
+   entrée se modifie). Trois questions en boutons, une quatrième dans l'eau. */
+const JOURNAL_OUVERT = new Set();   // entrées qu'on est en train de modifier
+function blocJournal(maintenant) {
+  if (!SERVEUR_OK) return `<div class="journal"><div class="journal-titre">Journal de séance</div><div class="jentree"><span style="font-size:13px;color:var(--ink-soft)">Disponible dès que le serveur répond.</span></div></div>`;
+  const recentes = SORTIES.filter((a) => a.id != null && finMs(a) <= maintenant && finMs(a) > maintenant - 10 * JOUR * 1000)
+    .sort((x, y) => finMs(y) - finMs(x));
+  if (!recentes.length) return '';
+  const aMontrer = recentes.slice(0, 4);
+  const entree = (a) => {
+    const id = String(a.id), j = journalDe(a), sp = SPORTS[a.s];
+    const qui = `<div class="qui"><span class="pastille" style="background:${sp.couleur}"></span>${sp.court} <span class="quand">${RBT.fmtDate(a.d)} · ${distPlan(a.m, a.s)}</span></div>`;
+    if (j && !JOURNAL_OUVERT.has(id)) {
+      const ress = { 1: 'bien', 2: 'moyen', 3: 'dur' }[j.ressenti] || '';
+      return `<div class="jentree">${qui}<div class="actions"><span class="bilan">✓ ${ress}${j.jambes ? ` · jambes ${j.jambes}` : ''}${j.douleur ? ` · douleur : ${RBT.escapeHtml(j.douleur)}` : ''}${j.mouvements ? ` · ${j.mouvements} <span class="u">mvts / 25 m</span>` : ''}</span><button class="lien" data-jmodif="${id}">modifier</button></div></div>`;
+    }
+    const v = j || {};
+    const b = (champ, val, lib) => `<button type="button" data-champ="${champ}" data-val="${val}"${String(v[champ]) === String(val) ? ' class="on"' : ''}>${lib}</button>`;
+    return `<div class="jentree" data-jid="${id}">${qui}
+      <div class="choix"><span class="l">Ressenti</span>${b('ressenti', 1, 'Bien')}${b('ressenti', 2, 'Moyen')}${b('ressenti', 3, 'Dur')}</div>
+      <div class="choix"><span class="l">Jambes</span>${b('jambes', 'fraîches', 'Fraîches')}${b('jambes', 'lourdes', 'Lourdes')}</div>
+      <div class="choix"><span class="l">Douleur</span><input type="text" data-champ="douleur" class="large" placeholder="rien, ou où ?" value="${RBT.escapeHtml(v.douleur || '')}"></div>
+      ${a.s === 'natation' ? `<div class="choix"><span class="l">Mouvements</span><input type="number" data-champ="mouvements" min="5" max="60" placeholder="par 25 m" value="${v.mouvements || ''}"></div>` : ''}
+      <div class="actions"><button class="btn-signal btn-small" data-jsauve="${id}">Enregistrer</button>${j ? `<button class="lien" data-jannule="${id}">annuler</button>` : ''}</div>
+    </div>`;
+  };
+  return `<div class="journal"><div class="journal-titre">Journal de séance — comment c'était ?</div>${aMontrer.map(entree).join('')}</div>`;
+}
+
+function brancherJournal() {
+  els.recup.querySelectorAll('.jentree[data-jid]').forEach((bloc) => {
+    bloc.querySelectorAll('.choix button').forEach((btn) => btn.addEventListener('click', () => {
+      bloc.querySelectorAll(`.choix button[data-champ="${btn.dataset.champ}"]`).forEach((x) => x.classList.toggle('on', x === btn && !btn.classList.contains('on')));
+    }));
+  });
+  els.recup.querySelectorAll('[data-jsauve]').forEach((btn) => btn.addEventListener('click', async () => {
+    const id = btn.dataset.jsauve, bloc = btn.closest('.jentree');
+    const entree = {};
+    bloc.querySelectorAll('.choix button.on').forEach((x) => { entree[x.dataset.champ] = x.dataset.champ === 'ressenti' ? Number(x.dataset.val) : x.dataset.val; });
+    bloc.querySelectorAll('.choix input').forEach((x) => { const val = x.value.trim(); if (val) entree[x.dataset.champ] = x.type === 'number' ? Number(val) : val; });
+    btn.disabled = true; btn.textContent = 'Enregistrement…';
+    try {
+      const r = await envoyer('PUT', `/api/entrainement/journal/${id}`, entree);
+      ENTRAINEMENT.journal[id] = r.entree;
+      JOURNAL_OUVERT.delete(id);
+      tout();
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Réessayer';
+    }
+  }));
+  els.recup.querySelectorAll('[data-jmodif]').forEach((btn) => btn.addEventListener('click', () => { JOURNAL_OUVERT.add(btn.dataset.jmodif); tout(); }));
+  els.recup.querySelectorAll('[data-jannule]').forEach((btn) => btn.addEventListener('click', () => { JOURNAL_OUVERT.delete(btn.dataset.jannule); tout(); }));
 }
 
 function rendRecup() {
   const maintenant = Date.now();
   const derniere = blocDerniere(maintenant);
   const e = etatRecup(maintenant);
-  if (!e) { els.recup.innerHTML = derniere; return; }
+  if (!e) { els.recup.innerHTML = derniere; brancherJournal(); return; }
 
   const jour = (ms) => new Date(ms).toLocaleDateString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit' });
   const echeance = (label, c, cle) => {
@@ -1202,6 +1427,7 @@ function rendRecup() {
     ])}
     <p class="note-grille">Estimation tirée de la durée et de l'intensité de tes sorties des 45 derniers jours.${frein} Des jambes lourdes ou une douleur passent avant ce calendrier.</p>
   </section>`;
+  brancherJournal();
 }
 
 function rendu() {
@@ -1311,7 +1537,7 @@ async function init() {
 
   // 2. les vrais chiffres, quand le serveur veut bien répondre
   try {
-    const connecte = await RBT.loadAll();
+    const [connecte] = await Promise.all([RBT.loadAll(), chargerEntrainement()]);
     if (!connecte) {
       bandeau('aucun');
       els.statusText.textContent = 'Non connecté';
