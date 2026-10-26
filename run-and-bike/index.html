@@ -166,6 +166,12 @@
 .jentree .bilan .u { color: var(--ink-soft); }
 .lien { background: none; border: none; color: var(--ink-soft); text-decoration: underline; cursor: pointer; font: inherit; font-size: 12.5px; padding: 0; }
 .lien:hover { color: var(--ink); }
+.lien.faible { color: var(--ink-faint); margin-left: auto; }
+.lien.faible:hover { color: var(--alert); }
+.confirme { margin-left: auto; font-size: 12.5px; color: var(--amber); }
+.confirme .lien { color: var(--ink); margin: 0 2px; }
+.jentree.ecartees { background: var(--bg-raised); font-size: 12.5px; color: var(--ink-soft); }
+.ecartee { white-space: nowrap; }
 
 /* la dernière sortie : un rappel, donc plus ramassé que les blocs de cumul */
 .bloc.derniere { margin-bottom: 30px; }
@@ -1323,14 +1329,13 @@ function blocJournal(maintenant) {
   if (!SERVEUR_OK) return `<div class="journal"><div class="journal-titre">Journal de séance</div><div class="jentree"><span style="font-size:13px;color:var(--ink-soft)">Disponible dès que le serveur répond.</span></div></div>`;
   const recentes = SORTIES.filter((a) => a.id != null && finMs(a) <= maintenant && finMs(a) > maintenant - 10 * JOUR * 1000)
     .sort((x, y) => finMs(y) - finMs(x));
-  if (!recentes.length) return '';
   const aMontrer = recentes.slice(0, 4);
   const entree = (a) => {
     const id = String(a.id), j = journalDe(a), sp = SPORTS[a.s];
     const qui = `<div class="qui"><span class="pastille" style="background:${sp.couleur}"></span>${sp.court} <span class="quand">${RBT.fmtDate(a.d)} · ${distPlan(a.m, a.s)}</span></div>`;
     if (j && !JOURNAL_OUVERT.has(id)) {
       const ress = { 1: 'bien', 2: 'moyen', 3: 'dur' }[j.ressenti] || '';
-      return `<div class="jentree">${qui}<div class="actions"><span class="bilan">✓ ${ress}${j.jambes ? ` · jambes ${j.jambes}` : ''}${j.douleur ? ` · douleur : ${RBT.escapeHtml(j.douleur)}` : ''}${j.mouvements ? ` · ${j.mouvements} <span class="u">mvts / 25 m</span>` : ''}</span><button class="lien" data-jmodif="${id}">modifier</button></div></div>`;
+      return `<div class="jentree">${qui}<div class="actions"><span class="bilan">✓ ${ress}${j.jambes ? ` · jambes ${j.jambes}` : ''}${j.douleur ? ` · douleur : ${RBT.escapeHtml(j.douleur)}` : ''}${j.mouvements ? ` · ${j.mouvements} <span class="u">mvts / 25 m</span>` : ''}</span><button class="lien" data-jmodif="${id}">modifier</button>${ecarter(id)}</div></div>`;
     }
     const v = j || {};
     const b = (champ, val, lib) => `<button type="button" data-champ="${champ}" data-val="${val}"${String(v[champ]) === String(val) ? ' class="on"' : ''}>${lib}</button>`;
@@ -1339,10 +1344,48 @@ function blocJournal(maintenant) {
       <div class="choix"><span class="l">Jambes</span>${b('jambes', 'fraîches', 'Fraîches')}${b('jambes', 'lourdes', 'Lourdes')}</div>
       <div class="choix"><span class="l">Douleur</span><input type="text" data-champ="douleur" class="large" placeholder="rien, ou où ?" value="${RBT.escapeHtml(v.douleur || '')}"></div>
       ${a.s === 'natation' ? `<div class="choix"><span class="l">Mouvements</span><input type="number" data-champ="mouvements" min="5" max="60" placeholder="par 25 m" value="${v.mouvements || ''}"></div>` : ''}
-      <div class="actions"><button class="btn-signal btn-small" data-jsauve="${id}">Enregistrer</button>${j ? `<button class="lien" data-jannule="${id}">annuler</button>` : ''}</div>
+      <div class="actions"><button class="btn-signal btn-small" data-jsauve="${id}">Enregistrer</button>${j ? `<button class="lien" data-jannule="${id}">annuler</button>` : ''}${ecarter(id)}</div>
     </div>`;
   };
-  return `<div class="journal"><div class="journal-titre">Journal de séance — comment c'était ?</div>${aMontrer.map(entree).join('')}</div>`;
+  // Les séances écartées des trente derniers jours, pour pouvoir les rétablir.
+  const ecartees = RBT.state.activities
+    .filter((a) => RBT.state.excludedIds.includes(a.id) && new Date(RBT.effectiveDate(a)).getTime() > maintenant - 30 * JOUR * 1000)
+    .sort((x, y) => new Date(RBT.effectiveDate(y)) - new Date(RBT.effectiveDate(x)));
+  const sportDe = (a) => (a.type === 'Run' || a.sport_type === 'Run') ? 'course' : (a.type === 'Swim' || a.sport_type === 'Swim') ? 'natation' : 'velo';
+  const retablir = ecartees.length ? `<div class="jentree ecartees"><div class="qui" style="margin:0">Écartées : ${ecartees.map((a) => `<span class="ecartee">${SPORTS[sportDe(a)].court} <span class="quand">${RBT.fmtDate(RBT.effectiveDate(a))} · ${distPlan((a.distance || 0) * (sportDe(a) === 'natation' ? (Number(PLAN.bassinFacteur) || 1) : 1), sportDe(a))}</span> <button class="lien" data-jretablir="${a.id}">rétablir</button></span>`).join(' · ')}</div></div>` : '';
+  if (!aMontrer.length && !retablir) return '';
+  return `<div class="journal"><div class="journal-titre">Journal de séance — comment c'était ?</div>${aMontrer.map(entree).join('')}${retablir}</div>`;
+}
+/* Écarter une séance (mauvais enregistrement, doublon montre + compteur,
+   compteur resté allumé) : elle sort de tous les calculs, pas de Strava.
+   Deux clics pour éviter la fausse manœuvre. */
+function ecarter(id) {
+  return JOURNAL_ECART === id
+    ? `<span class="confirme">écarter cette séance de tous les calculs ? <button class="lien" data-jecarte-oui="${id}">oui</button> <button class="lien" data-jecarte-non="${id}">non</button></span>`
+    : `<button class="lien faible" data-jecarte="${id}" title="mauvais enregistrement, doublon…">écarter</button>`;
+}
+let JOURNAL_ECART = null;
+async function reprojeter() {
+  BRUT = projette();
+  SORTIES = corrige(BRUT);
+  ecrireCache({ sorties: BRUT, athlete: ATHLETE });
+  tout();
+}
+function brancherEcart() {
+  els.recup.querySelectorAll('[data-jecarte]').forEach((b) => b.addEventListener('click', () => { JOURNAL_ECART = b.dataset.jecarte; tout(); }));
+  els.recup.querySelectorAll('[data-jecarte-non]').forEach((b) => b.addEventListener('click', () => { JOURNAL_ECART = null; tout(); }));
+  els.recup.querySelectorAll('[data-jecarte-oui]').forEach((b) => b.addEventListener('click', async () => {
+    const id = Number(b.dataset.jecarteOui);
+    b.disabled = true; b.textContent = '…';
+    try { await RBT.toggleExclude(id, true); JOURNAL_ECART = null; JOURNAL_OUVERT.delete(String(id)); reprojeter(); }
+    catch (e) { b.disabled = false; b.textContent = 'réessayer'; }
+  }));
+  els.recup.querySelectorAll('[data-jretablir]').forEach((b) => b.addEventListener('click', async () => {
+    const id = Number(b.dataset.jretablir);
+    b.disabled = true; b.textContent = '…';
+    try { await RBT.toggleExclude(id, false); reprojeter(); }
+    catch (e) { b.disabled = false; b.textContent = 'réessayer'; }
+  }));
 }
 
 function brancherJournal() {
@@ -1367,6 +1410,7 @@ function brancherJournal() {
     }
   }));
   els.recup.querySelectorAll('[data-jmodif]').forEach((btn) => btn.addEventListener('click', () => { JOURNAL_OUVERT.add(btn.dataset.jmodif); tout(); }));
+  brancherEcart();
   els.recup.querySelectorAll('[data-jannule]').forEach((btn) => btn.addEventListener('click', () => { JOURNAL_OUVERT.delete(btn.dataset.jannule); tout(); }));
 }
 
